@@ -35,12 +35,10 @@ class App extends Component {
         <div className="ui fixed inverted menu">
           <div className="ui container">
             <a href="#" className="header item">
-              <img className="logo" src="assets/images/logo.png" />
-              Readable App
+              <i className="logo inverted quote left icon" />
+              READABLE
             </a>
-            <a href="#" className="item">
-              Home
-            </a>
+
             <div className="ui simple dropdown item">
               Categories <i className="dropdown icon" />
               <div className="menu">
@@ -58,6 +56,7 @@ class App extends Component {
         <div className="ui main text container">
           <h1 className="ui header">Readable App</h1>
           <p>This is a basic fixed menu template using Semantic UI.</p>
+          <i className="spinner loading icon" />
         </div>
       </div>
     );
