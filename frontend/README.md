@@ -23,10 +23,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 │   ├── favicon.ico # React Icon, You may change if you wish.
 │   └── index.html # DO NOT MODIFY
 └── src
+    ├── actions # Redux action creators:
+    │   ├── actions.js
     ├── components # All component modules:
     │   ├── App.js # This is the root of your app. The Entry point for all.
     │   ├── App.css # This is the root of your app. The Entry point for all.
     │   ├── App.test.js # This is the root of your app. The Entry point for all.
+    ├── reducers # Redux reducers:
+    │   ├── reducers.js
+    ├── store # Redux store:
+    │   ├── Store.js
+    ├── utils # Utility and Helper functionality:
+    │   ├── utils.js
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
 ```
