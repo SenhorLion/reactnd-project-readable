@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { capitalize } from '../utils/helper';
-import { fetchCategories } from '../utils/api';
+import { fetchCategories } from '../api/api';
 
 class App extends Component {
   state = {
