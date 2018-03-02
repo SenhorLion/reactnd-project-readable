@@ -34,7 +34,7 @@ class App extends Component {
                 {categories &&
                   categories.map(cat => (
                     <a key={cuid()} className="item" href="#">
-                      {cat.name}
+                      {capitalize(cat.name)}
                     </a>
                   ))}
               </div>
@@ -50,7 +50,7 @@ class App extends Component {
           {categories &&
             categories.map(cat => (
               <h3 key={cuid()} className="item" href="#">
-                {cat.name}
+                {capitalize(cat.name)}
               </h3>
             ))}
         </div>
