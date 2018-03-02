@@ -1,5 +1,4 @@
-const API_ID = process.env.REACT_APP_API_ID;
-const APP_KEY = process.env.REACT_APP_API_KEY;
+const API_URL = 'http://localhost:3001';
 
 const getToken = () => {
   let token = localStorage.token;
@@ -16,9 +15,8 @@ const headers = {
   Authorization: getToken(),
 };
 
-// TODO: store api url in constant
-export function fetchCategories() {
-  return fetch(`http://localhost:3001/categories`, { headers })
+export const fetchAllCategories = () => {
+  return fetch(`${API_URL}/categories`, { headers })
     .then(res => res.json())
     .then(data => data.categories);
-}
+};

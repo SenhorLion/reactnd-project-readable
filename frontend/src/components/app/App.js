@@ -1,34 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import cuid from 'cuid';
 import './App.css';
-import { capitalize } from '../utils/helper';
-import { fetchCategories } from '../api/api';
+import { capitalize } from '../../utils/helper';
+import { fetchAllCategories } from '../../actions';
 
 class App extends Component {
   state = {
-    categories: null,
     error: null,
   };
 
   componentDidMount() {
-    // fetch data
-    // TODO: handle error catch
-    fetchCategories()
-      .then(data => {
-        this.setState(() => ({
-          categories: data,
-        }));
-      })
-      .catch(error => {
-        console.log('error', error);
-
-        this.setState(() => ({
-          error,
-        }));
-      });
+    this.props.dispatch(fetchAllCategories());
   }
 
   render() {
-    const { categories } = this.state;
+    const { categories } = this.props;
+
+    console.log('App::categories', categories);
 
     return (
       <div className="app">
@@ -44,8 +33,8 @@ class App extends Component {
               <div className="menu">
                 {categories &&
                   categories.map(cat => (
-                    <a key={cat.name} className="item" href="#">
-                      {capitalize(cat.name)}
+                    <a key={cuid()} className="item" href="#">
+                      {cat.name}
                     </a>
                   ))}
               </div>
@@ -57,10 +46,29 @@ class App extends Component {
           <h1 className="ui header">Readable App</h1>
           <p>This is a basic fixed menu template using Semantic UI.</p>
           <i className="spinner loading icon" />
+
+          {categories &&
+            categories.map(cat => (
+              <h3 key={cuid()} className="item" href="#">
+                {cat.name}
+              </h3>
+            ))}
         </div>
       </div>
     );
   }
 }
 
-export default App;
+// const mapDispatchToProps = dispatch => ({
+//   myAction() {
+//     dispatch(API.getAllCategories())
+//   }
+// });
+
+const mapStateToProps = ({ categories }) => ({
+  categories,
+});
+
+// connect([ mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(Component);
+
+export default connect(mapStateToProps)(App);
