@@ -1,7 +1,26 @@
+@import './colors';
 .app {
   text-align: center;
 }
 
 .main.container {
   margin-top: 7em;
+}
+
+.container {
+  &.categories,
+  &.content {
+    padding: 10px;
+  }
+
+  .page__title {
+    color: $grey;
+  }
+}
+
+.align-center {
+  text-align: center;
+}
+.align-left {
+  text-align: left;
 }
