@@ -13,6 +13,7 @@ import {
 } from '../../actions/comment-action-creators';
 import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
+import SortByControls from '../sort/SortByControls';
 
 // TODO Add to module
 const colorMap = {
@@ -89,7 +90,7 @@ class App extends Component {
           <div className="row">
             <div className="three wide column">
               <div className="ui container categories">
-                <h2 className="page__title align-center">Categories</h2>
+                <h2 className="title align-center">Categories</h2>
                 {isNotCategoriesLoaded && (
                   <i className="spinner loading icon" />
                 )}
@@ -108,8 +109,16 @@ class App extends Component {
                   Posts <span className="filter">Filter: </span>
                 </h2> */}
 
-                <div className="ui container">
-                  <h2 className="page__title align-left">Posts</h2>
+                <div className="page-header">
+                  <div className="page-header__title">
+                    <h2 className="title align-left">Posts</h2>
+                  </div>
+
+                  <SortByControls
+                    sortKey={sortKey}
+                    isSortReverse={isSortReverse}
+                    onSort={this.onSort}
+                  />
                 </div>
 
                 {allPosts && (

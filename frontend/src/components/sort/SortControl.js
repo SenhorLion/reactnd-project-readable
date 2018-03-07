@@ -19,7 +19,7 @@ const SortControl = ({
   });
   return (
     <Button className={sortClass} onClick={() => onSort(sortKey)}>
-      <i className={iconClass} />
+      {isActive && <i className={iconClass} />}
       {children}{' '}
     </Button>
   );
