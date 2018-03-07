@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import cuid from 'cuid';
+
 import './App.css';
 import { capitalize } from '../../utils/helper';
 import { fetchAllCategories } from '../../actions/category-action-creators';
@@ -10,16 +11,35 @@ import {
   fetchAllComments,
   fetchPostComments,
 } from '../../actions/comment-action-creators';
+import sortFilter from '../../utils/sortFilter';
+import PostsList from '../posts/PostsList';
 
+// TODO Add to module
 const colorMap = {
   react: 'pink',
   redux: 'yellow',
   udacity: 'green',
 };
+
 class App extends Component {
-  state = {
-    error: null,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sortKey: 'NONE',
+      isSortReverse: false,
+      error: null,
+    };
+
+    this.onSort = this.onSort.bind(this);
+  }
+
+  onSort(sortKey) {
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+
+    this.setState({ sortKey, isSortReverse });
+  }
 
   componentDidMount() {
     this.props.dispatch(fetchAllCategories());
@@ -30,14 +50,11 @@ class App extends Component {
 
   render() {
     const { categories, posts, comments } = this.props;
+    const { sortKey, isSortReverse } = this.state;
 
     const isNotCategoriesLoaded = !categories.length;
 
     const allPosts = Object.values(posts);
-
-    console.log('categories', categories.length);
-    console.log('isNotCategoriesLoaded', isNotCategoriesLoaded);
-    console.log('App::categories', categories);
 
     return (
       <div className="app">
@@ -86,18 +103,6 @@ class App extends Component {
               </div>
             </div>
             <div className="thirteen wide column">
-              {/* '8xf0y6ziyjabvozdd253nd': {
-                id: '8xf0y6ziyjabvozdd253nd',
-                timestamp: 1467166872634,
-                title: 'Udacity is the best place to learn React',
-                body: 'Everyone says so after all.',
-                author: 'thingtwo',
-                category: 'react',
-                voteScore: 6,
-                deleted: false,
-                commentCount: 2,
-              } 
-            */}
               <div className="ui container content">
                 {/* <h2 class="header">
                   Posts <span className="filter">Filter: </span>
@@ -107,40 +112,15 @@ class App extends Component {
                   <h2 className="page__title align-left">Posts</h2>
                 </div>
 
-                {allPosts &&
-                  allPosts.map(post => (
-                    <div
-                      key={cuid()}
-                      className="ui yellow segment divided items post"
-                    >
-                      <div className="item">
-                        <div className="content">
-                          <a className="header">{capitalize(post.title)}</a>
-                          <div className="meta">
-                            <span className="author">
-                              Author: {post.author}
-                            </span>
-                            <span className="date">
-                              <Moment fromNow>{post.timestamp}</Moment>
-                            </span>
-                          </div>
-                          <div className="description">
-                            <p>{post.body}</p>
-                          </div>
-                          <div className="extra">
-                            <div className="ui label">{post.category}</div>
-                            <div className="ui label">
-                              <i className="like icon" /> {post.voteScore}
-                            </div>
-                            <div className="ui label">
-                              <i className="comment alternate outline icon" />{' '}
-                              {post.commentCount}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                {allPosts && (
+                  <PostsList
+                    list={allPosts}
+                    sortKey={sortKey}
+                    isSortReverse={isSortReverse}
+                    sortFilter={sortFilter}
+                    onSort={this.onSort}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -156,7 +136,7 @@ class App extends Component {
 //   }
 // });
 
-// Here in `mapStateToProps` I want to convert the `posts` from an array of objects into
+// Here in `mapStateToProps` I want to convert the `posts` and `comments` from an array of objects into
 // a keyed object of objects to allow for a more flexible approach
 // that allows both easy iteration with `Object.values(state.posts)`, and fast O(1) access to individual items
 // e.g:
@@ -173,7 +153,10 @@ const mapStateToProps = ({ categories, posts, comments }) => ({
     postsObj[post.id] = post;
     return postsObj;
   }, {}),
-  comments,
+  comments: Object.values(comments).reduce((commentsObj, comment) => {
+    commentsObj[comment.id] = comment;
+    return commentsObj;
+  }, {}),
 });
 
 // connect([ mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(Component);
