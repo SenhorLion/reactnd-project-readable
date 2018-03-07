@@ -25,6 +25,18 @@ const defaultData = {
     deleted: false,
     commentCount: 0,
   },
+  cjeh8jin1000hOK__f5ojlsdg: {
+    id: 'cjeh8jin1000hOK__f5ojlsdg',
+    timestamp: 1520436201551,
+    title: 'Internationalize your React Redux app with React Intl',
+    body:
+      'It is common to construct a website for different countries. You have to be capable of translating the text but also you have to display your number and your date in the format used by the country. We have found a library that take care of this.',
+    author: 'lionel',
+    category: 'udacity',
+    voteScore: 42,
+    deleted: false,
+    commentCount: 42,
+  },
 };
 
 function getData(token) {
