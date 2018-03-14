@@ -1,4 +1,4 @@
-# TODO
+# TODO README - Lists all todos in project
 
 ## Frontend
 
