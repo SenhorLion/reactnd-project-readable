@@ -1,13 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './app/App';
+import PostDetailView from './posts/PostDetailView';
 
 const Root = ({ store }) => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Route exact path="/" render={() => <App />} />
+        <App />
       </BrowserRouter>
     </Provider>
   );
