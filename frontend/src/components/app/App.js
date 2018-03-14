@@ -15,7 +15,7 @@ import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
 import SortByControls from '../sort/SortByControls';
 
-// TODO Add to module
+// TODO: Add colourMap to module
 const colorMap = {
   react: 'pink',
   redux: 'yellow',
@@ -45,6 +45,8 @@ class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchAllCategories());
     this.props.dispatch(fetchAllPosts());
+    // NOTE: - Do we need to fetch all comments?
+    // maybe they can just be linked to a post
     this.props.dispatch(fetchAllComments());
     // this.props.dispatch(fetchPostComments());
   }
@@ -83,7 +85,9 @@ class App extends Component {
         <div className="ui grid">
           <div className="row">
             <div className="column">
-              <div className="ui container">{/*UI Header*/}</div>
+              <div className="ui container nav-breadcrumb">
+                {/*UI Header*/}/ breadcrumb / nav / goes / here
+              </div>
             </div>
           </div>
 
@@ -127,7 +131,6 @@ class App extends Component {
                     sortKey={sortKey}
                     isSortReverse={isSortReverse}
                     sortFilter={sortFilter}
-                    onSort={this.onSort}
                   />
                 )}
               </div>

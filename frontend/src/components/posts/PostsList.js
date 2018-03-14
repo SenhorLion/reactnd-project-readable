@@ -19,7 +19,7 @@ import PostItem from './PostItem';
 } 
 */
 
-const PostsList = ({ list, sortKey, isSortReverse, sortFilter, onSort }) => {
+const PostsList = ({ list, sortKey, isSortReverse, sortFilter }) => {
   const sortedList = sortFilter[sortKey](list);
   const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList;
 
