@@ -12,6 +12,7 @@ import {
   fetchPostComments,
 } from '../actions/comment-action-creators';
 
+import Header from '../components/header/Header';
 import Home from '../components/home/Home';
 import PostsByCategory from './PostsByCategory';
 import PostDetailView from '../components/posts/PostDetailView';
@@ -38,6 +39,8 @@ class App extends Component {
 
     return (
       <div className="app">
+        <Header categories={categories} />
+
         <Route
           exact
           path="/"
