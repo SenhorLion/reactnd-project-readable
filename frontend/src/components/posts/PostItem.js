@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { capitalize } from '../../utils/helper';
 
@@ -17,7 +18,9 @@ const PostItem = ({ post }) => (
           <p>{post.body}</p>
         </div>
         <div className="extra">
-          <div className="ui label">{post.category}</div>
+          <div className="ui label">
+            <Link to={post.category}>{post.category}</Link>
+          </div>
           <div className="ui label">
             <i className="like icon" /> {post.voteScore}
           </div>
