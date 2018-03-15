@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import cuid from 'cuid';
+import Loading from 'react-loading';
 
 import { capitalize } from '../../utils/helper';
 
 import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
 import SortByControls from '../sort/SortByControls';
+import Header from '../header/Header';
 
 // TODO: Add colourMap to module
 // maps category to a specific colour
@@ -50,26 +52,7 @@ class Home extends Component {
 
     return (
       <div className="home-view">
-        <div className="ui fixed inverted menu">
-          <div className="ui container">
-            <a href="#" className="header item">
-              <i className="logo inverted quote left icon" />
-              READABLE
-            </a>
-
-            <div className="ui simple dropdown item">
-              Categories <i className="dropdown icon" />
-              <div className="menu">
-                {categories &&
-                  categories.map(cat => (
-                    <Link key={cuid()} className="item" to={`/${cat.path}`}>
-                      {capitalize(cat.name)}
-                    </Link>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <Header categories={categories} />
 
         <div className="ui grid">
           <div className="row">
@@ -87,6 +70,14 @@ class Home extends Component {
                 {isNotCategoriesLoaded && (
                   <i className="spinner loading icon" />
                 )}
+                {/* {isNotCategoriesLoaded && (
+                  <Loading
+                    delay={200}
+                    type="spin"
+                    color="#222"
+                    className="loading"
+                  />
+                )} */}
 
                 {categories &&
                   categories.map(cat => (
@@ -115,6 +106,15 @@ class Home extends Component {
                     onSort={this.onSort}
                   />
                 </div>
+
+                {isNotCategoriesLoaded && (
+                  <Loading
+                    delay={200}
+                    type="spin"
+                    color="#222"
+                    className="loading"
+                  />
+                )}
 
                 {allPosts && (
                   <PostsList
