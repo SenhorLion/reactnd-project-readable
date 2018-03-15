@@ -52,8 +52,6 @@ class Home extends Component {
 
     return (
       <div className="home-view">
-        <Header categories={categories} />
-
         <div className="ui grid">
           <div className="row">
             <div className="column">
