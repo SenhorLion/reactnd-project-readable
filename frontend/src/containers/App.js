@@ -13,7 +13,7 @@ import {
 } from '../actions/comment-action-creators';
 
 import Home from '../components/home/Home';
-import Category from '../components/category/Category';
+import PostsByCategory from './PostsByCategory';
 import PostDetailView from '../components/posts/PostDetailView';
 
 import '../css/App.css';
@@ -49,7 +49,7 @@ class App extends Component {
           exact
           path="/:category"
           render={props => (
-            <Category categories={categories} posts={posts} {...props} />
+            <PostsByCategory category={props.match.params.category} />
           )}
         />
       </div>
