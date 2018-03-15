@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import Moment from 'react-moment';
 import cuid from 'cuid';
 
-import './App.css';
-import { capitalize } from '../../utils/helper';
-import { fetchAllCategories } from '../../actions/category-action-creators';
-import { fetchAllPosts } from '../../actions/post-action-creators';
+import { capitalize } from '../utils/helper';
+import { fetchAllCategories } from '../actions/category-action-creators';
+import { fetchAllPosts } from '../actions/post-action-creators';
 import {
   fetchAllComments,
   fetchPostComments,
-} from '../../actions/comment-action-creators';
+} from '../actions/comment-action-creators';
 
-import HomeView from '../home/HomeView';
-import PostDetailView from '../posts/PostDetailView';
+import Home from '../components/home/Home';
+import Category from '../components/category/Category';
+import PostDetailView from '../components/posts/PostDetailView';
+
+import '../css/App.css';
 
 class App extends Component {
   constructor(props) {
@@ -22,29 +24,32 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchAllCategories());
-    this.props.dispatch(fetchAllPosts());
+    const { dispatch } = this.props;
+
+    dispatch(fetchAllCategories());
+    dispatch(fetchAllPosts());
     // NOTE: - Do we need to fetch all comments?
     // maybe they can just be linked to a post
-    this.props.dispatch(fetchAllComments());
+    dispatch(fetchAllComments());
   }
 
   render() {
     const { categories, posts, comments } = this.props;
+
     return (
       <div className="app">
         <Route
           exact
           path="/"
           render={() => (
-            <HomeView
-              categories={categories}
-              posts={posts}
-              comments={comments}
-            />
+            <Home categories={categories} posts={posts} comments={comments} />
           )}
         />
-        <Route exact path="/post/:id" render={() => <PostDetailView />} />
+        <Route
+          exact
+          path="/:category"
+          render={props => <Category {...props} />}
+        />
       </div>
     );
   }
@@ -81,4 +86,4 @@ const mapStateToProps = ({ categories, posts, comments }) => ({
 
 // connect([ mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(Component);
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

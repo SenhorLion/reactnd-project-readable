@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import cuid from 'cuid';
 
@@ -10,13 +11,14 @@ import PostsList from '../posts/PostsList';
 import SortByControls from '../sort/SortByControls';
 
 // TODO: Add colourMap to module
+// maps category to a specific colour
 const colorMap = {
   react: 'pink',
   redux: 'yellow',
   udacity: 'green',
 };
 
-class HomeView extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -60,9 +62,9 @@ class HomeView extends Component {
               <div className="menu">
                 {categories &&
                   categories.map(cat => (
-                    <a key={cuid()} className="item" href="#">
+                    <Link key={cuid()} className="item" to={`/${cat.path}`}>
                       {capitalize(cat.name)}
-                    </a>
+                    </Link>
                   ))}
               </div>
             </div>
@@ -88,8 +90,10 @@ class HomeView extends Component {
 
                 {categories &&
                   categories.map(cat => (
-                    <h3 key={cuid()} className="item" href="#">
-                      {capitalize(cat.name)}
+                    <h3 key={cuid()} className="item">
+                      <Link to={`/${cat.path}`} className="item">
+                        {capitalize(cat.name)}
+                      </Link>
                     </h3>
                   ))}
               </div>
@@ -129,4 +133,4 @@ class HomeView extends Component {
   }
 }
 
-export default HomeView;
+export default Home;
