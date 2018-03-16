@@ -5,7 +5,7 @@ import { capitalize } from '../../utils/helper';
 
 const Header = ({ categories }) => {
   return (
-    <div className="ui fixed inverted menu">
+    <div className="ui fixed inverted menu app-header">
       <div className="ui container">
         <Link to="/" className="header item">
           <i className="logo inverted quote left icon" />

@@ -1,12 +1,20 @@
 @import './colors';
 @import './buttons';
 
+$headerHeight: 4em;
+
 .app {
   text-align: center;
 }
 
-// containers
+.app-header {
+  margin-bottom: $headerHeight;
+}
+.page-content {
+  margin-top: $headerHeight;
+}
 
+// containers
 .container {
   &.categories,
   &.content {
@@ -20,14 +28,16 @@
 
 .page-header {
   display: flex;
-  padding-bottom: 20px;
+  padding-bottom: 1em;
+  flex-direction: column;
 
   &__title {
-    flex: 0;
+    border-bottom: 1px dotted $grey;
+    padding-bottom: 1em;
   }
   &__sort-controls {
-    flex: 1;
     text-align: right;
+    padding-top: 1em;
 
     .controls-label {
       display: inline-block;
@@ -42,4 +52,9 @@
 }
 .align-left {
   text-align: left;
+}
+
+// utils
+.loading {
+  margin: 2em auto;
 }
