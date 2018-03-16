@@ -13,7 +13,7 @@ import {
 } from '../actions/comment-action-creators';
 
 import Header from '../components/header/Header';
-import Home from '../components/home/Home';
+import Posts from './Posts';
 import PostsByCategory from './PostsByCategory';
 import PostDetailView from '../components/posts/PostDetailView';
 
@@ -41,13 +41,7 @@ class App extends Component {
       <div className="app">
         <Header categories={categories} />
 
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <Home categories={categories} posts={posts} comments={comments} />
-          )}
-        />
+        <Route exact path="/" render={() => <Posts />} />
         <Route
           exact
           path="/:category"
