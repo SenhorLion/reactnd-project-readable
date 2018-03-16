@@ -37,6 +37,30 @@ const defaultData = {
     deleted: false,
     commentCount: 42,
   },
+  cjeh8jin1000hOK__f5ojzaza: {
+    id: 'cjeh8jin1000hOK__f5ojzaza',
+    timestamp: 1521436201552,
+    title: 'State And Actions',
+    body:
+      'It is common to construct a website for different countries. You have to be capable of translating the text but also you have to display your number and your date in the format used by the country. We have found a library that take care of this.',
+    author: 'lionel',
+    category: 'test',
+    voteScore: 0,
+    deleted: false,
+    commentCount: 0,
+  },
+  cjeh8jin1000hOK__f5ojzazz: {
+    id: 'cjeh8jin1000hOK__f5ojzazz',
+    timestamp: 1521208197974,
+    title: 'Actions And Creators',
+    body:
+      'It is common to construct a website for different countries. You have to be capable of translating the text but also you have to display your number and your date in the format used by the country. We have found a library that take care of this.',
+    author: 'lionel',
+    category: 'redux',
+    voteScore: 0,
+    deleted: false,
+    commentCount: 0,
+  },
 };
 
 function getData(token) {
