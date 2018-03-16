@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import classNames from 'classnames';
 
-import { capitalize, CATEGORY_COLOUR_MAP } from '../../utils/helper';
+import { capitalize, getCategoryColour } from '../../utils/helper';
 
 const PostItem = ({ post }) => {
-  const categoryColour = CATEGORY_COLOUR_MAP[post.category];
+  const categoryColour = getCategoryColour(post.category);
   const postItemClass = classNames(
     'ui  segment divided items post',
     categoryColour
   );
   const labelColour = classNames('ui label', categoryColour);
+
   return (
     <div className={postItemClass}>
       <div className="item">
