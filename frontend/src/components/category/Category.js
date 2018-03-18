@@ -43,19 +43,28 @@ class Category extends Component {
           <div className="row">
             <div className="three wide column">
               <div className="ui container categories">
-                <h2 className="title align-center">Categories</h2>
+                <h2 className="categories__title title align-center">
+                  Categories
+                </h2>
                 {isNotCategoriesLoaded && (
                   <i className="spinner loading icon" />
                 )}
-
-                {categories &&
-                  categories.map(cat => (
-                    <h3 key={cuid()} className="item">
-                      <Link to={`/${cat.path}`} className="item">
+                {/* 
+                  TODO: - Add this to a categories component
+                */}
+                {categories && (
+                  <div className="ui fluid vertical pointing menu">
+                    {categories.map(cat => (
+                      <Link
+                        key={cuid()}
+                        to={`/${cat.path}`}
+                        className={`item ${cat.name === category && 'active'}`}
+                      >
                         {capitalize(cat.name)}
                       </Link>
-                    </h3>
-                  ))}
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <div className="thirteen wide column">
