@@ -17,7 +17,9 @@ const PostItem = ({ post }) => {
     <div className={postItemClass}>
       <div className="item">
         <div className="content">
-          <a className="header">{capitalize(post.title)}</a>
+          <Link to={`/${post.category}/${post.id}`} className="header">
+            {capitalize(post.title)}
+          </Link>
           <div className="meta">
             <span className="author">Author: {post.author}</span>
             <span className="date">
@@ -34,7 +36,7 @@ const PostItem = ({ post }) => {
             <div className="ui label">
               <i className="like icon" /> {post.voteScore}
             </div>
-            <div className="ui  label">
+            <div className="ui label">
               <i className="comment alternate outline icon" />{' '}
               {post.commentCount}
             </div>
