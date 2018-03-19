@@ -29,9 +29,6 @@ class App extends Component {
   render() {
     const { categories, posts, comments } = this.props;
 
-    console.log('@ APP == :: ==');
-    console.log('\tposts', posts);
-
     return (
       <div className="app">
         <Header categories={categories} />
@@ -58,7 +55,7 @@ class App extends Component {
 //   }
 // });
 
-// Here in `mapStateToProps` I want to convert the `posts` and `comments` from an array of objects into
+// NOTE: Here in `mapStateToProps` I want to convert the `posts` and `comments` from an array of objects into
 // a keyed object of objects to allow for a more flexible approach
 // that allows both easy iteration with `Object.values(state.posts)`, and fast O(1) access to individual items
 // e.g:
@@ -80,7 +77,5 @@ const mapStateToProps = ({ categories, posts, comments }) => ({
     return commentsObj;
   }, {}),
 });
-
-// connect([ mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(Component);
 
 export default withRouter(connect(mapStateToProps)(App));
