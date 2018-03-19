@@ -33,8 +33,7 @@ class Category extends Component {
   render() {
     const { category, categories, posts /*, comments*/ } = this.props;
     const { sortKey, isSortReverse } = this.state;
-    const isNotPostsLoaded = !posts;
-    const isNotCategoriesLoaded = !categories;
+    const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
 
     return (
@@ -46,13 +45,18 @@ class Category extends Component {
                 <h2 className="categories__title title align-center">
                   Categories
                 </h2>
-                {isNotCategoriesLoaded && (
-                  <i className="spinner loading icon" />
+                {!isCategoriesLoaded && (
+                  <Loading
+                    delay={200}
+                    type="spokes"
+                    color="#222"
+                    className="loading"
+                  />
                 )}
                 {/* 
                   TODO: - Add this to a categories component
                 */}
-                {categories && (
+                {isCategoriesLoaded && (
                   <div className="ui fluid vertical pointing menu">
                     {categories.map(cat => (
                       <Link
