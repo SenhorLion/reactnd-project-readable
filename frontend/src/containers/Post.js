@@ -1,40 +1,29 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import PostDetailView from '../components/posts/PostDetailView';
 
 const getPostToShow = (posts, postId) => {
-  console.log('@ getPostToShow:', posts, postId);
+  console.log('@ Post :: getPostToShow:', posts, postId);
 
-  if (postId) {
-    return Object.values(posts)
-      .filter(post => post.id === postId)
-      .reduce((acc, post) => {
-        return post;
-      }, {});
+  if (posts && postId) {
+    return Object.values(posts).find(post => post.id === postId);
   }
 
-  return posts;
+  return undefined;
 };
 
 // TODO: dispatch action to fetch post
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({ posts }, ownProps) => {
   const { postId } = ownProps;
-  const { posts } = state;
-  console.log(
-    'mapStateToProps: state',
-    state,
-    'postId',
-    postId,
-    'ownProps',
-    ownProps
-  );
+
+  console.log('@ Post :: mapStateToProps:', postId);
 
   return {
     post: getPostToShow(posts, postId),
   };
 };
 
-const Post = connect(mapStateToProps)(PostDetailView);
+const Post = withRouter(connect(mapStateToProps)(PostDetailView));
 
 export default Post;
