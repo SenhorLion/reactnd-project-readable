@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter } from 'react-router-dom';
-import Moment from 'react-moment';
-import cuid from 'cuid';
 
-import { capitalize } from '../utils/helper';
-import { fetchAllCategories } from '../actions/category-action-creators';
-import { fetchAllPosts } from '../actions/post-action-creators';
 import {
+  fetchAllPosts,
+  fetchPostsByCategory,
+  fetchAllCategories,
   fetchAllComments,
-  fetchPostComments,
-} from '../actions/comment-action-creators';
+} from '../actions';
 
 import Header from '../components/header/Header';
 import CategoriesToShow from './CategoriesToShow';
@@ -19,10 +16,6 @@ import Post from './Post';
 import '../css/App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { dispatch } = this.props;
 
@@ -36,6 +29,9 @@ class App extends Component {
   render() {
     const { categories, posts, comments } = this.props;
 
+    console.log('@ APP == :: ==');
+    console.log('\tposts', posts);
+
     return (
       <div className="app">
         <Header categories={categories} />
@@ -48,7 +44,6 @@ class App extends Component {
           )}
         />
         <Route
-          exact
           path="/:category/:postId"
           render={props => <Post postId={props.match.params.postId} />}
         />

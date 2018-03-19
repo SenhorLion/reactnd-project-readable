@@ -13,7 +13,6 @@ import * as API from '../api';
 
 export const requestAllComments = () => ({
   type: REQUEST_ALL_COMMENTS,
-
   // isFetching: true,
 });
 

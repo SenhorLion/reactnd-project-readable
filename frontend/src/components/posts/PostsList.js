@@ -1,7 +1,6 @@
 import React from 'react';
 import cuid from 'cuid';
 import Loading from 'react-loading';
-import SortControl from '../sort/SortControl';
 import PostItem from './PostItem';
 
 const PostsList = ({ list, sortKey, isSortReverse, sortFilter }) => {

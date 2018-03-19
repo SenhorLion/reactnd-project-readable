@@ -15,7 +15,13 @@
 //       .then(todos => dispatch(receiveTodos(todos)))
 // );
 
-import { REQUEST_ALL_POSTS, RECEIVE_ALL_POSTS, ADD_NEW_POST } from './actions';
+import {
+  REQUEST_ALL_POSTS,
+  RECEIVE_ALL_POSTS,
+  REQUEST_POSTS_BY_CATEGORY,
+  RECEIVE_POSTS_BY_CATEGORY,
+  ADD_NEW_POST,
+} from './actions';
 
 import * as API from '../api';
 
@@ -23,11 +29,19 @@ export const requestAllPosts = () => ({
   type: REQUEST_ALL_POSTS,
   // isFetching: true,
 });
-
 export const receiveAllPosts = posts => ({
   type: RECEIVE_ALL_POSTS,
   posts,
   // isFetching: true,
+});
+
+export const requestPostsByCategory = () => ({
+  type: REQUEST_POSTS_BY_CATEGORY,
+  // isFetching: true,
+});
+export const receivePostsByCategory = posts => ({
+  type: RECEIVE_POSTS_BY_CATEGORY,
+  posts,
 });
 
 export const addPost = ({ id, post }) => ({
@@ -52,5 +66,14 @@ export const fetchAllPosts = () => dispatch => {
     //
     // Then dispatch: update the app state with the results of the API call.
     dispatch(receiveAllPosts(posts))
+  );
+};
+
+// /:category/posts
+export const fetchPostsByCategory = category => dispatch => {
+  dispatch(requestPostsByCategory());
+
+  return API.fetchPostsByCategory(category).then(posts =>
+    dispatch(receivePostsByCategory(posts))
   );
 };
