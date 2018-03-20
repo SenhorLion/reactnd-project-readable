@@ -6,12 +6,18 @@ import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 
 const PostDetailView = ({ post, postId }) => {
-  console.log('postId', postId);
-  console.log('post', post);
-
   const categoryColour = getCategoryColour(post && post.category) || 'grey';
-  const labelColour = classNames('ui label', categoryColour);
+  const uiLabelColour = classNames('ui label', categoryColour);
+  const userIcon = classNames('user big icon', categoryColour);
+  const postCommentButton = classNames(
+    'ui submit labeled icon button',
+    categoryColour
+  );
   const isPostLoaded = !!post;
+
+  const goBack = () => {
+    return window.history.back();
+  };
 
   console.log('isPostLoaded', isPostLoaded);
 
@@ -21,16 +27,13 @@ const PostDetailView = ({ post, postId }) => {
         <div className="row">
           <div className="three wide column">
             <div className="ui container categories">
-              <h2>Back Link</h2>
+              <a onClick={() => goBack()} className="back-link">
+                <i className="big arrow left icon" />
+              </a>
             </div>
           </div>
           <div className="thirteen wide column">
             <div className="ui container content">
-              <div className="page-header">
-                <div className="page-header__title">
-                  <h2 className="title align-left">Posts detail view</h2>
-                </div>
-              </div>
               {!isPostLoaded && (
                 <Loading
                   delay={200}
@@ -40,29 +43,77 @@ const PostDetailView = ({ post, postId }) => {
                 />
               )}
               {isPostLoaded && (
-                <div className="content">
-                  <h2 className="header">{capitalize(post.title)}</h2>
-                  <div className="meta">
-                    <span className="author">Author: {post.author}</span>
-                    <span className="date">
-                      <Moment fromNow>{post.timestamp}</Moment>
-                    </span>
+                <div>
+                  <div className="page-header">
+                    <div className="page-header__title">
+                      <h2>{capitalize(post.title)}</h2>
+                    </div>
                   </div>
-                  <div className="description">
-                    <p>{post.body}</p>
+
+                  <div className="post-content">
+                    {/* <div className="post-content__header">
+                      <h2>{capitalize(post.title)}</h2>
+                    </div> */}
+                    <div className="post-content__meta">
+                      <span className="author">Author: {post.author}</span>
+                      <span className="date">
+                        <Moment fromNow>{post.timestamp}</Moment>
+                      </span>
+                    </div>
+                    <div className="post-content__description">
+                      <p>{post.body}</p>
+                    </div>
+                    <div className="post-content__extra extra">
+                      <div className={uiLabelColour}>
+                        <Link to={`/${post.category}`}>{post.category}</Link>
+                      </div>
+                      <div className={uiLabelColour}>
+                        <i className="like icon" /> {post.voteScore}
+                      </div>
+                      <div className={uiLabelColour}>
+                        <i className="comment alternate outline icon" />{' '}
+                        {post.commentCount}
+                      </div>
+                    </div>
                   </div>
-                  <div className="extra">
-                    <div className={labelColour}>
-                      <Link to={`/${post.category}`}>{post.category}</Link>
-                      {/* {post.category} */}
+
+                  <div className="ui comments post-comment">
+                    <div className="post-comment__header">
+                      <h3 className="post-comment__title">Comments</h3>
                     </div>
-                    <div className="ui label">
-                      <i className="like icon" /> {post.voteScore}
+                    <div className="comment">
+                      <a className="avatar">
+                        <i className={userIcon} />
+                      </a>
+                      <div className="content">
+                        <a className="author">Joe Henderson</a>
+                        <div className="metadata">
+                          <div className="date">1 day ago</div>
+                        </div>
+                        <div className="text">
+                          <p>
+                            The hours, minutes and seconds stand as visible
+                            reminders that your effort put them all there.{' '}
+                          </p>
+                          <p>
+                            Preserve until your next run, when the watch lets
+                            you see how Impermanent your efforts are.
+                          </p>
+                        </div>
+                        <div className="actions">
+                          <a className="reply">Reply</a>
+                        </div>
+                      </div>
                     </div>
-                    <div className="ui label">
-                      <i className="comment alternate outline icon" />{' '}
-                      {post.commentCount}
-                    </div>
+
+                    <form className="ui reply form">
+                      <div className="field">
+                        <textarea />
+                      </div>
+                      <div className={postCommentButton}>
+                        <i className="icon edit" /> Add Comment
+                      </div>
+                    </form>
                   </div>
                 </div>
               )}

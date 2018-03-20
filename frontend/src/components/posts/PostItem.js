@@ -11,7 +11,7 @@ const PostItem = ({ post }) => {
     'ui  segment divided items post',
     categoryColour
   );
-  const labelColour = classNames('ui label', categoryColour);
+  const uiLabelColour = classNames('ui label', categoryColour);
 
   return (
     <div className={postItemClass}>
@@ -30,13 +30,13 @@ const PostItem = ({ post }) => {
             <p>{post.body}</p>
           </div>
           <div className="extra">
-            <div className={labelColour}>
+            <div className={uiLabelColour}>
               <Link to={post.category}>{post.category}</Link>
             </div>
-            <div className="ui label">
+            <div className={uiLabelColour}>
               <i className="like icon" /> {post.voteScore}
             </div>
-            <div className="ui label">
+            <div className={uiLabelColour}>
               <i className="comment alternate outline icon" />{' '}
               {post.commentCount}
             </div>

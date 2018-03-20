@@ -3,10 +3,6 @@
 
 $headerHeight: 4em;
 
-.app {
-  text-align: center;
-}
-
 .app-header {
   margin-bottom: $headerHeight;
 }
@@ -50,6 +46,51 @@ $headerHeight: 4em;
   }
 }
 
+.post-content {
+  &__header {
+    padding: 1em 0;
+  }
+  &__meta {
+    padding: 0.25em 0;
+
+    span {
+      &:after {
+        content: '|';
+        padding: 0 1em;
+      }
+      &:last-child {
+        &:after {
+          content: '';
+        }
+      }
+    }
+  }
+  &__description {
+    padding: 1em 0;
+
+    p {
+      font-size: 1.25em;
+      line-height: 1.5em;
+    }
+  }
+
+  &__extra {
+    padding-top: 1em;
+  }
+}
+
+.post-comment {
+  padding: 1em 0;
+
+  &__title {
+    border-bottom: 1px dotted $grey;
+    padding-bottom: 1em;
+  }
+  .form {
+    padding-top: 1em;
+  }
+}
+
 // layout helpers
 .align-center {
   text-align: center;
@@ -61,4 +102,13 @@ $headerHeight: 4em;
 // utils
 .loading {
   margin: 2em auto;
+}
+.back-link {
+  cursor: pointer;
+  color: $grey;
+  font-size: 1.25em;
+
+  &:hover {
+    color: $grey;
+  }
 }
