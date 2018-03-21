@@ -39,7 +39,7 @@ const defaultData = {
   },
   cjeh8jin1000hOK__f5ojzaza: {
     id: 'cjeh8jin1000hOK__f5ojzaza',
-    timestamp: 1521436201552,
+    timestamp: 1521211198234,
     title: 'State And Actions',
     body:
       'It is common to construct a website for different countries. You have to be capable of translating the text but also you have to display your number and your date in the format used by the country. We have found a library that take care of this.',
