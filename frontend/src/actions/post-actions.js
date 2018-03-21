@@ -23,9 +23,8 @@ const addPost = (id, post) => ({
   post,
 });
 
-const onSaveEditPost = (id, post) => ({
+const saveEditPost = post => ({
   type: SAVE_EDIT_POST,
-  id,
   post,
 });
 
@@ -46,6 +45,12 @@ const fetchAllPosts = () => dispatch => {
     // Then dispatch: update the app state with the results of the API call.
     dispatch(receiveAllPosts(posts))
   );
+};
+
+const onSaveEditPost = post => dispatch => {
+  return API.saveEditPost(post).then(postData => {
+    return dispatch(saveEditPost(postData));
+  });
 };
 
 export { fetchAllPosts, onSaveEditPost };

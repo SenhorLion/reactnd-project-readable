@@ -44,13 +44,11 @@ const posts = (state = {}, action) => {
     }
 
     case SAVE_EDIT_POST: {
-      const { id, post } = action;
-
-      console.log('SAVE_EDIT_POST', action.type, id, action.post);
+      const { post } = action;
 
       return {
         ...state,
-        [id]: post,
+        [post.id]: post,
       };
     }
 

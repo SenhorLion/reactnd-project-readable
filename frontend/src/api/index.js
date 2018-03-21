@@ -13,6 +13,7 @@ const getToken = () => {
 const headers = {
   Accept: 'application/json',
   Authorization: getToken(),
+  'Content-Type': 'application/json',
 };
 
 export const fetchAllCategories = () => {
@@ -32,6 +33,15 @@ export const fetchAllPosts = () => {
       return data;
     });
 };
+
+export const saveEditPost = post =>
+  fetch(`${API_URL}/posts/${post.id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(post),
+  })
+    .then(response => response.json())
+    .catch(response => response.json());
 
 export const fetchPostsByCategory = () => {
   return fetch(`${API_URL}/:category/posts`, { headers })

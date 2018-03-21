@@ -9,6 +9,7 @@ class PostEditView extends Component {
   constructor(props) {
     super(props);
     this.onEditPost = this.onEditPost.bind(this);
+    this.onGoBack = this.onGoBack.bind(this);
   }
 
   onEditPost(e) {
@@ -18,26 +19,32 @@ class PostEditView extends Component {
 
     const title = this.refs.title.value;
     const body = this.refs.body.value;
+    const author = this.refs.author.value;
     const voteScore = parseInt(this.refs.voteScore.value, 10);
     const timestamp = Date.now();
     const newPost = Object.assign({}, post, {
       body,
+      author,
       timestamp,
       voteScore,
       title,
     });
 
-    onSaveEditPost(postId, newPost);
+    onSaveEditPost(newPost).then(res =>
+      setTimeout(() => {
+        this.onGoBack();
+      }, 200)
+    );
+  }
+
+  onGoBack() {
+    return window.history.back();
   }
 
   render() {
     const { post, postId } = this.props;
 
     const isPostLoaded = !!post;
-
-    const goBack = () => {
-      return window.history.back();
-    };
 
     console.log('isPostLoaded', isPostLoaded);
 
@@ -47,7 +54,7 @@ class PostEditView extends Component {
           <div className="row">
             <div className="three wide column">
               <div className="ui container categories">
-                <a onClick={() => goBack()} className="back-link">
+                <a onClick={() => this.onGoBack()} className="back-link">
                   <i className="big arrow left icon" />
                 </a>
               </div>
@@ -66,32 +73,59 @@ class PostEditView extends Component {
                   <div className="post-details-form">
                     <div className="page-header">
                       <div className="page-header__title">
-                        <h2>Edit: {capitalize(post.title)}</h2>
-                        <p>
-                          <span className="author">Author: {post.author}</span>
-                        </p>
+                        <h2 className="title">
+                          <i className="edit icon" />
+                          {capitalize(post.title)}
+                        </h2>
                       </div>
                     </div>
 
                     <div className="post-form-content">
-                      <form ref="postForm" onSubmit={this.onEditPost}>
-                        <input
-                          type="text"
-                          ref="title"
-                          defaultValue={post.title}
-                        />
-                        <input
-                          type="text"
-                          ref="body"
-                          defaultValue={post.body}
-                        />
-                        <input
-                          type="text"
-                          ref="voteScore"
-                          defaultValue={post.voteScore}
-                        />
+                      <form
+                        ref="postForm"
+                        onSubmit={this.onEditPost}
+                        className="ui form post-form-content"
+                      >
+                        <div className="field">
+                          <label>Title</label>
+                          <input
+                            type="text"
+                            name="title"
+                            ref="title"
+                            defaultValue={post.title}
+                            placeholder="Title"
+                          />
+                        </div>
+                        <div className="field">
+                          <label>Author</label>
+                          <input
+                            type="text"
+                            ref="author"
+                            defaultValue={post.author}
+                          />
+                        </div>
+                        <div className="field">
+                          <label>Body</label>
+                          <input
+                            type="text"
+                            name="body"
+                            ref="body"
+                            defaultValue={post.body}
+                            placeholder="Body"
+                          />
+                        </div>
+                        <div className="field">
+                          <label>Vote score</label>
+                          <input
+                            type="text"
+                            ref="voteScore"
+                            defaultValue={post.voteScore}
+                          />
+                        </div>
 
-                        <input type="submit" />
+                        <button className="ui primary button" type="submit">
+                          Submit
+                        </button>
                       </form>
                     </div>
                   </div>
