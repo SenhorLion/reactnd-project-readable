@@ -6,8 +6,6 @@ import App from './containers/App';
 
 import configureStore from './store';
 
-import './index.css';
-
 const store = configureStore();
 
 ReactDOM.render(
