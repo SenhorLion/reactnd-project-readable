@@ -1,16 +1,16 @@
-import { REQUEST_ALL_CATEGORIES, RECEIVE_ALL_CATEGORIES } from './actions';
+import {
+  FETCH_CATEGORIES_REQUEST,
+  FETCH_CATEGORIES_SUCCESS,
+} from './actionTypes';
 import * as API from '../api';
 
-export const requestAllCategories = () => ({
-  type: REQUEST_ALL_CATEGORIES,
-  // isFetching: true,
+const requestAllCategories = () => ({
+  type: FETCH_CATEGORIES_REQUEST,
 });
 
-export const receiveAllCategories = categories => ({
-  type: RECEIVE_ALL_CATEGORIES,
+const receiveAllCategories = categories => ({
+  type: FETCH_CATEGORIES_SUCCESS,
   categories,
-  // isFetching: false,
-  // receivedAt: Date.now(),
 });
 
 export const fetchAllCategories = () => dispatch => {

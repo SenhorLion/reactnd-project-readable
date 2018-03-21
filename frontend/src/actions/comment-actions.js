@@ -7,7 +7,7 @@ import {
   DELETE_COMMENT,
   EDIT_COMMENT,
   GET_COMMENT_BY_POST_ID,
-} from './actions';
+} from './actionTypes';
 
 import * as API from '../api';
 

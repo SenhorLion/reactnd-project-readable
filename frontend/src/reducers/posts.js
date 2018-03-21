@@ -1,21 +1,24 @@
 import {
-  REQUEST_ALL_POSTS,
-  RECEIVE_ALL_POSTS,
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
   ADD_NEW_POST,
   DELETE_POST,
-  EDIT_POST,
+  SAVE_EDIT_POST,
   GET_POST_BY_ID,
-} from '../actions/actions';
+} from '../actions/actionTypes';
 
 const posts = (state = {}, action) => {
   switch (action.type) {
-    case REQUEST_ALL_POSTS:
+    case FETCH_POSTS_REQUEST:
       return state;
 
-    case RECEIVE_ALL_POSTS: {
+    case FETCH_POSTS_SUCCESS: {
       const { posts } = action;
 
-      return posts;
+      return Object.values(posts).reduce((postsObj, post) => {
+        postsObj[post.id] = post;
+        return postsObj;
+      }, {});
     }
 
     case ADD_NEW_POST: {
@@ -40,8 +43,10 @@ const posts = (state = {}, action) => {
       return filteredPosts;
     }
 
-    case EDIT_POST: {
+    case SAVE_EDIT_POST: {
       const { id, post } = action;
+
+      console.log('SAVE_EDIT_POST', action.type, id, action.post);
 
       return {
         ...state,

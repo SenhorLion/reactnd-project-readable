@@ -1,17 +1,15 @@
 import {
-  REQUEST_ALL_CATEGORIES,
-  RECEIVE_ALL_CATEGORIES,
-} from '../actions/actions';
+  FETCH_CATEGORIES_REQUEST,
+  FETCH_CATEGORIES_SUCCESS,
+} from '../actions/actionTypes';
 
 const categories = (state = [], action) => {
-  const { categories } = action;
-
   switch (action.type) {
-    case REQUEST_ALL_CATEGORIES:
+    case FETCH_CATEGORIES_REQUEST:
       return state;
 
-    case RECEIVE_ALL_CATEGORIES:
-      return categories;
+    case FETCH_CATEGORIES_SUCCESS:
+      return action.categories;
 
     default:
       return state;

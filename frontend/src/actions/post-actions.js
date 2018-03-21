@@ -1,39 +1,35 @@
 import {
-  REQUEST_ALL_POSTS,
-  RECEIVE_ALL_POSTS,
-  REQUEST_POSTS_BY_CATEGORY,
-  RECEIVE_POSTS_BY_CATEGORY,
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_ERROR,
   ADD_NEW_POST,
-} from './actions';
+  SAVE_EDIT_POST,
+} from './actionTypes';
 
 import * as API from '../api';
 
-export const requestAllPosts = () => ({
-  type: REQUEST_ALL_POSTS,
-  // isFetching: true,
-});
-export const receiveAllPosts = posts => ({
-  type: RECEIVE_ALL_POSTS,
-  posts,
-  // isFetching: true,
+const requestAllPosts = () => ({
+  type: FETCH_POSTS_REQUEST,
 });
 
-export const requestPostsByCategory = () => ({
-  type: REQUEST_POSTS_BY_CATEGORY,
-  // isFetching: true,
-});
-export const receivePostsByCategory = posts => ({
-  type: RECEIVE_POSTS_BY_CATEGORY,
+const receiveAllPosts = posts => ({
+  type: FETCH_POSTS_SUCCESS,
   posts,
 });
 
-export const addPost = ({ id, post }) => ({
+const addPost = (id, post) => ({
   type: ADD_NEW_POST,
   id,
   post,
 });
 
-export const fetchAllPosts = () => dispatch => {
+const onSaveEditPost = (id, post) => ({
+  type: SAVE_EDIT_POST,
+  id,
+  post,
+});
+
+const fetchAllPosts = () => dispatch => {
   // First dispatch: the app state is updated to inform
   // that the API call is starting.
   dispatch(requestAllPosts());
@@ -52,11 +48,4 @@ export const fetchAllPosts = () => dispatch => {
   );
 };
 
-// /:category/posts
-export const fetchPostsByCategory = category => dispatch => {
-  dispatch(requestPostsByCategory());
-
-  return API.fetchPostsByCategory(category).then(posts =>
-    dispatch(receivePostsByCategory(posts))
-  );
-};
+export { fetchAllPosts, onSaveEditPost };

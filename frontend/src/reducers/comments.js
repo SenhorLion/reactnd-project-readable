@@ -5,7 +5,7 @@ import {
   DELETE_COMMENT,
   EDIT_COMMENT,
   GET_COMMENT_BY_POST_ID,
-} from '../actions/actions';
+} from '../actions/actionTypes';
 
 const comments = (state = {}, action) => {
   switch (action.type) {
