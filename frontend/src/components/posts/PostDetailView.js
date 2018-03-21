@@ -5,7 +5,7 @@ import Loading from 'react-loading';
 import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 
-const PostDetailView = ({ post, postId }) => {
+const PostDetailView = ({ post, postId, onDeletePost }) => {
   const categoryColour = getCategoryColour(post && post.category) || 'grey';
   const uiLabelColour = classNames('ui label', categoryColour);
   const userIcon = classNames('user big icon', categoryColour);
@@ -74,6 +74,20 @@ const PostDetailView = ({ post, postId }) => {
                         <i className="comment alternate outline icon" />{' '}
                         {post.commentCount}
                       </div>
+
+                      {/* <div className="post-actions right floated"> */}
+                      <button
+                        onClick={() => onDeletePost(post.id)}
+                        className="ui label small float-right"
+                      >
+                        <i className="trash icon" /> Delete post
+                      </button>
+                      <button className="ui label small float-right">
+                        <Link to={`/${post.category}/${post.id}/edit`}>
+                          <i className="edit icon" /> Edit post
+                        </Link>
+                      </button>
+                      {/* </div> */}
                     </div>
                   </div>
 

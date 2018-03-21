@@ -37,8 +37,21 @@ const PostItem = ({ post }) => {
               <i className="like icon" /> {post.voteScore}
             </div>
             <div className={uiLabelColour}>
-              <i className="comment alternate outline icon" />{' '}
-              {post.commentCount}
+              <Link to={`/${post.category}/${post.id}`}>
+                <i className="comment alternate outline icon" />{' '}
+                {post.commentCount}
+              </Link>
+            </div>
+
+            <div className="post-actions right floated">
+              <button className="ui mini right floated button">
+                <i className="trash icon" /> Delete post
+              </button>
+              <button className="ui mini right floated button">
+                <Link to={`/${post.category}/${post.id}/edit`}>
+                  <i className="edit icon" /> Edit post
+                </Link>
+              </button>
             </div>
           </div>
         </div>
