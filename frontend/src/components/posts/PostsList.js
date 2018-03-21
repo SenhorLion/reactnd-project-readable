@@ -4,7 +4,7 @@ import Loading from 'react-loading';
 import PostItem from './PostItem';
 
 const PostsList = ({ list, sortKey, isSortReverse, sortFilter }) => {
-  const sortedList = sortFilter[sortKey](list);
+  const sortedList = sortFilter[sortKey](Object.values(list));
   const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList;
   const isListLoaded = reverseSortedList.length;
 
