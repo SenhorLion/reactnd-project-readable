@@ -221,7 +221,7 @@ describe('posts reducer', () => {
     const payload = {
       id: '8xf0y6ziyjabvozdd253nd',
       timestamp: 1467166872657,
-      title: 'Udacity is the best place to learn React, Redux and React Native',
+      title: 'Blimey youve changed',
       body: 'Everyone says so after all.',
       author: 'thingtwo',
       category: 'react',
@@ -234,8 +234,7 @@ describe('posts reducer', () => {
       '8xf0y6ziyjabvozdd253nd': {
         id: '8xf0y6ziyjabvozdd253nd',
         timestamp: 1467166872657,
-        title:
-          'Udacity is the best place to learn React, Redux and React Native',
+        title: 'Blimey youve changed',
         body: 'Everyone says so after all.',
         author: 'thingtwo',
         category: 'react',
