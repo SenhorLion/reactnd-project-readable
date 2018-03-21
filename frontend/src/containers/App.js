@@ -2,28 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter } from 'react-router-dom';
 
-import {
-  fetchAllPosts,
-  fetchPostsByCategory,
-  fetchAllCategories,
-  fetchAllComments,
-} from '../actions';
+import * as actions from '../actions';
 
 import Header from '../components/header/Header';
 import CategoriesToShow from './CategoriesToShow';
+import PostEdit from './PostEdit';
 import Post from './Post';
 
 import '../css/App.css';
 
 class App extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
+    this.fetchData();
 
-    dispatch(fetchAllCategories());
-    dispatch(fetchAllPosts());
     // NOTE: - Do we need to fetch all comments?
     // maybe they can just be linked to a post
-    dispatch(fetchAllComments());
+    // dispatch(fetchAllComments());
+  }
+
+  fetchData() {
+    const { fetchAllCategories, fetchAllPosts } = this.props;
+
+    fetchAllCategories();
+    fetchAllPosts();
   }
 
   render() {
@@ -41,41 +42,23 @@ class App extends Component {
           )}
         />
         <Route
+          exact
           path="/:category/:postId"
           render={props => <Post postId={props.match.params.postId} />}
+        />
+        <Route
+          exact
+          path="/:category/:postId/edit"
+          render={props => <PostEdit postId={props.match.params.postId} />}
         />
       </div>
     );
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   myAction() {
-//     dispatch(API.getAllCategories())
-//   }
-// });
-
-// NOTE: Here in `mapStateToProps` I want to convert the `posts` and `comments` from an array of objects into
-// a keyed object of objects to allow for a more flexible approach
-// that allows both easy iteration with `Object.values(state.posts)`, and fast O(1) access to individual items
-// e.g:
-// from this:
-//  `posts: [{id: 1234, title: 'blah'}]`
-// to this:
-//  posts: {
-//    [1234]: { id: 1234, title: 'blah'}
-//  }
-
-const mapStateToProps = ({ categories, posts, comments }) => ({
+const mapStateToProps = ({ categories, posts }) => ({
   categories,
-  posts: Object.values(posts).reduce((postsObj, post) => {
-    postsObj[post.id] = post;
-    return postsObj;
-  }, {}),
-  comments: Object.values(comments).reduce((commentsObj, comment) => {
-    commentsObj[comment.id] = comment;
-    return commentsObj;
-  }, {}),
+  posts,
 });
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps, actions)(App));
