@@ -2,13 +2,15 @@ import deepFreeze from 'deep-freeze';
 
 import posts from './posts';
 import {
-  REQUEST_ALL_POSTS,
-  RECEIVE_ALL_POSTS,
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
   ADD_NEW_POST,
   DELETE_POST,
-  EDIT_POST,
+  SAVE_EDIT_POST,
   GET_POST_BY_ID,
-} from '../actions/actions';
+} from '../actions/actionTypes';
+
+// import * as actions from '../actions';
 
 describe('posts reducer', () => {
   it('should handle initial state', () => {
@@ -72,7 +74,7 @@ describe('posts reducer', () => {
       },
     };
     const action = {
-      type: RECEIVE_ALL_POSTS,
+      type: FETCH_POSTS_SUCCESS,
       posts: payload,
     };
 
@@ -138,8 +140,7 @@ describe('posts reducer', () => {
 
     const addPostAction = {
       type: ADD_NEW_POST,
-      id: postId,
-      posts: payload,
+      post: payload,
     };
 
     expect(posts(defaultState, addPostAction)).toEqual(expected);
@@ -245,8 +246,7 @@ describe('posts reducer', () => {
     };
 
     const editPostAction = {
-      type: EDIT_POST,
-      id: postId,
+      type: SAVE_EDIT_POST,
       post: payload,
     };
 
