@@ -19,8 +19,6 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
     return window.history.back();
   };
 
-  console.log('isPostLoaded', isPostLoaded);
-
   return (
     <div className="page-content">
       <div className="ui grid">
@@ -51,9 +49,6 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
                   </div>
 
                   <div className="post-content">
-                    {/* <div className="post-content__header">
-                      <h2>{capitalize(post.title)}</h2>
-                    </div> */}
                     <div className="post-content__meta">
                       <span className="author">Author: {post.author}</span>
                       <span className="date">
@@ -75,7 +70,6 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
                         {post.commentCount}
                       </div>
 
-                      {/* <div className="post-actions right floated"> */}
                       <button
                         onClick={() => onDeletePost(post.id)}
                         className="ui label small float-right"
