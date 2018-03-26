@@ -3,6 +3,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
   ADD_NEW_POST,
+  DELETE_POST,
   SAVE_EDIT_POST,
 } from './actionTypes';
 
@@ -17,10 +18,14 @@ const receiveAllPosts = posts => ({
   posts,
 });
 
-const addPost = (id, post) => ({
+const addPost = post => ({
   type: ADD_NEW_POST,
-  id,
   post,
+});
+
+const deletePost = id => ({
+  type: DELETE_POST,
+  id,
 });
 
 const saveEditPost = post => ({
@@ -53,4 +58,16 @@ const onSaveEditPost = post => dispatch => {
   });
 };
 
-export { fetchAllPosts, onSaveEditPost };
+const onAddPost = post => dispatch => {
+  return API.addPost(post).then(postData => {
+    return dispatch(addPost(postData.id, postData));
+  });
+};
+
+const onDeletePost = postId => dispatch => {
+  return API.deletePost(postId).then(res => {
+    return dispatch(deletePost(postId));
+  });
+};
+
+export { fetchAllPosts, onSaveEditPost, onAddPost, onDeletePost };

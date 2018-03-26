@@ -22,11 +22,13 @@ const posts = (state = {}, action) => {
     }
 
     case ADD_NEW_POST: {
-      const { id, posts } = action;
+      const { post } = action;
+
+      console.log('ADD_NEW_POST', action.type, 'post', post, 'action', action);
 
       return {
         ...state,
-        [id]: posts,
+        [post.id]: post,
       };
     }
 
@@ -45,6 +47,7 @@ const posts = (state = {}, action) => {
 
     case SAVE_EDIT_POST: {
       const { post } = action;
+      console.log('action.type', action.type, 'post', post, 'action', action);
 
       return {
         ...state,

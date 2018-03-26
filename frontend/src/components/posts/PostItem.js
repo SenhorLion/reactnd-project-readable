@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import classNames from 'classnames';
 
 import { capitalize, getCategoryColour } from '../../utils/helper';
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, onDeletePost }) => {
   const categoryColour = getCategoryColour(post.category);
   const postItemClass = classNames(
     'ui  segment divided items post',
@@ -44,7 +46,10 @@ const PostItem = ({ post }) => {
             </div>
 
             <div className="post-actions right floated">
-              <button className="ui mini right floated button">
+              <button
+                onClick={() => onDeletePost(post.id)}
+                className="ui mini right floated button"
+              >
                 <i className="trash icon" /> Delete post
               </button>
               <button className="ui mini right floated button">
@@ -59,4 +64,14 @@ const PostItem = ({ post }) => {
     </div>
   );
 };
+
+// onDeletePost
+
+// const mapStateToProps = ({ categories, posts }) => ({
+//   categories,
+//   posts,
+// });
+
+// this.props.dispatch(toggleTodo(id));
+
 export default PostItem;

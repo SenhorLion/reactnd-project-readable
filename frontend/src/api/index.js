@@ -34,6 +34,23 @@ export const fetchAllPosts = () => {
     });
 };
 
+export const addPost = post =>
+  fetch(`${API_URL}/posts`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(post),
+  })
+    .then(response => response.json())
+    .catch(response => response.json());
+
+export const deletePost = postId =>
+  fetch(`${API_URL}/posts/${postId}`, {
+    method: 'DELETE',
+    headers,
+  })
+    .then(response => response.json())
+    .catch(response => response.json());
+
 export const saveEditPost = post =>
   fetch(`${API_URL}/posts/${post.id}`, {
     method: 'PUT',

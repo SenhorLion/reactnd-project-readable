@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import { onAddPost, onDeletePost, fetchAllPosts } from '../actions';
 import Category from '../components/category/Category';
 
 const getPostsToShow = (posts, category) => {
@@ -21,6 +22,8 @@ const mapStateToProps = ({ posts, categories }, ownProps) => {
   };
 };
 
-const CategoriesToShow = withRouter(connect(mapStateToProps)(Category));
+const CategoriesToShow = withRouter(
+  connect(mapStateToProps, { onAddPost, fetchAllPosts, onDeletePost })(Category)
+);
 
 export default CategoriesToShow;

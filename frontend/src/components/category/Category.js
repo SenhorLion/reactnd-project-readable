@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import cuid from 'cuid';
 import Loading from 'react-loading';
+// import Modal from 'react-modal';
 
 import { capitalize } from '../../utils/helper';
 
 import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
+import AddNewPost from '../posts/AddNewPost';
 import SortByControls from '../sort/SortByControls';
+import Button from '../button/Button';
 
 class Category extends Component {
   constructor(props) {
@@ -15,9 +18,10 @@ class Category extends Component {
 
     this.state = {
       activeCategory: null,
-      sortKey: 'NONE',
+      sortKey: 'TIME_STAMP',
       isSortReverse: false,
       error: null,
+      isAddPostModalOpen: false,
     };
 
     this.onSort = this.onSort.bind(this);
@@ -30,9 +34,30 @@ class Category extends Component {
     this.setState({ sortKey, isSortReverse });
   }
 
+  openAddPostModal = () => {
+    console.log('openAddPostModal', this.props.category);
+    this.setState(() => ({
+      isAddPostModalOpen: true,
+    }));
+  };
+
+  closeAddPostModal = () => {
+    console.log('closeAddPostModal');
+    this.setState(() => ({
+      isAddPostModalOpen: false,
+    }));
+  };
+
   render() {
-    const { category, categories, posts /*, comments*/ } = this.props;
-    const { sortKey, isSortReverse } = this.state;
+    const {
+      category,
+      categories,
+      posts,
+      onAddPost,
+      onDeletePost,
+      fetchAllPosts,
+    } = this.props;
+    const { sortKey, isSortReverse, isAddPostModalOpen } = this.state;
     const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
 
@@ -76,6 +101,12 @@ class Category extends Component {
                 <div className="page-header">
                   <div className="page-header__title">
                     <h2 className="title align-left">{displayTitle}</h2>
+                    <Button
+                      className="add-post float-right"
+                      onClick={() => this.openAddPostModal()}
+                    >
+                      Add Post
+                    </Button>
                   </div>
 
                   <SortByControls
@@ -90,11 +121,21 @@ class Category extends Component {
                   sortKey={sortKey}
                   isSortReverse={isSortReverse}
                   sortFilter={sortFilter}
+                  onDeletePost={onDeletePost}
                 />
               </div>
             </div>
           </div>
         </div>
+
+        <AddNewPost
+          isAddPostModalOpen={isAddPostModalOpen}
+          closeAddPostModal={this.closeAddPostModal}
+          activeCategory={category}
+          categories={categories}
+          onAddPost={onAddPost}
+          fetchAllPosts={fetchAllPosts}
+        />
       </div>
     );
   }
