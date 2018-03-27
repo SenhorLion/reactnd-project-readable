@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import Loading from 'react-loading';
 import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
+import Button from '../button/Button';
 
 const PostDetailView = ({ post, postId, onDeletePost }) => {
   const categoryColour = getCategoryColour(post && post.category) || 'grey';
@@ -14,6 +15,14 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
     categoryColour
   );
   const isPostLoaded = !!post;
+
+  const onHandleDeletePost = postId => {
+    onDeletePost(postId).then(res =>
+      setTimeout(() => {
+        goBack();
+      }, 200)
+    );
+  };
 
   const goBack = () => {
     return window.history.back();
@@ -70,18 +79,19 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
                         {post.commentCount}
                       </div>
 
-                      <button
-                        onClick={() => onDeletePost(post.id)}
-                        className="ui label small float-right"
+                      <Button
+                        onClick={() => onHandleDeletePost(post.id)}
+                        className="ui mini right floated button"
                       >
                         <i className="trash icon" /> Delete post
-                      </button>
-                      <button className="ui label small float-right">
-                        <Link to={`/${post.category}/${post.id}/edit`}>
-                          <i className="edit icon" /> Edit post
-                        </Link>
-                      </button>
-                      {/* </div> */}
+                      </Button>
+
+                      <Link
+                        to={`/${post.category}/${post.id}/edit`}
+                        className="ui mini right floated button button__link"
+                      >
+                        <i className="edit icon" /> Edit post
+                      </Link>
                     </div>
                   </div>
 
