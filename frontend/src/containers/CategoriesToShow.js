@@ -9,7 +9,7 @@ const getPostsToShow = (posts, category) => {
     return Object.values(posts).filter(post => post.category === category);
   }
 
-  return posts;
+  return Object.values(posts);
 };
 
 const mapStateToProps = ({ posts, categories }, ownProps) => {

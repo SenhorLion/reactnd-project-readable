@@ -57,9 +57,12 @@ class Category extends Component {
       onDeletePost,
       fetchAllPosts,
     } = this.props;
+
     const { sortKey, isSortReverse, isAddPostModalOpen } = this.state;
     const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
+
+    const isPostsLoaded = !!posts.length;
 
     return (
       <div className="page-content">
@@ -70,18 +73,14 @@ class Category extends Component {
                 <h2 className="categories__title title align-center">
                   Categories
                 </h2>
-                {!isCategoriesLoaded && (
+                {!isCategoriesLoaded ? (
                   <Loading
                     delay={200}
                     type="spokes"
                     color="#222"
                     className="loading"
                   />
-                )}
-                {/* 
-                  TODO: - Add this to a categories component
-                */}
-                {isCategoriesLoaded && (
+                ) : (
                   <div className="ui fluid vertical pointing menu">
                     {categories.map(cat => (
                       <Link
@@ -109,20 +108,26 @@ class Category extends Component {
                     </Button>
                   </div>
 
-                  <SortByControls
-                    sortKey={sortKey}
-                    isSortReverse={isSortReverse}
-                    onSort={this.onSort}
-                  />
+                  {isPostsLoaded && (
+                    <SortByControls
+                      sortKey={sortKey}
+                      isSortReverse={isSortReverse}
+                      onSort={this.onSort}
+                    />
+                  )}
                 </div>
 
-                <PostsList
-                  list={posts}
-                  sortKey={sortKey}
-                  isSortReverse={isSortReverse}
-                  sortFilter={sortFilter}
-                  onDeletePost={onDeletePost}
-                />
+                {isPostsLoaded ? (
+                  <PostsList
+                    list={posts}
+                    sortKey={sortKey}
+                    isSortReverse={isSortReverse}
+                    sortFilter={sortFilter}
+                    onDeletePost={onDeletePost}
+                  />
+                ) : (
+                  <p>No posts to show</p>
+                )}
               </div>
             </div>
           </div>
