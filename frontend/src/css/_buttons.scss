@@ -18,6 +18,10 @@
   color: #6772e5;
   text-decoration: none;
   transition: all 0.15s ease;
+
+  &__link {
+    line-height: 2em;
+  }
 }
 
 .button--clear {
@@ -30,4 +34,11 @@
 .button--dark {
   color: #fff;
   background: #32325d;
+}
+
+// overrides for semantic ui buttons
+.ui.button {
+  &__link {
+    line-height: 2em;
+  }
 }

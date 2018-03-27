@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import cuid from 'cuid';
 import { capitalize } from '../../utils/helper';
+import Button from '../button/Button';
 
 class AddNewPost extends Component {
   constructor(props) {
@@ -84,12 +85,7 @@ class AddNewPost extends Component {
               <input type="text" name="title" ref="title" placeholder="Title" />
             </div>
             <div className="field">
-              <label>Author</label>
-              <input type="text" ref="author" placeholder="Author" />
-            </div>
-            <div className="field">
               <label>Post content</label>
-
               <textarea name="body" ref="body" placeholder="Post content" />
             </div>
             <div className="field">
@@ -104,10 +100,14 @@ class AddNewPost extends Component {
                   ))}
               </select>
             </div>
+            <div className="field">
+              <label>Author</label>
+              <input type="text" ref="author" placeholder="Author" />
+            </div>
 
-            <button className="ui primary button" type="submit">
+            <Button className="ui positive button" type="submit">
               Submit
-            </button>
+            </Button>
           </form>
         </div>
       </Modal>

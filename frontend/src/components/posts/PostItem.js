@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 import classNames from 'classnames';
 
 import { capitalize, getCategoryColour } from '../../utils/helper';
+import Button from '../button/Button';
 
 const PostItem = ({ post, onDeletePost }) => {
   const categoryColour = getCategoryColour(post.category);
@@ -46,17 +47,19 @@ const PostItem = ({ post, onDeletePost }) => {
             </div>
 
             <div className="post-actions right floated">
-              <button
+              <Button
                 onClick={() => onDeletePost(post.id)}
                 className="ui mini right floated button"
               >
                 <i className="trash icon" /> Delete post
-              </button>
-              <button className="ui mini right floated button">
-                <Link to={`/${post.category}/${post.id}/edit`}>
-                  <i className="edit icon" /> Edit post
-                </Link>
-              </button>
+              </Button>
+
+              <Link
+                to={`/${post.category}/${post.id}/edit`}
+                className="ui mini right floated button button__link"
+              >
+                <i className="edit icon" /> Edit post
+              </Link>
             </div>
           </div>
         </div>

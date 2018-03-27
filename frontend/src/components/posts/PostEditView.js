@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import Loading from 'react-loading';
 import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
+import Button from '../button/Button';
 
 class PostEditView extends Component {
   constructor(props) {
@@ -46,8 +47,6 @@ class PostEditView extends Component {
 
     const isPostLoaded = !!post;
 
-    console.log('isPostLoaded', isPostLoaded);
-
     return (
       <div className="page-content">
         <div className="ui grid">
@@ -75,7 +74,7 @@ class PostEditView extends Component {
                       <div className="page-header__title">
                         <h2 className="title">
                           <i className="edit icon" />
-                          {capitalize(post.title)}
+                          Edit Post: {capitalize(post.title)}
                         </h2>
                       </div>
                     </div>
@@ -123,9 +122,15 @@ class PostEditView extends Component {
                           />
                         </div>
 
-                        <button className="ui primary button" type="submit">
+                        <Button className="ui positive button" type="submit">
                           Submit
-                        </button>
+                        </Button>
+                        <Button
+                          onClick={() => this.onGoBack()}
+                          className="ui button"
+                        >
+                          Cancel
+                        </Button>
                       </form>
                     </div>
                   </div>

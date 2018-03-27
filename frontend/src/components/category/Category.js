@@ -102,7 +102,7 @@ class Category extends Component {
                   <div className="page-header__title">
                     <h2 className="title align-left">{displayTitle}</h2>
                     <Button
-                      className="add-post float-right"
+                      className="ui positive button button--add-post float-right"
                       onClick={() => this.openAddPostModal()}
                     >
                       Add Post
