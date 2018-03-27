@@ -7,24 +7,40 @@ import {
   GET_POST_BY_ID,
 } from '../actions/actionTypes';
 
-const posts = (state = {}, action) => {
+const defaultPostState = {
+  isFetching: false,
+  items: {},
+};
+const posts = (state = defaultPostState, action) => {
   switch (action.type) {
-    case FETCH_POSTS_REQUEST:
-      return state;
+    case FETCH_POSTS_REQUEST: {
+      // return state;
+
+      // return Object.assign({}, state, {
+      //   isFetching: true,
+      // });
+      return { ...state, isFetching: true };
+    }
 
     case FETCH_POSTS_SUCCESS: {
       const { posts } = action;
 
-      return Object.values(posts).reduce((postsObj, post) => {
-        postsObj[post.id] = post;
-        return postsObj;
-      }, {});
+      // return Object.values(posts).reduce((postsObj, post) => {
+      //   postsObj[post.id] = post;
+      //   return postsObj;
+      // }, {});
+
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: Object.values(posts).reduce((postsObj, post) => {
+          postsObj[post.id] = post;
+          return postsObj;
+        }, {}),
+      });
     }
 
     case ADD_NEW_POST: {
       const { post } = action;
-
-      console.log('ADD_NEW_POST', action.type, 'post', post, 'action', action);
 
       return {
         ...state,
@@ -58,7 +74,7 @@ const posts = (state = {}, action) => {
     case GET_POST_BY_ID: {
       const { id } = action;
 
-      return state[id];
+      return state.posts[id];
     }
 
     default:

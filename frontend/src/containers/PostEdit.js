@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { onSaveEditPost } from '../actions';
+import { onSaveEditPost, fetchAllPosts } from '../actions';
 
 import PostEditView from '../components/posts/PostEditView';
 
@@ -19,16 +19,19 @@ const getPostToEdit = (posts, postId) => {
 const mapStateToProps = ({ posts }, ownProps) => {
   const { postId } = ownProps;
 
-  console.log('@ Post :: mapStateToProps:', postId);
-
   return {
-    post: getPostToEdit(posts, postId),
+    post: {
+      isFetching: posts.isFetching,
+      item: getPostToEdit(posts.items, postId),
+    },
+    // post: getPostToEdit(posts, postId),
   };
 };
 
 const PostEdit = withRouter(
   connect(mapStateToProps, {
     onSaveEditPost,
+    fetchAllPosts,
   })(PostEditView)
 );
 

@@ -11,10 +11,12 @@ import * as API from '../api';
 
 const requestAllPosts = () => ({
   type: FETCH_POSTS_REQUEST,
+  isFetching: true,
 });
 
 const receiveAllPosts = posts => ({
   type: FETCH_POSTS_SUCCESS,
+  isFetching: false,
   posts,
 });
 

@@ -5,6 +5,7 @@ import { onAddPost, onDeletePost, fetchAllPosts } from '../actions';
 import Category from '../components/category/Category';
 
 const getPostsToShow = (posts, category) => {
+  // debugger;
   if (category) {
     return Object.values(posts).filter(post => post.category === category);
   }
@@ -14,16 +15,24 @@ const getPostsToShow = (posts, category) => {
 
 const mapStateToProps = ({ posts, categories }, ownProps) => {
   const { category } = ownProps;
+  // debugger;
 
   return {
-    posts: getPostsToShow(posts, category),
+    posts: {
+      isFetching: posts.isFetching,
+      items: getPostsToShow(posts.items, category),
+    },
     categories,
     category,
   };
 };
 
 const CategoriesToShow = withRouter(
-  connect(mapStateToProps, { onAddPost, fetchAllPosts, onDeletePost })(Category)
+  connect(mapStateToProps, {
+    onAddPost,
+    fetchAllPosts,
+    onDeletePost,
+  })(Category)
 );
 
 export default CategoriesToShow;

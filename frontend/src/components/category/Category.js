@@ -58,11 +58,17 @@ class Category extends Component {
       fetchAllPosts,
     } = this.props;
 
+    const { isFetching, items } = posts;
     const { sortKey, isSortReverse, isAddPostModalOpen } = this.state;
     const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
 
-    const isPostsLoaded = !!posts.length;
+    const hasPosts = !!items.length;
+    console.log(
+      `isFetching: ${isFetching}, items: ${Object.values(items).map(
+        post => post.title
+      )}, hasPosts: ${hasPosts}`
+    );
 
     return (
       <div className="page-content">
@@ -108,18 +114,19 @@ class Category extends Component {
                     </Button>
                   </div>
 
-                  {isPostsLoaded && (
-                    <SortByControls
-                      sortKey={sortKey}
-                      isSortReverse={isSortReverse}
-                      onSort={this.onSort}
-                    />
-                  )}
+                  {!isFetching &&
+                    hasPosts && (
+                      <SortByControls
+                        sortKey={sortKey}
+                        isSortReverse={isSortReverse}
+                        onSort={this.onSort}
+                      />
+                    )}
                 </div>
 
-                {isPostsLoaded ? (
+                {!isFetching && hasPosts ? (
                   <PostsList
-                    list={posts}
+                    list={items}
                     sortKey={sortKey}
                     isSortReverse={isSortReverse}
                     sortFilter={sortFilter}

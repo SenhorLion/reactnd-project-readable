@@ -16,14 +16,19 @@ class PostEditView extends Component {
   onEditPost(e) {
     e.preventDefault();
 
-    const { post, postId, onSaveEditPost } = this.props;
+    const {
+      post: { item },
+      postId,
+      onSaveEditPost,
+      fetchAllPosts,
+    } = this.props;
 
     const title = this.refs.title.value;
     const body = this.refs.body.value;
     const author = this.refs.author.value;
     const voteScore = parseInt(this.refs.voteScore.value, 10);
     const timestamp = Date.now();
-    const newPost = Object.assign({}, post, {
+    const newPost = Object.assign({}, item, {
       body,
       author,
       timestamp,
@@ -33,6 +38,7 @@ class PostEditView extends Component {
 
     onSaveEditPost(newPost).then(res =>
       setTimeout(() => {
+        fetchAllPosts();
         this.onGoBack();
       }, 200)
     );
@@ -44,8 +50,11 @@ class PostEditView extends Component {
 
   render() {
     const { post, postId } = this.props;
+    const { isFetching, item } = post;
 
-    const isPostLoaded = !!post;
+    const hasPost = !!item;
+
+    console.log('isFetching', isFetching, 'hasPost', hasPost);
 
     return (
       <div className="page-content">
@@ -60,7 +69,7 @@ class PostEditView extends Component {
             </div>
             <div className="thirteen wide column">
               <div className="ui container content">
-                {!isPostLoaded && (
+                {isFetching && (
                   <Loading
                     delay={200}
                     type="spokes"
@@ -68,73 +77,74 @@ class PostEditView extends Component {
                     className="loading"
                   />
                 )}
-                {isPostLoaded && (
-                  <div className="post-details-form">
-                    <div className="page-header">
-                      <div className="page-header__title">
-                        <h2 className="title">
-                          <i className="edit icon" />
-                          Edit Post: {capitalize(post.title)}
-                        </h2>
+                {!isFetching &&
+                  hasPost && (
+                    <div className="post-details-form">
+                      <div className="page-header">
+                        <div className="page-header__title">
+                          <h2 className="title">
+                            <i className="edit icon" />
+                            Edit Post: {capitalize(item.title)}
+                          </h2>
+                        </div>
+                      </div>
+
+                      <div className="post-form-content">
+                        <form
+                          ref="postForm"
+                          onSubmit={this.onEditPost}
+                          className="ui form post-form-content"
+                        >
+                          <div className="field">
+                            <label>Title</label>
+                            <input
+                              type="text"
+                              name="title"
+                              ref="title"
+                              defaultValue={item.title}
+                              placeholder="Title"
+                            />
+                          </div>
+                          <div className="field">
+                            <label>Author</label>
+                            <input
+                              type="text"
+                              ref="author"
+                              defaultValue={item.author}
+                            />
+                          </div>
+                          <div className="field">
+                            <label>Body</label>
+                            <input
+                              type="text"
+                              name="body"
+                              ref="body"
+                              defaultValue={item.body}
+                              placeholder="Body"
+                            />
+                          </div>
+                          <div className="field">
+                            <label>Vote score</label>
+                            <input
+                              type="text"
+                              ref="voteScore"
+                              defaultValue={item.voteScore}
+                            />
+                          </div>
+
+                          <Button className="ui positive button" type="submit">
+                            Submit
+                          </Button>
+                          <Button
+                            onClick={() => this.onGoBack()}
+                            className="ui button"
+                          >
+                            Cancel
+                          </Button>
+                        </form>
                       </div>
                     </div>
-
-                    <div className="post-form-content">
-                      <form
-                        ref="postForm"
-                        onSubmit={this.onEditPost}
-                        className="ui form post-form-content"
-                      >
-                        <div className="field">
-                          <label>Title</label>
-                          <input
-                            type="text"
-                            name="title"
-                            ref="title"
-                            defaultValue={post.title}
-                            placeholder="Title"
-                          />
-                        </div>
-                        <div className="field">
-                          <label>Author</label>
-                          <input
-                            type="text"
-                            ref="author"
-                            defaultValue={post.author}
-                          />
-                        </div>
-                        <div className="field">
-                          <label>Body</label>
-                          <input
-                            type="text"
-                            name="body"
-                            ref="body"
-                            defaultValue={post.body}
-                            placeholder="Body"
-                          />
-                        </div>
-                        <div className="field">
-                          <label>Vote score</label>
-                          <input
-                            type="text"
-                            ref="voteScore"
-                            defaultValue={post.voteScore}
-                          />
-                        </div>
-
-                        <Button className="ui positive button" type="submit">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={() => this.onGoBack()}
-                          className="ui button"
-                        >
-                          Cancel
-                        </Button>
-                      </form>
-                    </div>
-                  </div>
-                )}
+                  )}
               </div>
             </div>
           </div>

@@ -7,14 +7,18 @@ import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
 
 const PostDetailView = ({ post, postId, onDeletePost }) => {
-  const categoryColour = getCategoryColour(post && post.category) || 'grey';
+  const { isFetching, item } = post;
+  const categoryColour = getCategoryColour(item && item.category) || 'grey';
   const uiLabelColour = classNames('ui label', categoryColour);
   const userIcon = classNames('user big icon', categoryColour);
   const postCommentButton = classNames(
     'ui submit labeled icon button',
     categoryColour
   );
-  const isPostLoaded = !!post;
+
+  const hasPost = !!item;
+
+  console.log(`isFetching: ${isFetching}, item: ${item}, hasPost: ${hasPost}`);
 
   const onHandleDeletePost = postId => {
     onDeletePost(postId).then(res =>
@@ -41,7 +45,7 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
           </div>
           <div className="thirteen wide column">
             <div className="ui container content">
-              {!isPostLoaded && (
+              {isFetching && (
                 <Loading
                   delay={200}
                   type="spokes"
@@ -49,92 +53,93 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
                   className="loading"
                 />
               )}
-              {isPostLoaded && (
-                <div>
-                  <div className="page-header">
-                    <div className="page-header__title">
-                      <h2>{capitalize(post.title)}</h2>
+              {!isFetching &&
+                hasPost && (
+                  <div>
+                    <div className="page-header">
+                      <div className="page-header__title">
+                        <h2>{capitalize(item.title)}</h2>
+                      </div>
+                    </div>
+
+                    <div className="post-content">
+                      <div className="post-content__meta">
+                        <span className="author">Author: {item.author}</span>
+                        <span className="date">
+                          <Moment fromNow>{item.timestamp}</Moment>
+                        </span>
+                      </div>
+                      <div className="post-content__description">
+                        <p>{item.body}</p>
+                      </div>
+                      <div className="post-content__extra extra">
+                        <div className={uiLabelColour}>
+                          <Link to={`/${item.category}`}>{item.category}</Link>
+                        </div>
+                        <div className={uiLabelColour}>
+                          <i className="like icon" /> {item.voteScore}
+                        </div>
+                        <div className={uiLabelColour}>
+                          <i className="comment alternate outline icon" />{' '}
+                          {item.commentCount}
+                        </div>
+
+                        <Button
+                          onClick={() => onHandleDeletePost(item.id)}
+                          className="ui mini right floated button"
+                        >
+                          <i className="trash icon" /> Delete post
+                        </Button>
+
+                        <Link
+                          to={`/${item.category}/${item.id}/edit`}
+                          className="ui mini right floated button button__link"
+                        >
+                          <i className="edit icon" /> Edit post
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="ui comments post-comment">
+                      <div className="post-comment__header">
+                        <h3 className="post-comment__title">Comments</h3>
+                      </div>
+                      <div className="comment">
+                        <a className="avatar">
+                          <i className={userIcon} />
+                        </a>
+                        <div className="content">
+                          <a className="author">Joe Henderson</a>
+                          <div className="metadata">
+                            <div className="date">1 day ago</div>
+                          </div>
+                          <div className="text">
+                            <p>
+                              The hours, minutes and seconds stand as visible
+                              reminders that your effort put them all there.{' '}
+                            </p>
+                            <p>
+                              Preserve until your next run, when the watch lets
+                              you see how Impermanent your efforts are.
+                            </p>
+                          </div>
+                          <div className="actions">
+                            <a className="reply">Reply</a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <form className="ui reply form">
+                        <div className="field">
+                          <textarea />
+                        </div>
+                        <div className={postCommentButton}>
+                          <i className="icon edit" /> Add Comment
+                        </div>
+                      </form>
                     </div>
                   </div>
-
-                  <div className="post-content">
-                    <div className="post-content__meta">
-                      <span className="author">Author: {post.author}</span>
-                      <span className="date">
-                        <Moment fromNow>{post.timestamp}</Moment>
-                      </span>
-                    </div>
-                    <div className="post-content__description">
-                      <p>{post.body}</p>
-                    </div>
-                    <div className="post-content__extra extra">
-                      <div className={uiLabelColour}>
-                        <Link to={`/${post.category}`}>{post.category}</Link>
-                      </div>
-                      <div className={uiLabelColour}>
-                        <i className="like icon" /> {post.voteScore}
-                      </div>
-                      <div className={uiLabelColour}>
-                        <i className="comment alternate outline icon" />{' '}
-                        {post.commentCount}
-                      </div>
-
-                      <Button
-                        onClick={() => onHandleDeletePost(post.id)}
-                        className="ui mini right floated button"
-                      >
-                        <i className="trash icon" /> Delete post
-                      </Button>
-
-                      <Link
-                        to={`/${post.category}/${post.id}/edit`}
-                        className="ui mini right floated button button__link"
-                      >
-                        <i className="edit icon" /> Edit post
-                      </Link>
-                    </div>
-                  </div>
-
-                  <div className="ui comments post-comment">
-                    <div className="post-comment__header">
-                      <h3 className="post-comment__title">Comments</h3>
-                    </div>
-                    <div className="comment">
-                      <a className="avatar">
-                        <i className={userIcon} />
-                      </a>
-                      <div className="content">
-                        <a className="author">Joe Henderson</a>
-                        <div className="metadata">
-                          <div className="date">1 day ago</div>
-                        </div>
-                        <div className="text">
-                          <p>
-                            The hours, minutes and seconds stand as visible
-                            reminders that your effort put them all there.{' '}
-                          </p>
-                          <p>
-                            Preserve until your next run, when the watch lets
-                            you see how Impermanent your efforts are.
-                          </p>
-                        </div>
-                        <div className="actions">
-                          <a className="reply">Reply</a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <form className="ui reply form">
-                      <div className="field">
-                        <textarea />
-                      </div>
-                      <div className={postCommentButton}>
-                        <i className="icon edit" /> Add Comment
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         </div>
