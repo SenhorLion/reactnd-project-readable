@@ -72,70 +72,71 @@ class Category extends Component {
 
     return (
       <div className="page-content">
-        <div className="ui grid">
-          <div className="row">
-            <div className="three wide column">
-              <div className="ui container categories">
-                <h2 className="categories__title title align-center">
-                  Categories
-                </h2>
-                {!isCategoriesLoaded ? (
-                  <Loading
-                    delay={200}
-                    type="spokes"
-                    color="#222"
-                    className="loading"
-                  />
-                ) : (
-                  <div className="ui fluid vertical pointing menu">
-                    {categories.map(cat => (
-                      <Link
-                        key={cuid()}
-                        to={`/${cat.path}`}
-                        className={`item ${cat.name === category && 'active'}`}
-                      >
-                        {capitalize(cat.name)}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="thirteen wide column">
-              <div className="ui container content">
-                <div className="page-header">
-                  <div className="page-header__title">
-                    <h2 className="title align-left">{displayTitle}</h2>
-                    <Button
-                      className="ui positive button button--add-post float-right"
-                      onClick={() => this.openAddPostModal()}
+        <div class="ui stackable four column grid">
+          <div class="six wide column">
+            <div className="ui container categories">
+              <h2 className="categories__title title align-center">
+                Categories
+              </h2>
+              {!isCategoriesLoaded ? (
+                <Loading
+                  delay={200}
+                  type="spokes"
+                  color="#222"
+                  className="loading"
+                />
+              ) : (
+                <div className="ui fluid vertical pointing menu">
+                  {categories.map(cat => (
+                    <Link
+                      key={cuid()}
+                      to={`/${cat.path}`}
+                      className={`item ${cat.name === category && 'active'}`}
                     >
-                      Add Post
-                    </Button>
-                  </div>
+                      {capitalize(cat.name)}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
-                  {!isFetching &&
-                    hasPosts && (
-                      <SortByControls
-                        sortKey={sortKey}
-                        isSortReverse={isSortReverse}
-                        onSort={this.onSort}
-                      />
-                    )}
+          <div class="ten wide column">
+            <div className="ui container content">
+              <div className="page-header">
+                <div className="page-header__content">
+                  <h2 className="page-header__title align-left">
+                    {displayTitle}
+                  </h2>
+                  <Button
+                    className="ui positive button button--add-post float-right"
+                    onClick={() => this.openAddPostModal()}
+                  >
+                    Add Post
+                  </Button>
                 </div>
 
-                {!isFetching && hasPosts ? (
-                  <PostsList
-                    list={items}
-                    sortKey={sortKey}
-                    isSortReverse={isSortReverse}
-                    sortFilter={sortFilter}
-                    onDeletePost={onDeletePost}
-                  />
-                ) : (
-                  <p>No posts to show</p>
-                )}
+                {!isFetching &&
+                  hasPosts && (
+                    <SortByControls
+                      sortKey={sortKey}
+                      isSortReverse={isSortReverse}
+                      onSort={this.onSort}
+                    />
+                  )}
               </div>
+
+              {!isFetching && hasPosts ? (
+                <PostsList
+                  list={items}
+                  sortKey={sortKey}
+                  isSortReverse={isSortReverse}
+                  sortFilter={sortFilter}
+                  onDeletePost={onDeletePost}
+                />
+              ) : (
+                <p>No posts to show</p>
+              )}
             </div>
           </div>
         </div>

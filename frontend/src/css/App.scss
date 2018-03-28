@@ -32,9 +32,14 @@ $headerHeight: 4em;
   padding-bottom: 1em;
   flex-direction: column;
 
-  &__title {
+  &__content {
+    display: flex;
     border-bottom: 1px dotted $grey;
     padding-bottom: 1em;
+  }
+  &__title {
+    flex: 1;
+    color: $grey;
   }
   &__sort-controls {
     text-align: right;
@@ -44,6 +49,12 @@ $headerHeight: 4em;
       display: inline-block;
       padding-right: 20px;
     }
+  }
+}
+
+.sort-by-controls {
+  &__label {
+    border-left: none !important; /* naughty, but neccesary :)  */
   }
 }
 
