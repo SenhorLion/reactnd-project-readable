@@ -10,7 +10,7 @@ const SortControl = ({
   children,
 }) => {
   const isActive = sortKey === activeSortKey;
-  const sortClass = classNames('ui basic button sort-filter', {
+  const sortClass = classNames('item sort-filter', {
     active: isActive,
   });
   const iconClass = classNames('caret icon', {
@@ -18,11 +18,19 @@ const SortControl = ({
     down: isActive && !isSortReverse,
   });
   return (
-    <Button className={sortClass} onClick={() => onSort(sortKey)}>
+    <a className={sortClass} onClick={() => onSort(sortKey)}>
       {isActive && <i className={iconClass} />}
       {children}{' '}
-    </Button>
+    </a>
   );
 };
 
 export default SortControl;
+
+{
+  /* <div class="ui celled horizontal list">
+  <div class="item">About Us</div>
+  <div class="item">Contact</div>
+  <div class="item">Support</div>
+</div>; */
+}
