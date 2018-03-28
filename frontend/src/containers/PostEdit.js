@@ -18,11 +18,12 @@ const getPostToEdit = (posts, postId) => {
 // TODO: dispatch action to fetch post
 const mapStateToProps = ({ posts }, ownProps) => {
   const { postId } = ownProps;
+  const { isFetching, items } = posts;
 
   return {
     post: {
-      isFetching: posts.isFetching,
-      item: getPostToEdit(posts.items, postId),
+      isFetching,
+      item: getPostToEdit(items, postId),
     },
     // post: getPostToEdit(posts, postId),
   };

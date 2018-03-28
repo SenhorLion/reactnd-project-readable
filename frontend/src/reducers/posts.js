@@ -14,21 +14,11 @@ const defaultPostState = {
 const posts = (state = defaultPostState, action) => {
   switch (action.type) {
     case FETCH_POSTS_REQUEST: {
-      // return state;
-
-      // return Object.assign({}, state, {
-      //   isFetching: true,
-      // });
       return { ...state, isFetching: true };
     }
 
     case FETCH_POSTS_SUCCESS: {
       const { posts } = action;
-
-      // return Object.values(posts).reduce((postsObj, post) => {
-      //   postsObj[post.id] = post;
-      //   return postsObj;
-      // }, {});
 
       return Object.assign({}, state, {
         isFetching: false,
@@ -42,35 +32,42 @@ const posts = (state = defaultPostState, action) => {
     case ADD_NEW_POST: {
       const { post } = action;
 
-      return {
-        ...state,
-        [post.id]: post,
-      };
+      return Object.assign({}, state, {
+        items: {
+          [post.id]: post,
+        },
+      });
     }
 
     case DELETE_POST: {
       const { id } = action;
-      const statePosts = { ...state };
-      const filteredPosts = Object.keys(statePosts)
+      const newState = { ...state };
+
+      // TODO: Check this is all neccesary,
+      // can we get away with just filtering?
+      const filteredPosts = Object.keys(newState.items)
         .filter(postId => postId !== id)
         .reduce((posts, id) => {
-          posts[id] = statePosts[id];
+          posts[id] = newState.items[id];
           return posts;
         }, {});
 
-      return filteredPosts;
+      return Object.assign({}, state, {
+        items: filteredPosts,
+      });
     }
 
     case SAVE_EDIT_POST: {
       const { post } = action;
-      console.log('action.type', action.type, 'post', post, 'action', action);
 
-      return {
-        ...state,
-        [post.id]: post,
-      };
+      return Object.assign({}, state, {
+        items: {
+          [post.id]: post,
+        },
+      });
     }
 
+    // TODO: Do we need this?
     case GET_POST_BY_ID: {
       const { id } = action;
 
