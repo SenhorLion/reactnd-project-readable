@@ -21,6 +21,9 @@ const Header = ({ categories }) => {
                   {capitalize(cat.name)}
                 </Link>
               ))}
+            <Link key={cuid()} to={`/`} className="item">
+              All Categories
+            </Link>
           </div>
         </div>
       </div>

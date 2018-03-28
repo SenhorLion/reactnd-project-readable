@@ -96,6 +96,13 @@ class Category extends Component {
                       {capitalize(cat.name)}
                     </Link>
                   ))}
+                  <Link
+                    key={cuid()}
+                    to={`/`}
+                    className={`item ${!category && 'active'}`}
+                  >
+                    All Categories
+                  </Link>
                 </div>
               )}
             </div>
