@@ -14,42 +14,48 @@ import {
 
 describe('posts reducer', () => {
   it('should handle initial state', () => {
-    expect(posts(undefined, {})).toEqual({});
+    const defaultPostState = {
+      isFetching: false,
+      items: {},
+    };
+    expect(posts(undefined, {})).toEqual(defaultPostState);
   });
 
   it('should return defaultState if no action type is found', () => {
     const defaultState = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
-      },
-      '6ni6ok3ym7mf1p33lnez': {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body:
-          'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
+        '6ni6ok3ym7mf1p33lnez': {
+          id: '6ni6ok3ym7mf1p33lnez',
+          timestamp: 1468479767190,
+          title: 'Learn Redux in 10 minutes!',
+          body:
+            'Just kidding. It takes more than 10 minutes to learn technology.',
+          author: 'thingone',
+          category: 'redux',
+          voteScore: -5,
+          deleted: false,
+          commentCount: 0,
+        },
       },
     };
 
     expect(posts(defaultState, {})).toEqual(defaultState);
   });
 
-  it('should return correct payload for given action type', () => {
-    const payload = {
-      '8xf0y6ziyjabvozdd253nd': {
+  it('should return correct data strucutre for given action FETCH_POSTS_SUCCESS type', () => {
+    const payload = [
+      {
         id: '8xf0y6ziyjabvozdd253nd',
         timestamp: 1467166872634,
         title: 'Udacity is the best place to learn React',
@@ -60,17 +66,22 @@ describe('posts reducer', () => {
         deleted: false,
         commentCount: 2,
       },
-      '6ni6ok3ym7mf1p33lnez': {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body:
-          'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0,
+    ];
+
+    const result = {
+      isFetching: false,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
       },
     };
     const action = {
@@ -78,22 +89,13 @@ describe('posts reducer', () => {
       posts: payload,
     };
 
-    expect(posts(payload, action)).toEqual(payload);
+    expect(posts(undefined, action)).toEqual(result);
   });
 
   it('should add a post without mutating state', () => {
     const defaultState = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
-      },
+      isFetching: false,
+      items: {},
     };
 
     // make sure state is not mutated
@@ -113,28 +115,20 @@ describe('posts reducer', () => {
     };
 
     const expected = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
-      },
-      '6ni6ok3ym7mf1p33lnez': {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body:
-          'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0,
+      isFetching: false,
+      items: {
+        '6ni6ok3ym7mf1p33lnez': {
+          id: '6ni6ok3ym7mf1p33lnez',
+          timestamp: 1468479767190,
+          title: 'Learn Redux in 10 minutes!',
+          body:
+            'Just kidding. It takes more than 10 minutes to learn technology.',
+          author: 'thingone',
+          category: 'redux',
+          voteScore: -5,
+          deleted: false,
+          commentCount: 0,
+        },
       },
     };
 
@@ -148,28 +142,30 @@ describe('posts reducer', () => {
 
   it('should delete a post without mutating state', () => {
     const defaultState = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
-      },
-      '6ni6ok3ym7mf1p33lnez': {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body:
-          'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
+        '6ni6ok3ym7mf1p33lnez': {
+          id: '6ni6ok3ym7mf1p33lnez',
+          timestamp: 1468479767190,
+          title: 'Learn Redux in 10 minutes!',
+          body:
+            'Just kidding. It takes more than 10 minutes to learn technology.',
+          author: 'thingone',
+          category: 'redux',
+          voteScore: -5,
+          deleted: false,
+          commentCount: 0,
+        },
       },
     };
 
@@ -179,16 +175,18 @@ describe('posts reducer', () => {
     const postIdToDelete = '6ni6ok3ym7mf1p33lnez';
 
     const expected = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
       },
     };
 
@@ -202,16 +200,18 @@ describe('posts reducer', () => {
 
   it('should edit a post without mutating state', () => {
     const defaultState = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
       },
     };
 
@@ -232,16 +232,18 @@ describe('posts reducer', () => {
     };
 
     const expected = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872657,
-        title: 'Blimey youve changed',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 12,
-        deleted: false,
-        commentCount: 6,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872657,
+          title: 'Blimey youve changed',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 12,
+          deleted: false,
+          commentCount: 6,
+        },
       },
     };
 
@@ -255,28 +257,30 @@ describe('posts reducer', () => {
 
   it('should return a post by id', () => {
     const defaultState = {
-      '8xf0y6ziyjabvozdd253nd': {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2,
-      },
-      '6ni6ok3ym7mf1p33lnez': {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body:
-          'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0,
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
+        '6ni6ok3ym7mf1p33lnez': {
+          id: '6ni6ok3ym7mf1p33lnez',
+          timestamp: 1468479767190,
+          title: 'Learn Redux in 10 minutes!',
+          body:
+            'Just kidding. It takes more than 10 minutes to learn technology.',
+          author: 'thingone',
+          category: 'redux',
+          voteScore: -5,
+          deleted: false,
+          commentCount: 0,
+        },
       },
     };
 

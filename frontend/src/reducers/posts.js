@@ -22,7 +22,7 @@ const posts = (state = defaultPostState, action) => {
 
       return Object.assign({}, state, {
         isFetching: false,
-        items: Object.values(posts).reduce((postsObj, post) => {
+        items: posts.reduce((postsObj, post) => {
           postsObj[post.id] = post;
           return postsObj;
         }, {}),
@@ -67,11 +67,11 @@ const posts = (state = defaultPostState, action) => {
       });
     }
 
-    // TODO: Do we need this?
+    // TODO: Do we need / use this outside of the tests?
     case GET_POST_BY_ID: {
       const { id } = action;
 
-      return state.posts[id];
+      return state.items[id];
     }
 
     default:
