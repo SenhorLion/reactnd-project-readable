@@ -9,6 +9,7 @@ import Button from '../button/Button';
 const PostDetailView = ({ post, postId, onDeletePost }) => {
   const { isFetching, item } = post;
   const categoryColour = getCategoryColour(item && item.category) || 'grey';
+  const uiHeaderColour = classNames('ui header', categoryColour);
   const uiLabelColour = classNames('ui label', categoryColour);
   const userIcon = classNames('user big icon', categoryColour);
   const postCommentButton = classNames(
@@ -58,16 +59,22 @@ const PostDetailView = ({ post, postId, onDeletePost }) => {
                   <div>
                     <div className="page-header">
                       <div className="page-header__title">
-                        <h2>{capitalize(item.title)}</h2>
+                        <h2 className={uiHeaderColour}>
+                          {capitalize(item.title)}
+
+                          <div class="sub header">
+                            <span className={` author`}>By {item.author} </span>
+                            <span className={` date`}>
+                              <Moment fromNow>{item.timestamp}</Moment>
+                            </span>
+                          </div>
+                        </h2>
                       </div>
                     </div>
 
                     <div className="post-content">
                       <div className="post-content__meta">
-                        <span className="author">Author: {item.author}</span>
-                        <span className="date">
-                          <Moment fromNow>{item.timestamp}</Moment>
-                        </span>
+                        {/* Can add post meta here? */}
                       </div>
                       <div className="post-content__description">
                         <p>{item.body}</p>

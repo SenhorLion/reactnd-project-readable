@@ -24,7 +24,7 @@ const PostItem = ({ post, onDeletePost }) => {
             {capitalize(post.title)}
           </Link>
           <div className="meta">
-            <span className="author">Author: {post.author}</span>
+            <span className="author">By {post.author}</span>
             <span className="date">
               <Moment fromNow>{post.timestamp}</Moment>
             </span>
