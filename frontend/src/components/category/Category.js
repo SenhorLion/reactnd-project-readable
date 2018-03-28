@@ -135,7 +135,9 @@ class Category extends Component {
                   onDeletePost={onDeletePost}
                 />
               ) : (
-                <p>No posts to show</p>
+                <p>
+                  No posts to show {category && `for ${capitalize(category)}`}
+                </p>
               )}
             </div>
           </div>
