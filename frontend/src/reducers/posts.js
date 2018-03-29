@@ -20,6 +20,11 @@ const posts = (state = defaultPostState, action) => {
     case FETCH_POSTS_SUCCESS: {
       const { posts } = action;
 
+      // NOTE: We want to enforce posts state is in the desired structure:
+      // posts: {
+      //   isFetching: false,
+      //   items: {...}
+      // }
       return Object.assign({}, state, {
         isFetching: false,
         items: posts.reduce((postsObj, post) => {
