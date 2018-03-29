@@ -1,60 +1,30 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 import Loading from 'react-loading';
-import classNames from 'classnames';
-import { capitalize, getCategoryColour } from '../../utils/helper';
-import Button from '../button/Button';
+import EditFormControl from './EditFormControl';
 
 class PostEditView extends Component {
-  constructor(props) {
-    super(props);
-    this.onEditPost = this.onEditPost.bind(this);
-    this.onGoBack = this.onGoBack.bind(this);
-  }
+  onGoBack = () => {
+    const { history, post } = this.props;
+    const { item: { category, id } } = post;
 
-  onEditPost(e) {
-    e.preventDefault();
+    console.log(`category: ${category} id: ${id}`);
 
-    const {
-      post: { item },
-      postId,
-      onSaveEditPost,
-      fetchAllPosts,
-    } = this.props;
-
-    const title = this.refs.title.value;
-    const body = this.refs.body.value;
-    const author = this.refs.author.value;
-    const voteScore = parseInt(this.refs.voteScore.value, 10);
-    const timestamp = Date.now();
-    const newPost = Object.assign({}, item, {
-      body,
-      author,
-      timestamp,
-      voteScore,
-      title,
-    });
-
-    onSaveEditPost(newPost).then(res =>
-      setTimeout(() => {
-        fetchAllPosts();
-        this.onGoBack();
-      }, 200)
-    );
-  }
-
-  onGoBack() {
-    return window.history.back();
-  }
+    // history.push(`/${category}`);
+    // history.push(`/${category}/${id}`);
+    history.goBack();
+  };
 
   render() {
-    const { post, postId } = this.props;
+    const {
+      post,
+      categories,
+      fetchAllPosts,
+      onSaveEditPost,
+      history,
+    } = this.props;
     const { isFetching, item } = post;
 
     const hasPost = !!item;
-
-    console.log('isFetching', isFetching, 'hasPost', hasPost);
 
     return (
       <div className="page-content">
@@ -80,69 +50,14 @@ class PostEditView extends Component {
                 {!isFetching &&
                   hasPost && (
                     <div className="post-details-form">
-                      <div className="page-header">
-                        <div className="page-header__title">
-                          <h2 className="title">
-                            <i className="edit icon" />
-                            Edit Post: {capitalize(item.title)}
-                          </h2>
-                        </div>
-                      </div>
-
-                      <div className="post-form-content">
-                        <form
-                          ref="postForm"
-                          onSubmit={this.onEditPost}
-                          className="ui form post-form-content"
-                        >
-                          <div className="field">
-                            <label>Title</label>
-                            <input
-                              type="text"
-                              name="title"
-                              ref="title"
-                              defaultValue={item.title}
-                              placeholder="Title"
-                            />
-                          </div>
-                          <div className="field">
-                            <label>Author</label>
-                            <input
-                              type="text"
-                              ref="author"
-                              defaultValue={item.author}
-                            />
-                          </div>
-                          <div className="field">
-                            <label>Body</label>
-                            <input
-                              type="text"
-                              name="body"
-                              ref="body"
-                              defaultValue={item.body}
-                              placeholder="Body"
-                            />
-                          </div>
-                          <div className="field">
-                            <label>Vote score</label>
-                            <input
-                              type="text"
-                              ref="voteScore"
-                              defaultValue={item.voteScore}
-                            />
-                          </div>
-
-                          <Button className="ui positive button" type="submit">
-                            Submit
-                          </Button>
-                          <Button
-                            onClick={() => this.onGoBack()}
-                            className="ui button"
-                          >
-                            Cancel
-                          </Button>
-                        </form>
-                      </div>
+                      <EditFormControl
+                        history={history}
+                        categories={categories}
+                        onSaveEditPost={onSaveEditPost}
+                        fetchAllPosts={fetchAllPosts}
+                        post={item}
+                        type="edit"
+                      />
                     </div>
                   )}
               </div>
