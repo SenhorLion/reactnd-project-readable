@@ -2,15 +2,24 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import cuid from 'cuid';
 import Loading from 'react-loading';
-// import Modal from 'react-modal';
+import Modal from 'react-modal';
 
 import { capitalize } from '../../utils/helper';
 
 import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
 import AddNewPost from '../posts/AddNewPost';
+import DeletePostModal from '../posts/DeletePostModal';
 import SortByControls from '../sort/SortByControls';
 import Button from '../button/Button';
+
+/**
+ * Remove `react-modal` warning:
+ * App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`.
+ * This is needed so screen readers don't see main content when modal is opened.
+ * It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.
+ */
+Modal.setAppElement('#root');
 
 class Category extends Component {
   constructor(props) {
@@ -22,9 +31,13 @@ class Category extends Component {
       isSortReverse: false,
       error: null,
       isAddPostModalOpen: false,
+      isDeletePostModalOpen: false,
+      postIdToDelete: null,
     };
 
     this.onSort = this.onSort.bind(this);
+    this.openDeletePostModal = this.openDeletePostModal.bind(this);
+    this.closeDeletePostModal = this.closeDeletePostModal.bind(this);
   }
 
   onSort(sortKey) {
@@ -48,6 +61,24 @@ class Category extends Component {
     }));
   };
 
+  openDeletePostModal(postId) {
+    console.log('@ openDeletePostModal', postId);
+
+    this.setState(() => ({
+      isDeletePostModalOpen: true,
+      postIdToDelete: postId,
+    }));
+  }
+
+  closeDeletePostModal = () => {
+    console.log('@ closeDeletePostModal');
+
+    this.setState(() => ({
+      isDeletePostModalOpen: false,
+      postIdToDelete: null,
+    }));
+  };
+
   render() {
     const {
       category,
@@ -56,24 +87,26 @@ class Category extends Component {
       onAddPost,
       onDeletePost,
       fetchAllPosts,
+      history,
     } = this.props;
 
     const { isFetching, items } = posts;
-    const { sortKey, isSortReverse, isAddPostModalOpen } = this.state;
+    const {
+      sortKey,
+      isSortReverse,
+      isAddPostModalOpen,
+      isDeletePostModalOpen,
+      postIdToDelete,
+    } = this.state;
     const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
 
     const hasPosts = !!items.length;
-    console.log(
-      `isFetching: ${isFetching}, items: ${Object.values(items).map(
-        post => post.title
-      )}, hasPosts: ${hasPosts}`
-    );
 
     return (
       <div className="page-content">
-        <div class="ui stackable four column grid">
-          <div class="six wide column">
+        <div className="ui stackable four column grid">
+          <div className="six wide column">
             <div className="ui container categories">
               <h2 className="categories__title title align-center">
                 Categories
@@ -108,7 +141,7 @@ class Category extends Component {
             </div>
           </div>
 
-          <div class="ten wide column">
+          <div className="ten wide column">
             <div className="ui container content">
               <div className="page-header">
                 <div className="page-header__content">
@@ -140,6 +173,7 @@ class Category extends Component {
                   isSortReverse={isSortReverse}
                   sortFilter={sortFilter}
                   onDeletePost={onDeletePost}
+                  openDeletePostModal={this.openDeletePostModal}
                 />
               ) : (
                 <p>
@@ -151,12 +185,20 @@ class Category extends Component {
         </div>
 
         <AddNewPost
+          history={history}
           isAddPostModalOpen={isAddPostModalOpen}
           closeAddPostModal={this.closeAddPostModal}
-          activeCategory={category}
+          selectedCategory={category}
           categories={categories}
           onAddPost={onAddPost}
           fetchAllPosts={fetchAllPosts}
+        />
+
+        <DeletePostModal
+          isDeletePostModalOpen={isDeletePostModalOpen}
+          closeDeletePostModal={this.closeDeletePostModal}
+          onDeletePost={onDeletePost}
+          postIdToDelete={postIdToDelete}
         />
       </div>
     );

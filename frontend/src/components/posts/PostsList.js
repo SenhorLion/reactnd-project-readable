@@ -1,6 +1,5 @@
 import React from 'react';
 import cuid from 'cuid';
-import Loading from 'react-loading';
 import PostItem from './PostItem';
 
 const PostsList = ({
@@ -8,6 +7,7 @@ const PostsList = ({
   sortKey,
   isSortReverse,
   sortFilter,
+  openDeletePostModal,
   onDeletePost,
 }) => {
   const sortedList = sortFilter[sortKey](Object.values(list));
@@ -16,7 +16,12 @@ const PostsList = ({
   return (
     <div className="posts-list">
       {reverseSortedList.map(post => (
-        <PostItem key={cuid()} post={post} onDeletePost={onDeletePost} />
+        <PostItem
+          key={cuid()}
+          post={post}
+          onDeletePost={onDeletePost}
+          openDeletePostModal={openDeletePostModal}
+        />
       ))}
     </div>
   );

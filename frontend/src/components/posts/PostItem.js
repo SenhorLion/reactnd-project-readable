@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import classNames from 'classnames';
@@ -8,7 +6,7 @@ import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
 
-const PostItem = ({ post, onDeletePost }) => {
+const PostItem = ({ post, openDeletePostModal /*onDeletePost*/ }) => {
   const categoryColour = getCategoryColour(post.category);
   const postItemClass = classNames(
     'ui  segment divided items post',
@@ -48,7 +46,7 @@ const PostItem = ({ post, onDeletePost }) => {
 
             <div className="post-actions right floated">
               <Button
-                onClick={() => onDeletePost(post.id)}
+                onClick={() => openDeletePostModal(post.id)}
                 className="ui mini right floated button"
               >
                 <i className="trash icon" /> Delete post

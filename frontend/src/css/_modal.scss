@@ -10,10 +10,12 @@
 
 .modal {
   position: absolute;
-  top: 60px;
-  left: 200px;
-  right: 200px;
-  bottom: 40px;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  // height: 50%;
+
   border: 1px solid rgb(204, 204, 204);
   background: rgb(255, 255, 255);
   overflow: auto;
@@ -22,5 +24,12 @@
   padding: 20px;
   border-radius: 3px;
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.24), 0 3px 12px 0 rgba(0, 0, 0, 0.12);
-  min-width: 500px;
+  min-width: 70%; //500px;
+}
+
+.delete-post-modal {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 25%;
 }
