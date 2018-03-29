@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../button/Button';
 import classNames from 'classnames';
 
 const SortControl = ({
@@ -26,11 +25,3 @@ const SortControl = ({
 };
 
 export default SortControl;
-
-{
-  /* <div class="ui celled horizontal list">
-  <div class="item">About Us</div>
-  <div class="item">Contact</div>
-  <div class="item">Support</div>
-</div>; */
-}
