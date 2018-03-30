@@ -12,9 +12,7 @@ const CommentsList = ({
   fetchAllComments,
   onAddComment,
 }) => {
-  //   const { postId, comments, categoryColour } = this.props;
   const { isFetching, items } = comments;
-  // const isCommentsLoaded = !isFetching && !!items;
   const isCommentsLoaded = !isFetching && items && items.length;
 
   return (

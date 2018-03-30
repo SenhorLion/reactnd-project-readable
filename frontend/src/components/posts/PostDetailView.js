@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
 import DeletePostModal from '../posts/DeletePostModal';
+import CommentsToShow from '../../containers/CommentsToShow';
 
-// const PostDetailView = ({ post, postId, onDeletePost }) => {
 class PostDetailView extends Component {
   constructor(props) {
     super(props);
@@ -18,28 +18,21 @@ class PostDetailView extends Component {
   }
 
   openDeletePostModal = postId => {
-    console.log('@ openDeletePostModal', postId);
-
     this.setState(() => ({
       isDeletePostModalOpen: true,
     }));
   };
 
   closeDeletePostModal = () => {
-    console.log('@ closeDeletePostModal');
-
     this.setState(() => ({
       isDeletePostModalOpen: false,
     }));
   };
 
   goBack = () => {
-    console.log(`goBack props: ${JSON.stringify(this.props)}`);
-
     const { history, post } = this.props;
     const { item: { category, id } } = post;
 
-    console.log(`category: ${category} id: ${id}`);
     // return history.push(`/${category}`);
     return history.goBack();
   };
@@ -50,13 +43,8 @@ class PostDetailView extends Component {
     const { isDeletePostModalOpen } = this.state;
 
     const categoryColour = getCategoryColour(item && item.category) || 'grey';
-    const uiHeaderColour = classNames('ui header', categoryColour);
-    const uiLabelColour = classNames('ui label', categoryColour);
-    const userIcon = classNames('user big icon', categoryColour);
-    const postCommentButton = classNames(
-      'ui submit labeled icon button',
-      categoryColour
-    );
+    const uiHeaderColourClass = classNames('ui header', categoryColour);
+    const uiLabelColourClass = classNames('ui label', categoryColour);
 
     const hasPost = !!item;
 
@@ -86,7 +74,7 @@ class PostDetailView extends Component {
                     <div>
                       <div className="page-header">
                         <div className="page-header__title">
-                          <h2 className={uiHeaderColour}>
+                          <h2 className={uiHeaderColourClass}>
                             {capitalize(item.title)}
 
                             <div className="sub header">
@@ -109,15 +97,15 @@ class PostDetailView extends Component {
                           <p>{item.body}</p>
                         </div>
                         <div className="post-content__extra extra">
-                          <div className={uiLabelColour}>
+                          <div className={uiLabelColourClass}>
                             <Link to={`/${item.category}`}>
                               {item.category}
                             </Link>
                           </div>
-                          <div className={uiLabelColour}>
+                          <div className={uiLabelColourClass}>
                             <i className="like icon" /> {item.voteScore}
                           </div>
-                          <div className={uiLabelColour}>
+                          <div className={uiLabelColourClass}>
                             <i className="comment alternate outline icon" />{' '}
                             {item.commentCount}
                           </div>
@@ -138,44 +126,10 @@ class PostDetailView extends Component {
                         </div>
                       </div>
 
-                      <div className="ui comments post-comment">
-                        <div className="post-comment__header">
-                          <h3 className="post-comment__title">Comments</h3>
-                        </div>
-                        <div className="comment">
-                          <a className="avatar">
-                            <i className={userIcon} />
-                          </a>
-                          <div className="content">
-                            <a className="author">Joe Henderson</a>
-                            <div className="metadata">
-                              <div className="date">1 day ago</div>
-                            </div>
-                            <div className="text">
-                              <p>
-                                The hours, minutes and seconds stand as visible
-                                reminders that your effort put them all there.{' '}
-                              </p>
-                              <p>
-                                Preserve until your next run, when the watch
-                                lets you see how Impermanent your efforts are.
-                              </p>
-                            </div>
-                            <div className="actions">
-                              <a className="reply">Reply</a>
-                            </div>
-                          </div>
-                        </div>
-
-                        <form className="ui reply form">
-                          <div className="field">
-                            <textarea />
-                          </div>
-                          <div className={postCommentButton}>
-                            <i className="icon edit" /> Add Comment
-                          </div>
-                        </form>
-                      </div>
+                      <CommentsToShow
+                        postId={item.id}
+                        categoryColour={categoryColour}
+                      />
                     </div>
                   )}
               </div>
