@@ -1,6 +1,6 @@
 import {
-  REQUEST_ALL_COMMENTS,
-  RECEIVE_ALL_COMMENTS,
+  FETCH_COMMENTS_REQUEST,
+  FETCH_COMMENTS_SUCCESS,
   ADD_NEW_COMMENT,
   DELETE_COMMENT,
   EDIT_COMMENT,
@@ -9,13 +9,31 @@ import {
 
 const comments = (state = {}, action) => {
   switch (action.type) {
-    case REQUEST_ALL_COMMENTS:
-      return state;
+    case FETCH_COMMENTS_REQUEST:
+      return { ...state, isFetching: true };
 
-    case RECEIVE_ALL_COMMENTS: {
+    case FETCH_COMMENTS_SUCCESS: {
       const { comments } = action;
 
-      return comments;
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: comments.reduce((commentsObj, comment) => {
+          commentsObj[comment.id] = comment;
+          return commentsObj;
+        }, {}),
+      });
+    }
+
+    case ADD_NEW_COMMENT: {
+      const { comment } = action;
+
+      console.log('ADD_NEW_COMMENT', action);
+
+      return Object.assign({}, state, {
+        items: {
+          [comment.id]: comment,
+        },
+      });
     }
 
     default:

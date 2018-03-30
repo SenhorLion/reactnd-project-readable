@@ -68,6 +68,15 @@ export const fetchPostsByCategory = () => {
     });
 };
 
+export const addComment = comment =>
+  fetch(`${API_URL}/comments`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(comment),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
 export const fetchAllComments = postId => {
   return fetch(`${API_URL}/comments`, { headers })
     .then(res => res.json())
