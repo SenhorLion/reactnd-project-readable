@@ -10,15 +10,19 @@ const CommentsList = ({
   comments,
   categoryColour,
   fetchAllComments,
+  fetchAllPosts,
   onAddComment,
+  onEditComment,
+  onDeleteComment,
 }) => {
   const { isFetching, items } = comments;
   const isCommentsLoaded = !isFetching && items && items.length;
+  const commentsCount = items && parseInt(items.length, 10);
 
   return (
     <div className="ui comments post-comment">
       <div className="post-comment__header">
-        <h3 className="post-comment__title">Comments</h3>
+        <h3 className="post-comment__title">Comments {commentsCount}</h3>
       </div>
 
       <div className="comment">
@@ -34,6 +38,10 @@ const CommentsList = ({
                   key={cuid()}
                   comment={item}
                   categoryColour={categoryColour}
+                  onDeleteComment={onDeleteComment}
+                  fetchAllComments={fetchAllComments}
+                  fetchAllPosts={fetchAllPosts}
+                  onEditComment={onEditComment}
                 />
               ))}
             </div>
@@ -49,6 +57,7 @@ const CommentsList = ({
 
           <PostCommentFormControl
             postId={postId}
+            fetchAllPosts={fetchAllPosts}
             fetchAllComments={fetchAllComments}
             onAddComment={onAddComment}
             categoryColour={categoryColour}

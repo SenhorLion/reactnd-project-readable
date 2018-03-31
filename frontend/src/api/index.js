@@ -77,6 +77,23 @@ export const addComment = comment =>
     .then(res => res.json())
     .catch(res => res.json());
 
+export const deleteComment = commentId =>
+  fetch(`${API_URL}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers,
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
+export const editComment = comment =>
+  fetch(`${API_URL}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(comment),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
 export const fetchAllComments = postId => {
   return fetch(`${API_URL}/comments`, { headers })
     .then(res => res.json())

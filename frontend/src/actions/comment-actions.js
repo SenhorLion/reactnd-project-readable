@@ -29,6 +29,11 @@ const deleteComment = id => ({
   id,
 });
 
+const editComment = comment => ({
+  type: EDIT_COMMENT,
+  comment,
+});
+
 const fetchAllComments = () => dispatch => {
   // First dispatch: the app state is updated to inform
   // that the API call is starting.
@@ -49,10 +54,21 @@ const fetchAllComments = () => dispatch => {
 };
 
 const onAddComment = comment => dispatch => {
-  console.log('onAddComment action', comment);
   return API.addComment(comment).then(commentData => {
     return dispatch(addComment(commentData));
   });
 };
 
-export { fetchAllComments, onAddComment };
+const onEditComment = comment => dispatch => {
+  return API.editComment(comment).then(commentData => {
+    return dispatch(editComment(commentData));
+  });
+};
+
+const onDeleteComment = commentId => dispatch => {
+  return API.deleteComment(commentId).then(res => {
+    return dispatch(deleteComment(commentId));
+  });
+};
+
+export { fetchAllComments, onAddComment, onEditComment, onDeleteComment };

@@ -14,37 +14,33 @@ class PostCommentFormControl extends Component {
     };
   }
 
-  // '894tuq4ut84ut8v4t8wun89g': {
-  //     id: '894tuq4ut84ut8v4t8wun89g',
-  //     parentId: '8xf0y6ziyjabvozdd253nd',
-  //     timestamp: 1468166872634,
-  //     body: 'Hi there! I am a COMMENT.',
-  //     author: 'thingtwo',
-  //     voteScore: 6,
-  //     deleted: false,
-  //     parentDeleted: false,
-  //   },
-
   onSubmitComment = event => {
     event.preventDefault();
 
-    const { postId, onAddComment, fetchAllComments } = this.props;
     const { body, author } = this.state;
+
+    if (!body || !author) {
+      return;
+    }
+    const {
+      postId,
+      onAddComment,
+      fetchAllComments,
+      fetchAllPosts,
+    } = this.props;
 
     const newComment = {
       id: cuid(),
       timestamp: Date.now(),
-      parentId: postId,
       body: body,
       author: author,
-      voteScore: 0,
-      deleted: false,
-      parentDeleted: false,
+      parentId: postId,
     };
 
     onAddComment(newComment).then(res => {
       return setTimeout(() => {
         fetchAllComments();
+        fetchAllPosts();
       }, 200);
     });
   };
@@ -56,10 +52,6 @@ class PostCommentFormControl extends Component {
     this.setState({
       [name]: value,
     });
-  };
-
-  onHandleCancel = event => {
-    console.log('@ onHandleCancel');
   };
 
   render() {
@@ -75,7 +67,6 @@ class PostCommentFormControl extends Component {
     return (
       <form className="ui reply form" onSubmit={this.onSubmitComment}>
         <h3 className={uiHeaderColourClass}>
-          {/* <i className="comments icon" /> */}
           <div className="content">Add comment</div>
         </h3>
         <div className="field">
@@ -95,11 +86,7 @@ class PostCommentFormControl extends Component {
           />
         </div>
 
-        <Button
-          onClick={() => console.log('Add Comment')}
-          className={postCommentButtonClass}
-          type="submit"
-        >
+        <Button className={postCommentButtonClass} type="submit">
           <i className="comment icon" /> Add comment
         </Button>
       </form>

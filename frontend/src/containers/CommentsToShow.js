@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { fetchAllComments, onAddComment } from '../actions';
+import {
+  fetchAllComments,
+  fetchAllPosts,
+  onAddComment,
+  onEditComment,
+  onDeleteComment,
+} from '../actions';
 
 import CommentsList from '../components/comments/CommentsList';
 
@@ -23,25 +29,28 @@ class CommentsToShow extends Component {
       comments,
       categoryColour,
       fetchAllComments,
+      fetchAllPosts,
       onAddComment,
+      onEditComment,
+      onDeleteComment,
     } = this.props;
-
-    console.log('props', this.props);
 
     return (
       <CommentsList
         comments={comments}
         postId={postId}
         categoryColour={categoryColour}
+        fetchAllPosts={fetchAllPosts}
         fetchAllComments={fetchAllComments}
         onAddComment={onAddComment}
+        onEditComment={onEditComment}
+        onDeleteComment={onDeleteComment}
       />
     );
   }
 }
 
 const getCommentsToShow = (postId, comments) => {
-  // debugger;
   if (postId && comments) {
     return Object.values(comments).filter(
       comment => comment.parentId === postId
@@ -63,5 +72,11 @@ const mapStateToProps = ({ comments }, ownProps) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, { fetchAllComments, onAddComment })(CommentsToShow)
+  connect(mapStateToProps, {
+    fetchAllComments,
+    fetchAllPosts,
+    onAddComment,
+    onEditComment,
+    onDeleteComment,
+  })(CommentsToShow)
 );
