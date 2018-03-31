@@ -35,7 +35,7 @@ const defaultData = {
     category: 'udacity',
     voteScore: 42,
     deleted: false,
-    commentCount: 42,
+    commentCount: 0,
   },
   cjeh8jin1000hOK__f5ojzaza: {
     id: 'cjeh8jin1000hOK__f5ojzaza',
