@@ -33,6 +33,15 @@ const SortByControls = ({ sortKey, isSortReverse, onSort }) => (
       </SortControl>
 
       <SortControl
+        sortKey={'COMMENT_COUNT'}
+        activeSortKey={sortKey}
+        isSortReverse={isSortReverse}
+        onSort={onSort}
+      >
+        Comments
+      </SortControl>
+
+      <SortControl
         sortKey={'TIME_STAMP'}
         activeSortKey={sortKey}
         isSortReverse={isSortReverse}
