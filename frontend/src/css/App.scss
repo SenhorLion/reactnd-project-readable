@@ -105,6 +105,18 @@ $headerHeight: 4em;
   }
 }
 
+// Edit
+.edit-comment {
+  text-decoration: underline;
+
+  &--active {
+    display: inline-block;
+    margin: 0 0.75em 0 0;
+    text-decoration: none;
+    // color: tomato;
+  }
+}
+
 // layout helpers
 .align-center {
   text-align: center;
