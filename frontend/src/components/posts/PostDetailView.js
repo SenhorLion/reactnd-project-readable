@@ -38,7 +38,7 @@ class PostDetailView extends Component {
   };
 
   render() {
-    const { post, postId, onDeletePost } = this.props;
+    const { post, postId, onDeletePost, fetchAllPosts } = this.props;
     const { isFetching, item } = post;
     const { isDeletePostModalOpen } = this.state;
 

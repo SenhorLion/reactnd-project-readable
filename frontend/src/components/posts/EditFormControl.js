@@ -24,17 +24,11 @@ class EditFormControl extends Component {
   }
 
   componentDidMount() {
-    console.log('@ onComponentDidMount');
-
     const { post } = this.props;
 
     this.setState({
       oldPost: { ...post },
       newPost: { ...post },
-      //   title: post.title,
-      //   body: post.body,
-      //   author: post.author,
-      //   selectedCategory: post.category,
     });
   }
 
@@ -43,19 +37,12 @@ class EditFormControl extends Component {
 
     const { onSaveEditPost, fetchAllPosts } = this.props;
 
-    // const { selectedCategory, title, body, author } = this.state;
     const { oldPost, newPost } = this.state;
 
     const timestamp = Date.now();
     const editedPost = Object.assign({}, oldPost, newPost, {
       timestamp,
     });
-
-    console.log(
-      `newPost: ${JSON.stringify(newPost)}, editedPost: ${JSON.stringify(
-        editedPost
-      )}`
-    );
 
     onSaveEditPost(editedPost).then(res =>
       setTimeout(() => {
@@ -79,12 +66,8 @@ class EditFormControl extends Component {
 
   // TODO: Add debounce method to minimise evtn calling
   onHandleChange = event => {
-    console.log('@ onHandleChange');
-
     const { name, value } = event.target;
     const { newPost } = this.state;
-
-    console.log(`name: ${name}, value: ${value}`);
 
     this.setState({
       newPost: {
@@ -95,8 +78,6 @@ class EditFormControl extends Component {
   };
 
   onHandleCancel = event => {
-    console.log('@ onHandleCancel');
-
     const { oldPost } = this.state;
 
     // Just reset state

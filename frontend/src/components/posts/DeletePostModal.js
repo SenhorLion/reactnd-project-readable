@@ -21,6 +21,7 @@ class DeletePostModal extends Component {
         closeDeletePostModal();
 
         if (goBack) {
+          // TODO: Change to react-router history
           window.history.back();
         }
       });

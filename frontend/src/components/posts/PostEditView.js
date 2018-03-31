@@ -9,6 +9,7 @@ class PostEditView extends Component {
 
     console.log(`category: ${category} id: ${id}`);
 
+    // NOTE: Is it better to go back to `category/:id` or just history.back ?
     // history.push(`/${category}`);
     // history.push(`/${category}/${id}`);
     history.goBack();

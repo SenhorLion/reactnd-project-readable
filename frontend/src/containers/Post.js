@@ -16,14 +16,11 @@ const getPostToShow = (posts, postId) => {
 const mapStateToProps = ({ posts }, ownProps) => {
   const { postId } = ownProps;
 
-  console.log('@ Post :: mapStateToProps:', postId, posts);
-
   return {
     post: {
       isFetching: posts.isFetching,
       item: getPostToShow(posts.items, postId),
     },
-    // post: getPostToShow(posts, postId),
   };
 };
 
