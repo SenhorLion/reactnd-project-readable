@@ -22,7 +22,9 @@ const CommentsList = ({
   return (
     <div className="ui comments post-comment">
       <div className="post-comment__header">
-        <h3 className="post-comment__title">Comments {commentsCount}</h3>
+        <h3 className={`post-comment__title`}>
+          Comments <span className="ui label circular">{commentsCount}</span>
+        </h3>
       </div>
 
       <div className="comment">

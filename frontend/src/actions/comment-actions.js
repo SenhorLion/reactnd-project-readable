@@ -6,6 +6,8 @@ import {
   DELETE_COMMENT,
   EDIT_COMMENT,
   GET_COMMENT_BY_POST_ID,
+  COMMENT_UP_VOTE,
+  COMMENT_DOWN_VOTE,
 } from './actionTypes';
 
 import * as API from '../api';
@@ -32,6 +34,18 @@ const deleteComment = id => ({
 const editComment = comment => ({
   type: EDIT_COMMENT,
   comment,
+});
+
+const upVoteComment = (commentId, option) => ({
+  type: COMMENT_UP_VOTE,
+  commentId,
+  option,
+});
+
+const downVoteComment = (commentId, option) => ({
+  type: COMMENT_DOWN_VOTE,
+  commentId,
+  option,
 });
 
 const fetchAllComments = () => dispatch => {
@@ -71,4 +85,22 @@ const onDeleteComment = commentId => dispatch => {
   });
 };
 
-export { fetchAllComments, onAddComment, onEditComment, onDeleteComment };
+const onUpVoteComment = (commentId, option) => dispatch => {
+  return API.upVoteComment(commentId, option).then(postData => {
+    return dispatch(upVoteComment(commentId, option));
+  });
+};
+const onDownVoteComment = (commentId, option) => dispatch => {
+  return API.downVoteComment(commentId, option).then(postData => {
+    return dispatch(downVoteComment(commentId, option));
+  });
+};
+
+export {
+  fetchAllComments,
+  onAddComment,
+  onEditComment,
+  onDeleteComment,
+  onUpVoteComment,
+  onDownVoteComment,
+};

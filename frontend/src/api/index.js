@@ -43,6 +43,42 @@ export const addPost = post =>
     .then(response => response.json())
     .catch(response => response.json());
 
+export const upVotePost = (postId, option) =>
+  fetch(`${API_URL}/posts/${postId}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option }),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
+export const downVotePost = (postId, option) =>
+  fetch(`${API_URL}/posts/${postId}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option }),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
+export const upVoteComment = (commentId, option) =>
+  fetch(`${API_URL}/comments/${commentId}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option }),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
+export const downVoteComment = (commentId, option) =>
+  fetch(`${API_URL}/comments/${commentId}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ option }),
+  })
+    .then(res => res.json())
+    .catch(res => res.json());
+
 export const deletePost = postId =>
   fetch(`${API_URL}/posts/${postId}`, {
     method: 'DELETE',

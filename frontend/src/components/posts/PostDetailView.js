@@ -7,6 +7,7 @@ import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
 import DeletePostModal from '../posts/DeletePostModal';
 import CommentsToShow from '../../containers/CommentsToShow';
+import ReactionPosts from '../reaction/ReactionPosts';
 
 class PostDetailView extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class PostDetailView extends Component {
     }));
   };
 
-  goBack = () => {
+  onGoBack = () => {
     const { history, post } = this.props;
     const { item: { category, id } } = post;
 
@@ -51,16 +52,18 @@ class PostDetailView extends Component {
     return (
       <div className="page-content">
         <div className="ui grid">
-          <div className="row">
-            <div className="three wide column">
+          <div className="row page-header post-detail-view__header">
+            <div className="sixteen wide column">
               <div className="ui container categories">
-                <a onClick={() => this.goBack()} className="back-link">
-                  <i className="big arrow left icon" />
+                <a onClick={() => this.onGoBack()} className="back-link">
+                  <i className="medium arrow left icon" /> Back
                 </a>
               </div>
             </div>
-            <div className="thirteen wide column">
-              <div className="ui container content">
+          </div>
+          <div className="row">
+            <div className="sixteen wide column">
+              <div className="ui container content detail-view">
                 {isFetching && (
                   <Loading
                     delay={200}
@@ -102,27 +105,33 @@ class PostDetailView extends Component {
                               {item.category}
                             </Link>
                           </div>
-                          <div className={uiLabelColourClass}>
+                          {/* <div className={uiLabelColourClass}>
                             <i className="like icon" /> {item.voteScore}
-                          </div>
+                          </div> */}
                           <div className={uiLabelColourClass}>
-                            <i className="comment alternate outline icon" />{' '}
+                            <i className="comment alternate icon" />{' '}
                             {item.commentCount}
                           </div>
 
-                          <Button
-                            onClick={() => this.openDeletePostModal()}
-                            className="ui mini right floated button"
-                          >
-                            <i className="trash icon" /> Delete post
-                          </Button>
+                          <ReactionPosts
+                            categoryColour={categoryColour}
+                            itemId={item.id}
+                            classNameProp="ui label"
+                          />
 
                           <Link
                             to={`/${item.category}/${item.id}/edit`}
-                            className="ui mini right floated button button__link"
+                            className="ui label right floated"
                           >
                             <i className="edit icon" /> Edit post
                           </Link>
+
+                          <Button
+                            onClick={() => this.openDeletePostModal()}
+                            className="ui label right floated"
+                          >
+                            <i className="trash icon" /> Delete
+                          </Button>
                         </div>
                       </div>
 

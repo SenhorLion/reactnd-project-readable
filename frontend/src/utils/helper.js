@@ -7,7 +7,7 @@ export const getCategoryColour = (category = 'default') => {
     react: 'pink',
     redux: 'teal',
     udacity: 'violet',
-    default: 'olive',
+    default: 'grey', //'olive',
   };
 
   if (CATEGORY_COLOUR_MAP[category] === undefined) {
@@ -16,3 +16,6 @@ export const getCategoryColour = (category = 'default') => {
 
   return CATEGORY_COLOUR_MAP[category];
 };
+
+export const incrementValue = value => (value = value + 1);
+export const decrementValue = value => (value = value - 1);

@@ -5,20 +5,25 @@ import classNames from 'classnames';
 
 import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
+import ReactionPosts from '../reaction/ReactionPosts';
 
-const PostItem = ({ post, openDeletePostModal /*onDeletePost*/ }) => {
+const PostItem = ({ post, openDeletePostModal }) => {
   const categoryColour = getCategoryColour(post.category);
   const postItemClass = classNames(
-    'ui  segment divided items post',
+    'ui segment divided items post',
     categoryColour
   );
+  const postItemHeaderClass = classNames('ui header', categoryColour);
   const uiLabelColour = classNames('ui label', categoryColour);
 
   return (
     <div className={postItemClass}>
       <div className="item">
         <div className="content">
-          <Link to={`/${post.category}/${post.id}`} className="header">
+          <Link
+            to={`/${post.category}/${post.id}`}
+            className={postItemHeaderClass}
+          >
             {capitalize(post.title)}
           </Link>
           <div className="meta">
@@ -27,52 +32,46 @@ const PostItem = ({ post, openDeletePostModal /*onDeletePost*/ }) => {
               <Moment fromNow>{post.timestamp}</Moment>
             </span>
           </div>
+
           <div className="description">
             <p>{post.body}</p>
           </div>
+
           <div className="extra">
             <div className={uiLabelColour}>
               <Link to={post.category}>{post.category}</Link>
             </div>
-            <div className={uiLabelColour}>
-              <i className="like icon" /> {post.voteScore}
-            </div>
+
             <div className={uiLabelColour}>
               <Link to={`/${post.category}/${post.id}`}>
-                <i className="comment alternate outline icon" />{' '}
-                {post.commentCount}
+                <i className="comment alternate icon" /> {post.commentCount}
               </Link>
             </div>
 
-            <div className="post-actions right floated">
-              <Button
-                onClick={() => openDeletePostModal(post.id)}
-                className="ui mini right floated button"
-              >
-                <i className="trash icon" /> Delete post
-              </Button>
+            <ReactionPosts
+              categoryColour={categoryColour}
+              itemId={post.id}
+              classNameProp="ui label"
+            />
 
-              <Link
-                to={`/${post.category}/${post.id}/edit`}
-                className="ui mini right floated button button__link"
-              >
-                <i className="edit icon" /> Edit post
-              </Link>
-            </div>
+            <Button
+              onClick={() => openDeletePostModal(post.id)}
+              className="ui label right floated"
+            >
+              <i className="trash icon" /> Delete
+            </Button>
+
+            <Link
+              to={`/${post.category}/${post.id}/edit`}
+              className="ui label right floated"
+            >
+              <i className="edit icon" /> Edit post
+            </Link>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-// onDeletePost
-
-// const mapStateToProps = ({ categories, posts }) => ({
-//   categories,
-//   posts,
-// });
-
-// this.props.dispatch(toggleTodo(id));
 
 export default PostItem;

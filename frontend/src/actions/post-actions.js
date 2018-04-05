@@ -5,6 +5,8 @@ import {
   ADD_NEW_POST,
   DELETE_POST,
   SAVE_EDIT_POST,
+  POST_UP_VOTE,
+  POST_DOWN_VOTE,
 } from './actionTypes';
 
 import * as API from '../api';
@@ -33,6 +35,18 @@ const deletePost = id => ({
 const saveEditPost = post => ({
   type: SAVE_EDIT_POST,
   post,
+});
+
+const upVotePost = (postId, option) => ({
+  type: POST_UP_VOTE,
+  postId,
+  option,
+});
+
+const downVotePost = (postId, option) => ({
+  type: POST_DOWN_VOTE,
+  postId,
+  option,
 });
 
 const fetchAllPosts = () => dispatch => {
@@ -66,10 +80,29 @@ const onAddPost = post => dispatch => {
   });
 };
 
+const onUpVotePost = (postId, option) => dispatch => {
+  return API.upVotePost(postId, option).then(postData => {
+    return dispatch(upVotePost(postId, option));
+  });
+};
+
+const onDownVotePost = (postId, option) => dispatch => {
+  return API.downVotePost(postId, option).then(postData => {
+    return dispatch(downVotePost(postId, option));
+  });
+};
+
 const onDeletePost = postId => dispatch => {
   return API.deletePost(postId).then(res => {
     return dispatch(deletePost(postId));
   });
 };
 
-export { fetchAllPosts, onSaveEditPost, onAddPost, onDeletePost };
+export {
+  fetchAllPosts,
+  onSaveEditPost,
+  onAddPost,
+  onUpVotePost,
+  onDownVotePost,
+  onDeletePost,
+};

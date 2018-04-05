@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import classNames from 'classnames';
 
 import Button from '../button/Button';
+import ReactionComments from '../reaction/ReactionComments';
 
 class CommentItem extends Component {
   state = {
@@ -11,18 +12,7 @@ class CommentItem extends Component {
   };
 
   componentDidMount() {
-    const {
-      comment: {
-        id,
-        parentId,
-        timestamp,
-        body,
-        author,
-        voteScore,
-        deleted,
-        parentDeleted,
-      },
-    } = this.props;
+    const { comment: { body } } = this.props;
 
     this.setState({
       commentBody: body,
@@ -30,14 +20,10 @@ class CommentItem extends Component {
   }
 
   onHandleDelete = commentId => {
-    console.log('@ onHandleDelete', commentId);
-
-    const { onDeleteComment, fetchAllComments, fetchAllPosts } = this.props;
+    const { onDeleteComment, fetchAllPosts } = this.props;
     // TODO: Display dialogue to comnfirm delete
 
     onDeleteComment(commentId).then(res => {
-      console.log('\tcomment deleted', res);
-      // fetchAllComments();
       fetchAllPosts();
     });
   };
@@ -66,7 +52,6 @@ class CommentItem extends Component {
     };
 
     onEditComment(newComment).then(res => {
-      console.log('comment updated', res);
       this.cancelEditMode();
       fetchAllPosts();
     });
@@ -119,7 +104,7 @@ class CommentItem extends Component {
         <a className="avatar">
           <i className={userIconClass} />
         </a>
-        <div className="content">
+        <div className="content post-comment__content">
           {!isEditMode ? (
             <div>
               <span className="author">{author}</span>
@@ -134,12 +119,12 @@ class CommentItem extends Component {
             </div>
           ) : (
             <div>
-              <h4>Edit comment</h4>
               <form
                 onSubmit={this.onSubmitComment}
                 className="ui form comment-form-content"
               >
                 <div className="field">
+                  <label>Edit comment</label>
                   <textarea
                     type="text"
                     name="commentBody"
@@ -164,6 +149,11 @@ class CommentItem extends Component {
           <div className="actions">
             {!isEditMode && (
               <div>
+                <ReactionComments
+                  categoryColour={categoryColour}
+                  itemId={id}
+                  classNameProp="ui label reaction--comment"
+                />
                 <a
                   onClick={() => this.onHandleEdit(id)}
                   className="edit-comment"

@@ -5,12 +5,37 @@ import {
   DELETE_POST,
   SAVE_EDIT_POST,
   GET_POST_BY_ID,
+  POST_UP_VOTE,
+  POST_DOWN_VOTE,
 } from '../actions/actionTypes';
+
+import { UP_VOTE } from '../constants';
+import { incrementValue, decrementValue } from '../utils/helper';
+
+const updateVoteScore = (state, action) => {
+  const { postId, option } = action;
+  const currentPost = state.items[postId];
+
+  return Object.assign({}, state, {
+    items: {
+      ...state.items,
+      [postId]: {
+        ...currentPost,
+        voteScore:
+          option === UP_VOTE
+            ? incrementValue(currentPost.voteScore)
+            : decrementValue(currentPost.voteScore),
+      },
+    },
+  });
+};
 
 const defaultPostState = {
   isFetching: false,
   items: {},
 };
+
+// TODO: Strip out logic into methods
 const posts = (state = defaultPostState, action) => {
   switch (action.type) {
     case FETCH_POSTS_REQUEST: {
@@ -77,6 +102,14 @@ const posts = (state = defaultPostState, action) => {
       const { id } = action;
 
       return state.items[id];
+    }
+
+    case POST_UP_VOTE: {
+      return updateVoteScore(state, action);
+    }
+
+    case POST_DOWN_VOTE: {
+      return updateVoteScore(state, action);
     }
 
     default:
