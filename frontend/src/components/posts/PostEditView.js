@@ -7,8 +7,6 @@ class PostEditView extends Component {
     const { history, post } = this.props;
     const { item: { category, id } } = post;
 
-    console.log(`category: ${category} id: ${id}`);
-
     // NOTE: Is it better to go back to `category/:id` or just history.back ?
     // history.push(`/${category}`);
     // history.push(`/${category}/${id}`);
@@ -30,15 +28,17 @@ class PostEditView extends Component {
     return (
       <div className="page-content">
         <div className="ui grid">
-          <div className="row">
-            <div className="three wide column">
+          <div className="row page-header post-detail-view__header">
+            <div className="sixteen wide column">
               <div className="ui container categories">
                 <a onClick={() => this.onGoBack()} className="back-link">
-                  <i className="big arrow left icon" />
+                  <i className="medium arrow left icon" /> Back
                 </a>
               </div>
             </div>
-            <div className="thirteen wide column">
+          </div>
+          <div className="row">
+            <div className="sixteen wide column">
               <div className="ui container content">
                 {isFetching && (
                   <Loading
