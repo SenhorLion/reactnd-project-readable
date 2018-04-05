@@ -1,6 +1,5 @@
 import deepFreeze from 'deep-freeze';
 
-import posts from './posts';
 import {
   FETCH_POSTS_REQUEST,
   FETCH_POSTS_SUCCESS,
@@ -8,9 +7,13 @@ import {
   DELETE_POST,
   SAVE_EDIT_POST,
   GET_POST_BY_ID,
+  POST_UP_VOTE,
+  POST_DOWN_VOTE,
 } from '../actions/actionTypes';
 
-// import * as actions from '../actions';
+import { UP_VOTE, DOWN_VOTE } from '../constants';
+
+import posts from './posts';
 
 describe('posts reducer', () => {
   it('should handle initial state', () => {
@@ -307,5 +310,97 @@ describe('posts reducer', () => {
     };
 
     expect(posts(defaultState, getPostByIdAction)).toEqual(expected);
+  });
+
+  it('should increment a comment votescore without mutating state', () => {
+    const defaultPostState = {
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
+      },
+    };
+
+    deepFreeze(defaultPostState);
+
+    const postId = '8xf0y6ziyjabvozdd253nd';
+
+    const expected = {
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 7,
+          deleted: false,
+          commentCount: 2,
+        },
+      },
+    };
+
+    const upVotePostAction = {
+      type: POST_UP_VOTE,
+      postId,
+      option: UP_VOTE,
+    };
+
+    expect(posts(defaultPostState, upVotePostAction)).toEqual(expected);
+  });
+
+  it('should decrement a comment votescore without mutating state', () => {
+    const defaultPostState = {
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 6,
+          deleted: false,
+          commentCount: 2,
+        },
+      },
+    };
+
+    deepFreeze(defaultPostState);
+
+    const postId = '8xf0y6ziyjabvozdd253nd';
+
+    const expected = {
+      items: {
+        '8xf0y6ziyjabvozdd253nd': {
+          id: '8xf0y6ziyjabvozdd253nd',
+          timestamp: 1467166872634,
+          title: 'Udacity is the best place to learn React',
+          body: 'Everyone says so after all.',
+          author: 'thingtwo',
+          category: 'react',
+          voteScore: 5,
+          deleted: false,
+          commentCount: 2,
+        },
+      },
+    };
+
+    const downVotePostAction = {
+      type: POST_DOWN_VOTE,
+      postId,
+      option: DOWN_VOTE,
+    };
+
+    expect(posts(defaultPostState, downVotePostAction)).toEqual(expected);
   });
 });

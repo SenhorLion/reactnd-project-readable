@@ -4,15 +4,14 @@ import {
   ADD_NEW_COMMENT,
   DELETE_COMMENT,
   EDIT_COMMENT,
-  GET_COMMENT_BY_POST_ID,
   COMMENT_UP_VOTE,
   COMMENT_DOWN_VOTE,
 } from '../actions/actionTypes';
 
-import { UP_VOTE, DOWN_VOTE } from '../constants';
+import { UP_VOTE } from '../constants';
 import { incrementValue, decrementValue } from '../utils/helper';
 
-const updateVoteScore = (state, action) => {
+const applyVoteScore = (state, action) => {
   const { commentId, option } = action;
   const currentComment = state.items[commentId];
 
@@ -30,7 +29,35 @@ const updateVoteScore = (state, action) => {
   });
 };
 
-const comments = (state = {}, action) => {
+const applyDeleteComment = (state, id) => {
+  const filteredComments = Object.keys(state.items)
+    .filter(commentId => commentId !== id)
+    .reduce((comments, id) => {
+      comments[id] = state.items[id];
+      return comments;
+    }, {});
+
+  return Object.assign({}, state, {
+    items: filteredComments,
+  });
+};
+
+const applyEditComment = (state, action) => {
+  const { comment } = action;
+
+  return Object.assign({}, state, {
+    items: {
+      [comment.id]: comment,
+    },
+  });
+};
+
+const defaultCommentState = {
+  isFetching: false,
+  items: {},
+};
+
+const comments = (state = defaultCommentState, action) => {
   switch (action.type) {
     case FETCH_COMMENTS_REQUEST:
       return { ...state, isFetching: true };
@@ -57,12 +84,20 @@ const comments = (state = {}, action) => {
       });
     }
 
+    case EDIT_COMMENT: {
+      return applyEditComment(state, action);
+    }
+
+    case DELETE_COMMENT: {
+      return applyDeleteComment(state, action.id);
+    }
+
     case COMMENT_UP_VOTE: {
-      return updateVoteScore(state, action);
+      return applyVoteScore(state, action);
     }
 
     case COMMENT_DOWN_VOTE: {
-      return updateVoteScore(state, action);
+      return applyVoteScore(state, action);
     }
 
     default:
