@@ -46,10 +46,7 @@ class DeletePostModal extends Component {
         <div className="delete-post-modal__content">
           <h1>Delete Post</h1>
 
-          <p>
-            Are you sure you want to delete{' '}
-            {postIdToDelete && `post: ${postIdToDelete}`}
-          </p>
+          <p>Are you sure you want to delete this post?</p>
 
           <button
             onClick={() => this.handleOnDeletePost()}
