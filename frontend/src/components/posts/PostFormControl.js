@@ -1,75 +1,65 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import cuid from 'cuid';
 
 import { capitalize } from '../../utils/helper';
 import Button from '../button/Button';
 
-class PostFormControl extends Component {
-  constructor(props) {
-    super(props);
+const DEFAULT_CATEGORY = 'react';
 
-    this.state = {
-      title: '',
-      body: '',
-      author: '',
-      selectedCategory: this.props.selectedCategory,
-    };
+const validate = values => {
+  const errors = {};
 
-    this.onSubmitPost = this.onSubmitPost.bind(this);
+  if (!values.title) {
+    errors.title = 'Required';
+  }
+  if (!values.author) {
+    errors.author = 'Required';
+  }
+  if (!values.body) {
+    errors.body = 'Required';
+  }
+  if (!values.category) {
+    errors.category = 'Required';
   }
 
-  onEditPost(e) {
-    e.preventDefault();
+  return errors;
+};
 
-    const { post, onSaveEditPost, fetchAllPosts } = this.props;
+const createFormRenderer = render => ({ input, label, meta, ...rest }) => (
+  <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
+    {/* <pre>{JSON.stringify(meta, null, 2)}</pre> */}
+    <label>{label}</label>
+    {render(input, label, rest)}
+    {meta.error && meta.touched && <span>{meta.error}</span>}
+  </div>
+);
 
-    const { selectedCategory, title, body, author } = this.state;
+const RenderInput = createFormRenderer((input, label) => (
+  <input {...input} placeholder={label} />
+));
 
-    const timestamp = Date.now();
-    const newPost = Object.assign({}, post, {
-      body,
-      author,
-      category: selectedCategory,
-      timestamp,
-      title,
-    });
+const RenderSelect = createFormRenderer((input, label, { children }) => (
+  <select className="ui search dropdown" {...input}>
+    {children}
+  </select>
+));
 
-    onSaveEditPost(newPost).then(res =>
-      setTimeout(() => {
-        fetchAllPosts();
+let PostFormControl = ({
+  handleSubmit,
+  submitting,
+  reset,
+  initialize,
+  closeAddPostModal,
+  categories,
+  onAddPost,
+  fetchAllPosts,
+  history,
+}) => {
+  const onHandleCancel = () => closeAddPostModal();
 
-        // TODO: navigate to the new category instead of 'back'
-        // If the category has been changed,
-        this.onGoBack();
-      }, 200)
-    );
-  }
-
-  onGoBack() {
-    const { history } = this.props;
-
-    // return window.history.back();
-    history.goBack();
-  }
-
-  onSubmitPost(e) {
-    e.preventDefault();
-    console.log('@ onAddPost');
-    const { selectedCategory, title, body, author } = this.state;
-
-    // TODO: handle form empty / incomplete state
-    // eg: isFormValid({...formState})
-    if (!title) {
-      console.error('Pleasse fil in form');
-      return;
-    }
-    const { closeAddPostModal, onAddPost, fetchAllPosts } = this.props;
-
-    console.log(`
-    selectedCategory ${selectedCategory}
-    title ${title}
-    body ${body}
-    author ${author}`);
+  const onHandleSubmit = values => {
+    const { title, body, author, category } = values;
 
     const newPost = {
       id: cuid(),
@@ -77,136 +67,86 @@ class PostFormControl extends Component {
       title,
       body,
       author,
-      category: selectedCategory,
-      voteScore: 0,
-      deleted: false,
-      commentCount: 0,
+      category,
     };
 
-    console.log('new Post', newPost);
-
     onAddPost(newPost).then(res => {
-      console.log('posted then', res);
-
       return setTimeout(() => {
+        reset(); // Resets the form to pristine state!
         fetchAllPosts();
-
         closeAddPostModal();
-        // TODO: navigate to category route
-        this.onNavigateToCategory(newPost);
+        onNavigateToCategory(newPost);
       }, 200);
     });
-  }
+  };
 
-  onNavigateToCategory({ category, id }) {
-    const { history } = this.props;
-
-    console.log(`onNavigateToCategory: ${category}/${id}`);
-
-    // return window.history.back();
-    // history.goBack();
+  const onNavigateToCategory = ({ category, id }) => {
     history.push(`/${category}/${id}`);
-  }
-
-  // TODO: Add debounce method to minimise evtn calling
-  onHandleChange = event => {
-    console.log('@ onHandleChange');
-
-    const { name, value } = event.target;
-
-    console.log(`name: ${name}, value: ${value}`);
-
-    this.setState({
-      [name]: value,
-    });
   };
 
-  onHandleCancel = event => {
-    console.log('@ onHandleCancel');
+  return (
+    <div className="post-form-content">
+      <h1>
+        <i className="pencil alternate icon" /> Add New Post{' '}
+      </h1>
+      <form
+        className="ui form post-form-content"
+        onSubmit={handleSubmit(onHandleSubmit)}
+      >
+        <Field
+          name="title"
+          label="Title"
+          placeholder="Title"
+          component={RenderInput}
+        />
 
-    const { closeAddPostModal } = this.props;
+        <Field
+          name="author"
+          label="Author"
+          placeholder="Author"
+          component={RenderInput}
+        />
 
-    this.setState(() => ({
-      selectedCategory: this.props.selectedCategory,
-    }));
-
-    closeAddPostModal();
-  };
-
-  render() {
-    const { selectedCategory, title, body, author } = this.state;
-    const { categories } = this.props;
-
-    return (
-      <div className="post-form-content">
-        <h1>Add New Post </h1>
-        <form
-          onSubmit={this.onSubmitPost}
-          className="ui form post-form-content"
+        <Field
+          name="body"
+          label="Body"
+          placeholder="Body"
+          component={RenderInput}
+        />
+        <Field
+          name="category"
+          label="Category"
+          placeholder="Category"
+          component={RenderSelect}
         >
-          <div className="field">
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              value={title}
-              placeholder="Title"
-              onChange={this.onHandleChange}
-            />
-          </div>
+          <option>Select category</option>
+          {categories &&
+            categories.map(item => (
+              <option key={cuid()} value={item.name}>
+                {capitalize(item.name)}
+              </option>
+            ))}
+        </Field>
 
-          <div className="field">
-            <label>Author</label>
-            <input
-              type="text"
-              name="author"
-              value={author}
-              placeholder="Author"
-              onChange={this.onHandleChange}
-            />
-          </div>
+        <Button
+          className={`ui positive button${submitting ? ' disabled' : ''}`}
+          type="submit"
+          disabled={submitting}
+        >
+          Submit
+        </Button>
+        <Button onClick={onHandleCancel} className="ui  button" type="button">
+          Cancel
+        </Button>
+      </form>
+    </div>
+  );
+};
 
-          <div className="field">
-            <label>Post content</label>
-            <textarea
-              name="body"
-              value={body}
-              placeholder="Post content"
-              onChange={this.onHandleChange}
-            />
-          </div>
-          <div className="field">
-            <label>Category</label>
-
-            <select
-              className="ui search dropdown"
-              value={selectedCategory}
-              name="selectedCategory"
-              onChange={this.onHandleChange}
-            >
-              {categories &&
-                categories.map(item => (
-                  <option key={cuid()} value={item.name}>
-                    {capitalize(item.name)}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          <Button className="ui positive button" type="submit">
-            Submit
-          </Button>
-          <Button
-            onClick={this.onHandleCancel}
-            className="ui  button"
-            type="button"
-          >
-            Cancel
-          </Button>
-        </form>
-      </div>
-    );
-  }
-}
+PostFormControl = reduxForm({
+  form: 'AddPostForm',
+  destroyOnUnmount: false,
+  validate,
+})(PostFormControl);
 
 export default PostFormControl;
