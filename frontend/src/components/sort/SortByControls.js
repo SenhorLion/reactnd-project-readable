@@ -3,8 +3,17 @@ import SortControl from './SortControl';
 
 const SortByControls = ({ sortKey, isSortReverse, onSort }) => (
   <div className="page-header__sort-controls">
-    <div className="ui celled horizontal list">
-      <div className="item sort-by-controls__label">Sort by:</div>
+    <div className="ui text menu">
+      <div className="header item sort-by-controls__label">Sort by:</div>
+
+      <SortControl
+        sortKey={'TIME_STAMP'}
+        activeSortKey={sortKey}
+        isSortReverse={isSortReverse}
+        onSort={onSort}
+      >
+        Date
+      </SortControl>
       <SortControl
         sortKey={'TITLE'}
         activeSortKey={sortKey}
@@ -39,15 +48,6 @@ const SortByControls = ({ sortKey, isSortReverse, onSort }) => (
         onSort={onSort}
       >
         Comments
-      </SortControl>
-
-      <SortControl
-        sortKey={'TIME_STAMP'}
-        activeSortKey={sortKey}
-        isSortReverse={isSortReverse}
-        onSort={onSort}
-      >
-        Date
       </SortControl>
     </div>
   </div>

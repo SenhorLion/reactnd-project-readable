@@ -18,8 +18,7 @@ const SortControl = ({
   });
   return (
     <a className={sortClass} onClick={() => onSort(sortKey)}>
-      {isActive && <i className={iconClass} />}
-      {children}{' '}
+      {children} {isActive && <i className={iconClass} />}
     </a>
   );
 };
