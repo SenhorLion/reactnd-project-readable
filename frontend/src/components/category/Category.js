@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import cuid from 'cuid';
-import Loading from 'react-loading';
 import Modal from 'react-modal';
 
 import { capitalize, getCategoryColour } from '../../utils/helper';
@@ -12,6 +9,7 @@ import AddNewPost from '../posts/AddNewPost';
 import DeletePostModal from '../posts/DeletePostModal';
 import SortByControls from '../sort/SortByControls';
 import Button from '../button/Button';
+import NotificationMessage from '../ui/NotificationMessage';
 
 class Category extends Component {
   constructor(props) {
@@ -96,8 +94,9 @@ class Category extends Component {
       postIdToDelete,
     } = this.state;
 
-    const isCategoriesLoaded = !!categories;
-    const displayTitle = category ? `Posts for ${category}` : `All Posts`;
+    const displayTitle = category
+      ? `Posts for ${capitalize(category)}`
+      : `All Posts`;
     const categoryColour = getCategoryColour(category);
 
     const hasPosts = !!Object.keys(items).length;
@@ -142,9 +141,11 @@ class Category extends Component {
                   openDeletePostModal={this.openDeletePostModal}
                 />
               ) : (
-                <p>
-                  No posts to show {category && `for ${capitalize(category)}`}
-                </p>
+                <NotificationMessage
+                  message="No posts to show"
+                  category={category}
+                  categoryColour={categoryColour}
+                />
               )}
             </div>
           </div>
