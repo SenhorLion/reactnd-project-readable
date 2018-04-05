@@ -27,6 +27,12 @@ $headerHeight: 4em;
   margin-bottom: 1em;
 }
 
+.header-category {
+  flex: 1;
+  display: inline-block;
+  text-align: center;
+}
+
 .page-header {
   display: flex;
   padding-bottom: 1em;
@@ -40,6 +46,9 @@ $headerHeight: 4em;
   &__title {
     flex: 1;
     color: $grey;
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
   }
   &__sort-controls {
     text-align: right;
@@ -48,6 +57,12 @@ $headerHeight: 4em;
     .controls-label {
       display: inline-block;
       padding-right: 20px;
+    }
+  }
+
+  &.post-detail-view__header {
+    .row & {
+      padding-bottom: 0;
     }
   }
 }
@@ -103,6 +118,13 @@ $headerHeight: 4em;
   .form {
     padding-top: 1em;
   }
+
+  &__content {
+    border-bottom: 1px dotted;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    color: $grey;
+  }
 }
 
 // Edit
@@ -113,6 +135,39 @@ $headerHeight: 4em;
     text-decoration: none;
   }
 }
+
+// Reactions
+.button-action {
+  cursor: pointer;
+  outline: none;
+}
+.reaction {
+  // Overrides for sematic ui
+  &.ui.label {
+    border: 0;
+    background-color: transparent;
+  }
+
+  &--comment {
+    &.ui.label {
+      padding-left: 0;
+    }
+  }
+
+  &__button {
+    border: none;
+    background: transparent;
+    @extend .button-action;
+  }
+}
+
+// Menu
+
+// .category-menu {
+//   .active.item {
+//     background: $pink !important;
+//   }
+// }
 
 // layout helpers
 .align-center {
@@ -136,5 +191,20 @@ $headerHeight: 4em;
 
   &:hover {
     color: $grey;
+  }
+}
+
+// Overrides for sematic ui
+@media only screen and (max-width: 767px) {
+  .ui.container {
+    margin-left: 0 !important; /*Naughty, I know, I know... sigh!*/
+    margin-right: 0 !important;
+
+    &.content {
+      padding: 0;
+    }
+    &.detail-view {
+      padding: 1em;
+    }
   }
 }

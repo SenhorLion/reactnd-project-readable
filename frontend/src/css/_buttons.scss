@@ -1,5 +1,10 @@
 @import './colors';
 
+button {
+  cursor: pointer;
+  outline: none;
+}
+
 .button {
   flex-shrink: 0;
   margin: 10px;

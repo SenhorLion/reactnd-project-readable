@@ -30,9 +30,17 @@ class App extends Component {
   render() {
     const { categories } = this.props;
 
+    // TODO CLEAN UP!
+    // This class does not need to be wrapped to connect
+    // The container classes for each route can handle their own bizz!
+
+    // TODO: Also the cTEGORY nd postId props cn be derived from the  props.match.params in the actual components them selves
     return (
       <div className="app">
-        <Header categories={categories} />
+        <Header
+          categories={categories}
+          currentPath={this.props.location.pathname}
+        />
 
         <Route
           exact

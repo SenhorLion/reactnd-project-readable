@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import cuid from 'cuid';
 import { capitalize } from '../../utils/helper';
 
-const Header = ({ categories }) => {
+const Header = ({ categories, currentPath }) => {
+  const category = currentPath.split('/');
+  const categoryDisplay = category[1];
+
   return (
     <div className="ui fixed inverted menu app-header">
       <div className="ui container">
@@ -12,12 +15,19 @@ const Header = ({ categories }) => {
           READABLE
         </Link>
 
-        <div className="ui simple dropdown item">
+        <div className="ui simple dropdown item ">
           Categories <i className="dropdown icon" />
-          <div className="menu">
+          <div className="menu category-menu">
             {categories &&
               categories.map(cat => (
-                <Link key={cuid()} className="item" to={`/${cat.path}`}>
+                <Link
+                  key={cuid()}
+                  className={`item ${cat.name === category && 'active'}`}
+                  to={`/${cat.path}`}
+                >
+                  {cat.name === categoryDisplay && (
+                    <i className="tiny check icon" />
+                  )}{' '}
                   {capitalize(cat.name)}
                 </Link>
               ))}
@@ -25,6 +35,10 @@ const Header = ({ categories }) => {
               All Categories
             </Link>
           </div>
+        </div>
+
+        <div className="ui header item header-category">
+          {categoryDisplay && `Category ${capitalize(categoryDisplay)}`}
         </div>
       </div>
     </div>

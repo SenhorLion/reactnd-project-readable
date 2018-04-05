@@ -4,7 +4,7 @@ import cuid from 'cuid';
 import Loading from 'react-loading';
 import Modal from 'react-modal';
 
-import { capitalize } from '../../utils/helper';
+import { capitalize, getCategoryColour } from '../../utils/helper';
 
 import sortFilter from '../../utils/sortFilter';
 import PostsList from '../posts/PostsList';
@@ -13,20 +13,11 @@ import DeletePostModal from '../posts/DeletePostModal';
 import SortByControls from '../sort/SortByControls';
 import Button from '../button/Button';
 
-/**
- * Remove `react-modal` warning:
- * App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`.
- * This is needed so screen readers don't see main content when modal is opened.
- * It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.
- */
-Modal.setAppElement('#root');
-
 class Category extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeCategory: null,
       sortKey: 'TIME_STAMP',
       isSortReverse: false,
       error: null,
@@ -34,18 +25,24 @@ class Category extends Component {
       isDeletePostModalOpen: false,
       postIdToDelete: null,
     };
-
-    this.onSort = this.onSort.bind(this);
-    this.openDeletePostModal = this.openDeletePostModal.bind(this);
-    this.closeDeletePostModal = this.closeDeletePostModal.bind(this);
   }
 
-  onSort(sortKey) {
+  componentDidMount() {
+    /**
+     * Remove `react-modal` warning:
+     * App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`.
+     * This is needed so screen readers don't see main content when modal is opened.
+     * It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.
+     */
+    Modal.setAppElement('#root');
+  }
+
+  onSort = sortKey => {
     const isSortReverse =
       this.state.sortKey === sortKey && !this.state.isSortReverse;
 
     this.setState({ sortKey, isSortReverse });
-  }
+  };
 
   openAddPostModal = () => {
     console.log('openAddPostModal', this.props.category);
@@ -61,14 +58,14 @@ class Category extends Component {
     }));
   };
 
-  openDeletePostModal(postId) {
+  openDeletePostModal = postId => {
     console.log('@ openDeletePostModal', postId);
 
     this.setState(() => ({
       isDeletePostModalOpen: true,
       postIdToDelete: postId,
     }));
-  }
+  };
 
   closeDeletePostModal = () => {
     console.log('@ closeDeletePostModal');
@@ -98,61 +95,30 @@ class Category extends Component {
       isDeletePostModalOpen,
       postIdToDelete,
     } = this.state;
+
     const isCategoriesLoaded = !!categories;
     const displayTitle = category ? `Posts for ${category}` : `All Posts`;
+    const categoryColour = getCategoryColour(category);
 
-    const hasPosts = !!items.length;
+    const hasPosts = !!Object.keys(items).length;
 
     return (
       <div className="page-content">
-        <div className="ui stackable four column grid">
-          <div className="six wide column">
-            <div className="ui container categories">
-              <h2 className="categories__title title align-center">
-                Categories
-              </h2>
-              {!isCategoriesLoaded ? (
-                <Loading
-                  delay={200}
-                  type="spokes"
-                  color="#222"
-                  className="loading"
-                />
-              ) : (
-                <div className="ui fluid vertical pointing menu">
-                  {categories.map(cat => (
-                    <Link
-                      key={cuid()}
-                      to={`/${cat.path}`}
-                      className={`item ${cat.name === category && 'active'}`}
-                    >
-                      {capitalize(cat.name)}
-                    </Link>
-                  ))}
-                  <Link
-                    key={cuid()}
-                    to={`/`}
-                    className={`item ${!category && 'active'}`}
-                  >
-                    All Categories
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="ten wide column">
+        <div className="ui stackable two column grid">
+          <div className="sixteen wide column">
             <div className="ui container content">
               <div className="page-header">
                 <div className="page-header__content">
-                  <h2 className="page-header__title align-left">
+                  <h2
+                    className={`ui header ${categoryColour} page-header__title align-left`}
+                  >
                     {displayTitle}
                   </h2>
                   <Button
-                    className="ui positive button button--add-post float-right"
+                    className="ui button button--add-post float-right"
                     onClick={() => this.openAddPostModal()}
                   >
-                    Add Post
+                    <i className="pencil alternate icon" /> Add Post
                   </Button>
                 </div>
 
