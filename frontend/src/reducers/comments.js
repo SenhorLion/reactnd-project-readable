@@ -42,7 +42,19 @@ const applyDeleteComment = (state, id) => {
   });
 };
 
-const applyEditComment = (state, action) => {
+const applyFetchCommentsSuccess = (state, action) => {
+  const { comments } = action;
+
+  return Object.assign({}, state, {
+    isFetching: false,
+    items: comments.reduce((commentsObj, comment) => {
+      commentsObj[comment.id] = comment;
+      return commentsObj;
+    }, {}),
+  });
+};
+
+const applyComment = (state, action) => {
   const { comment } = action;
 
   return Object.assign({}, state, {
@@ -50,6 +62,10 @@ const applyEditComment = (state, action) => {
       [comment.id]: comment,
     },
   });
+};
+
+const applyFetchCommentsRequest = (state, action) => {
+  return { ...state, isFetching: true };
 };
 
 const defaultCommentState = {
@@ -60,32 +76,18 @@ const defaultCommentState = {
 const comments = (state = defaultCommentState, action) => {
   switch (action.type) {
     case FETCH_COMMENTS_REQUEST:
-      return { ...state, isFetching: true };
+      return applyFetchCommentsRequest(state, action);
 
     case FETCH_COMMENTS_SUCCESS: {
-      const { comments } = action;
-
-      return Object.assign({}, state, {
-        isFetching: false,
-        items: comments.reduce((commentsObj, comment) => {
-          commentsObj[comment.id] = comment;
-          return commentsObj;
-        }, {}),
-      });
+      return applyFetchCommentsSuccess(state, action);
     }
 
     case ADD_NEW_COMMENT: {
-      const { comment } = action;
-
-      return Object.assign({}, state, {
-        items: {
-          [comment.id]: comment,
-        },
-      });
+      return applyComment(state, action);
     }
 
     case EDIT_COMMENT: {
-      return applyEditComment(state, action);
+      return applyComment(state, action);
     }
 
     case DELETE_COMMENT: {
