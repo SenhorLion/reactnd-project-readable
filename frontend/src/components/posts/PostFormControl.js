@@ -29,9 +29,11 @@ const validate = values => {
 const createFormRenderer = render => ({ input, label, meta, ...rest }) => (
   <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
     {/* <pre>{JSON.stringify(meta, null, 2)}</pre> */}
-    <label>{label}</label>
+    <label>
+      {label} <span className="required">* </span>
+      {meta.error && meta.touched && <span>{meta.error}</span>}
+    </label>
     {render(input, label, rest)}
-    {meta.error && meta.touched && <span>{meta.error}</span>}
   </div>
 );
 
