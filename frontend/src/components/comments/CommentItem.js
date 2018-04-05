@@ -37,12 +37,7 @@ class CommentItem extends Component {
       this.cancelEditMode();
       return;
     }
-    const {
-      comment,
-      onEditComment,
-      fetchAllComments,
-      fetchAllPosts,
-    } = this.props;
+    const { comment, onEditComment, fetchAllPosts } = this.props;
 
     const timestamp = Date.now();
     const newComment = {
@@ -84,16 +79,7 @@ class CommentItem extends Component {
   render() {
     const { comment, categoryColour } = this.props;
 
-    const {
-      id,
-      parentId,
-      timestamp,
-      body,
-      author,
-      voteScore,
-      deleted,
-      parentDeleted,
-    } = comment;
+    const { id, timestamp, body, author } = comment;
 
     const { isEditMode, commentBody } = this.state;
 

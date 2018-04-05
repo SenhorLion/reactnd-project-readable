@@ -31,15 +31,13 @@ class PostDetailView extends Component {
   };
 
   onGoBack = () => {
-    const { history, post } = this.props;
-    const { item: { category, id } } = post;
+    const { history } = this.props;
 
-    // return history.push(`/${category}`);
     return history.goBack();
   };
 
   render() {
-    const { post, postId, onDeletePost, fetchAllPosts } = this.props;
+    const { post, postId, onDeletePost } = this.props;
     const { isFetching, item } = post;
     const { isDeletePostModalOpen } = this.state;
 

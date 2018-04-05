@@ -1,7 +1,6 @@
 import {
   FETCH_POSTS_REQUEST,
   FETCH_POSTS_SUCCESS,
-  FETCH_POSTS_ERROR,
   ADD_NEW_POST,
   DELETE_POST,
   SAVE_EDIT_POST,
@@ -13,12 +12,10 @@ import * as API from '../api';
 
 const requestAllPosts = () => ({
   type: FETCH_POSTS_REQUEST,
-  // isFetching: true,
 });
 
 const receiveAllPosts = posts => ({
   type: FETCH_POSTS_SUCCESS,
-  // isFetching: false,
   posts,
 });
 

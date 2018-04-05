@@ -15,7 +15,6 @@ const getPostsToShow = (posts, category) => {
 
 const mapStateToProps = ({ posts, categories }, ownProps) => {
   const { category } = ownProps;
-  // debugger;
 
   return {
     posts: {
@@ -27,6 +26,12 @@ const mapStateToProps = ({ posts, categories }, ownProps) => {
   };
 };
 
+// TODO: Can use bindActionCreators for actions here
+// e.g bindActionCreators({
+//   onAddPost,
+//     fetchAllPosts,
+//     onDeletePost,
+// }, dispatch)
 const CategoriesToShow = withRouter(
   connect(mapStateToProps, {
     onAddPost,

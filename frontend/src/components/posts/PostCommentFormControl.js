@@ -55,7 +55,7 @@ class PostCommentFormControl extends Component {
   };
 
   render() {
-    const { categoryColour, postId } = this.props;
+    const { categoryColour } = this.props;
     const { body, author } = this.state;
 
     const uiHeaderColourClass = classNames('ui header', categoryColour);

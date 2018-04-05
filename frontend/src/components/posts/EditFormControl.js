@@ -57,10 +57,7 @@ class EditFormControl extends Component {
 
   onGoBack() {
     const { history } = this.props;
-    const { newPost: { category, id } } = this.state;
 
-    // return window.history.back();
-    // history.push(`/${category}/${id}`);
     history.goBack();
   }
 

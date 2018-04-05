@@ -29,11 +29,7 @@ class DeletePostModal extends Component {
   };
 
   render() {
-    const {
-      isDeletePostModalOpen,
-      postIdToDelete,
-      closeDeletePostModal,
-    } = this.props;
+    const { isDeletePostModalOpen, closeDeletePostModal } = this.props;
 
     return (
       <Modal
