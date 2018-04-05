@@ -2,7 +2,6 @@ import React from 'react';
 import { capitalize } from '../../utils/helper';
 
 const NotificationMessage = ({ message, category, categoryColour }) => {
-  console.log('NOTIFICATION_MESSAGE', message, category);
   const messageToShow = `${message} ${
     category ? `for ${capitalize(category)}` : ''
   }`;

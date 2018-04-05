@@ -119,7 +119,7 @@ let PostFormControl = ({
           placeholder="Category"
           component={RenderSelect}
         >
-          <option>Select category</option>
+          <option value="">Select category</option>
           {categories &&
             categories.map(item => (
               <option key={cuid()} value={item.name}>
