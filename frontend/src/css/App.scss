@@ -46,9 +46,12 @@ $headerHeight: 4em;
   &__title {
     flex: 1;
     color: $grey;
-    margin: 0;
-    padding: 0;
-    padding-top: 10px;
+    margin: 0.5rem 0 0;
+
+    /* override because of semantic ui, sigh */
+    &.ui.header {
+      margin: 0.5rem 0 0;
+    }
   }
   &__sort-controls {
     text-align: right;
