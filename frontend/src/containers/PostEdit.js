@@ -5,17 +5,6 @@ import { onSaveEditPost, fetchAllPosts } from '../actions';
 
 import PostEditView from '../components/posts/PostEditView';
 
-const getPostToEdit = (posts, postId) => {
-  console.log('@ Post :: getPostToEdit:', posts, postId);
-
-  if (posts && postId) {
-    return Object.values(posts).find(post => post.id === postId);
-  }
-
-  return undefined;
-};
-
-// TODO: dispatch action to fetch post
 const mapStateToProps = ({ posts, categories }, ownProps) => {
   const { postId } = ownProps;
   const { isFetching, items } = posts;
@@ -23,7 +12,7 @@ const mapStateToProps = ({ posts, categories }, ownProps) => {
   return {
     post: {
       isFetching,
-      item: getPostToEdit(items, postId),
+      item: items[postId],
     },
     categories,
   };
