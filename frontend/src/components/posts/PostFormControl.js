@@ -5,8 +5,6 @@ import cuid from 'cuid';
 import { capitalize } from '../../utils/helper';
 import Button from '../button/Button';
 
-const DEFAULT_CATEGORY = 'react';
-
 const validate = values => {
   const errors = {};
 
@@ -28,7 +26,6 @@ const validate = values => {
 
 const createFormRenderer = render => ({ input, label, meta, ...rest }) => (
   <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
-    {/* <pre>{JSON.stringify(meta, null, 2)}</pre> */}
     <label>
       {label} <span className="required">* </span>
       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -147,7 +144,7 @@ let PostFormControl = ({
 
 PostFormControl = reduxForm({
   form: 'AddPostForm',
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   validate,
 })(PostFormControl);
 

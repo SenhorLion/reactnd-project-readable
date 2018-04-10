@@ -4,12 +4,8 @@ import EditFormControl from './EditFormControl';
 
 class PostEditView extends Component {
   onGoBack = () => {
-    const { history, post } = this.props;
-    const { item: { category, id } } = post;
+    const { history } = this.props;
 
-    // NOTE: Is it better to go back to `category/:id` or just history.back ?
-    // history.push(`/${category}`);
-    // history.push(`/${category}/${id}`);
     history.goBack();
   };
 
