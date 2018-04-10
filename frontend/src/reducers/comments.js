@@ -72,6 +72,7 @@ const applyComment = (state, action) => {
 
   return Object.assign({}, state, {
     items: {
+      ...state.items,
       [comment.id]: comment,
     },
   });
