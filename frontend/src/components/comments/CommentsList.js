@@ -16,7 +16,7 @@ const CommentsList = ({
   onDeleteComment,
 }) => {
   const { isFetching, items } = comments;
-  const isCommentsLoaded = !isFetching && items && items.length;
+  const isCommentsLoaded = !isFetching && items && Object.keys(items).length;
   const commentsCount = items && parseInt(items.length, 10);
 
   return (
