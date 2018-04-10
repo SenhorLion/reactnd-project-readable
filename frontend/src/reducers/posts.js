@@ -109,6 +109,7 @@ const applyPost = (state, action) => {
 
   return Object.assign({}, state, {
     items: {
+      ...state.items,
       [post.id]: post,
     },
   });
