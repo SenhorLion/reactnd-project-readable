@@ -56,8 +56,6 @@ const getCommentsToShow = (postId, comments) => {
       comment => comment.parentId === postId
     );
   }
-
-  return undefined;
 };
 
 const mapStateToProps = ({ comments }, ownProps) => {

@@ -99,7 +99,7 @@ class Category extends Component {
       : `All Posts`;
     const categoryColour = getCategoryColour(category);
 
-    const hasPosts = !!Object.keys(items).length;
+    const hasPosts = !isFetching && !!Object.keys(items).length;
 
     return (
       <div className="page-content">
@@ -121,17 +121,16 @@ class Category extends Component {
                   </Button>
                 </div>
 
-                {!isFetching &&
-                  hasPosts && (
-                    <SortByControls
-                      sortKey={sortKey}
-                      isSortReverse={isSortReverse}
-                      onSort={this.onSort}
-                    />
-                  )}
+                {hasPosts && (
+                  <SortByControls
+                    sortKey={sortKey}
+                    isSortReverse={isSortReverse}
+                    onSort={this.onSort}
+                  />
+                )}
               </div>
 
-              {!isFetching && hasPosts ? (
+              {hasPosts ? (
                 <PostsList
                   list={items}
                   sortKey={sortKey}

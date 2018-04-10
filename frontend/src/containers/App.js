@@ -14,10 +14,6 @@ import '../css/App.css';
 class App extends Component {
   componentDidMount() {
     this.fetchData();
-
-    // NOTE: - Do we need to fetch all comments?
-    // maybe they can just be linked to a post
-    // dispatch(fetchAllComments());
   }
 
   fetchData() {
@@ -30,11 +26,10 @@ class App extends Component {
   render() {
     const { categories } = this.props;
 
-    // TODO CLEAN UP!
+    // TODO: CLEAN UP!
     // This class does not need to be wrapped to connect
     // The container classes for each route can handle their own bizz!
 
-    // TODO: Also the cTEGORY nd postId props cn be derived from the  props.match.params in the actual components them selves
     return (
       <div className="app">
         <Header
