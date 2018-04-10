@@ -11,6 +11,15 @@ import {
 import { UP_VOTE } from '../constants';
 import { incrementValue, decrementValue } from '../utils/helper';
 
+/**
+ * Increment/decrement the comments `voteScore` property
+ * based on the `action.option` type
+ *
+ * @function applyVoteScore
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
 const applyVoteScore = (state, action) => {
   const { commentId, option } = action;
   const currentComment = state.items[commentId];
@@ -29,6 +38,14 @@ const applyVoteScore = (state, action) => {
   });
 };
 
+/**
+ * Delete a comment from state
+ *
+ * @function applyDeleteComment
+ * @param {Object} state
+ * @param {String} id
+ * @return {Object}
+ */
 const applyDeleteComment = (state, id) => {
   const filteredComments = Object.keys(state.items)
     .filter(commentId => commentId !== id)
@@ -42,6 +59,36 @@ const applyDeleteComment = (state, id) => {
   });
 };
 
+/**
+ * Add or Update comment in state
+ *
+ * @function applyComment
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyComment = (state, action) => {
+  const { comment } = action;
+
+  return Object.assign({}, state, {
+    items: {
+      [comment.id]: comment,
+    },
+  });
+};
+
+/**
+ * Return all comments in the desired data structure
+ *
+ * commemnts: {
+ *   isFetching: false,
+ *   items: {...}
+ * }
+ * @function applyFetchCommentsSuccess
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
 const applyFetchCommentsSuccess = (state, action) => {
   const { comments } = action;
 
@@ -54,16 +101,14 @@ const applyFetchCommentsSuccess = (state, action) => {
   });
 };
 
-const applyComment = (state, action) => {
-  const { comment } = action;
-
-  return Object.assign({}, state, {
-    items: {
-      [comment.id]: comment,
-    },
-  });
-};
-
+/**
+ * Return current state and set `isFetching: true`
+ *
+ * @function applyFetchCommentsRequest
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
 const applyFetchCommentsRequest = (state, action) => {
   return { ...state, isFetching: true };
 };

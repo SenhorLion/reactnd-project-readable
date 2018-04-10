@@ -34,6 +34,14 @@ export const fetchAllPosts = () => {
     });
 };
 
+export const fetchPostById = postId => {
+  return fetch(`${API_URL}/posts/${postId}`, { headers })
+    .then(res => res.json())
+    .then(data => {
+      return data;
+    });
+};
+
 export const addPost = post =>
   fetch(`${API_URL}/posts`, {
     method: 'POST',

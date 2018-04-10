@@ -1,10 +1,10 @@
 import {
   FETCH_POSTS_REQUEST,
   FETCH_POSTS_SUCCESS,
+  GET_POST_BY_ID,
   ADD_NEW_POST,
   DELETE_POST,
   SAVE_EDIT_POST,
-  GET_POST_BY_ID,
   POST_UP_VOTE,
   POST_DOWN_VOTE,
 } from '../actions/actionTypes';
@@ -12,7 +12,16 @@ import {
 import { UP_VOTE } from '../constants';
 import { incrementValue, decrementValue } from '../utils/helper';
 
-const updateVoteScore = (state, action) => {
+/**
+ * Increment/decrement the posts `voteScore` property
+ * based on the `action.option` type
+ *
+ * @function applyUpdateVoteScore
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyUpdateVoteScore = (state, action) => {
   const { postId, option } = action;
   const currentPost = state.items[postId];
 
@@ -30,86 +39,132 @@ const updateVoteScore = (state, action) => {
   });
 };
 
+/**
+ * Return current state and set `isFetching: true`
+ *
+ * @function applyFetchPostsRequest
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyFetchPostsRequest = (state, action) => {
+  return { ...state, isFetching: true };
+};
+
+/**
+ * Return all posts in the desired data structure
+ *
+ * posts: {
+ *   isFetching: false,
+ *   items: {...}
+ * }
+ * @function applyFetchPosts
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyFetchPosts = (state, action) => {
+  const { posts } = action;
+
+  return Object.assign({}, state, {
+    isFetching: false,
+    items: posts.reduce((postsObj, post) => {
+      postsObj[post.id] = post;
+      return postsObj;
+    }, {}),
+  });
+};
+
+/**
+ * Delete a post from state
+ *
+ * @function applyDeletePost
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyDeletePost = (state, action) => {
+  const filteredPosts = Object.keys(state.items)
+    .filter(postId => postId !== action.id)
+    .reduce((posts, id) => {
+      posts[id] = state.items[id];
+      return posts;
+    }, {});
+
+  return Object.assign({}, state, {
+    items: filteredPosts,
+  });
+};
+
+/**
+ * Add or Update post in state
+ *
+ * @function applyPost
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyPost = (state, action) => {
+  const { post } = action;
+
+  return Object.assign({}, state, {
+    items: {
+      [post.id]: post,
+    },
+  });
+};
+
+/**
+ * Return post by id
+ *
+ * @function applyGetPostById
+ * @param {Object} state
+ * @param {Object} action
+ * @return {Object}
+ */
+const applyGetPostById = (state, action) => {
+  const { id } = action;
+
+  return state.items[id];
+};
+
 const defaultPostState = {
   isFetching: false,
   items: {},
 };
 
-// TODO: Strip out logic into methods
 const posts = (state = defaultPostState, action) => {
   switch (action.type) {
     case FETCH_POSTS_REQUEST: {
-      return { ...state, isFetching: true };
+      return applyFetchPostsRequest(state, action);
     }
 
     case FETCH_POSTS_SUCCESS: {
-      const { posts } = action;
-
-      // NOTE: We want to enforce posts state is in the desired structure:
-      // posts: {
-      //   isFetching: false,
-      //   items: {...}
-      // }
-      return Object.assign({}, state, {
-        isFetching: false,
-        items: posts.reduce((postsObj, post) => {
-          postsObj[post.id] = post;
-          return postsObj;
-        }, {}),
-      });
+      return applyFetchPosts(state, action);
     }
 
     case ADD_NEW_POST: {
-      const { post } = action;
-
-      return Object.assign({}, state, {
-        items: {
-          [post.id]: post,
-        },
-      });
+      return applyPost(state, action);
     }
 
     case DELETE_POST: {
-      const { id } = action;
-      const newState = { ...state };
-
-      // TODO: Check this is all neccesary,
-      // can we get away with just filtering?
-      const filteredPosts = Object.keys(newState.items)
-        .filter(postId => postId !== id)
-        .reduce((posts, id) => {
-          posts[id] = newState.items[id];
-          return posts;
-        }, {});
-
-      return Object.assign({}, state, {
-        items: filteredPosts,
-      });
+      return applyDeletePost(state, action);
     }
 
     case SAVE_EDIT_POST: {
-      const { post } = action;
-
-      return Object.assign({}, state, {
-        items: {
-          [post.id]: post,
-        },
-      });
+      return applyPost(state, action);
     }
 
-    // TODO: Do we need / use this outside of the tests?
     case GET_POST_BY_ID: {
-      const { id } = action;
-
-      return state.items[id];
+      return applyGetPostById(state, action);
     }
 
     case POST_UP_VOTE: {
-      return updateVoteScore(state, action);
+      return applyUpdateVoteScore(state, action);
     }
 
     case POST_DOWN_VOTE: {
-      return updateVoteScore(state, action);
+      return applyUpdateVoteScore(state, action);
     }
 
     default:

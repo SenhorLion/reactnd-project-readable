@@ -6,10 +6,10 @@ export const FETCH_CATEGORIES_ERROR = 'FETCH_CATEGORIES_ERROR';
 export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
+export const GET_POST_BY_ID = 'GET_POST_BY_ID';
 export const ADD_NEW_POST = 'ADD_NEW_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const SAVE_EDIT_POST = 'EDIT_POST';
-export const GET_POST_BY_ID = 'GET_POST_BY_ID';
 export const POST_UP_VOTE = 'POST_UP_VOTE';
 export const POST_DOWN_VOTE = 'POST_DOWN_VOTE';
 // Comments

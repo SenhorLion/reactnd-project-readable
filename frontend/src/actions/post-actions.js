@@ -1,6 +1,7 @@
 import {
   FETCH_POSTS_REQUEST,
   FETCH_POSTS_SUCCESS,
+  GET_POST_BY_ID,
   ADD_NEW_POST,
   DELETE_POST,
   SAVE_EDIT_POST,
@@ -17,6 +18,11 @@ const requestAllPosts = () => ({
 const receiveAllPosts = posts => ({
   type: FETCH_POSTS_SUCCESS,
   posts,
+});
+
+const getPostById = id => ({
+  type: GET_POST_BY_ID,
+  id,
 });
 
 const addPost = post => ({
@@ -97,6 +103,7 @@ const onDeletePost = postId => dispatch => {
 
 export {
   fetchAllPosts,
+  getPostById,
   onSaveEditPost,
   onAddPost,
   onUpVotePost,

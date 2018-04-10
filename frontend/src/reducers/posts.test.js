@@ -24,7 +24,7 @@ describe('posts reducer', () => {
     expect(posts(undefined, {})).toEqual(defaultPostState);
   });
 
-  it('should return defaultState if no action type is found', () => {
+  it('should return exisiting state if no action type is found', () => {
     const defaultState = {
       items: {
         '8xf0y6ziyjabvozdd253nd': {
@@ -56,6 +56,27 @@ describe('posts reducer', () => {
     expect(posts(defaultState, {})).toEqual(defaultState);
   });
 
+  it('should return correct data strucutre for given action FETCH_POSTS_REQUEST type', () => {
+    const defaultState = {
+      isFetching: false,
+      items: {},
+    };
+
+    // make sure state is not mutated
+    deepFreeze(defaultState);
+
+    const expected = {
+      isFetching: true,
+      items: {},
+    };
+
+    const requestAllPostsAction = {
+      type: FETCH_POSTS_REQUEST,
+    };
+
+    expect(posts(defaultState, requestAllPostsAction)).toEqual(expected);
+  });
+
   it('should return correct data strucutre for given action FETCH_POSTS_SUCCESS type', () => {
     const payload = [
       {
@@ -71,7 +92,7 @@ describe('posts reducer', () => {
       },
     ];
 
-    const result = {
+    const expected = {
       isFetching: false,
       items: {
         '8xf0y6ziyjabvozdd253nd': {
@@ -87,12 +108,12 @@ describe('posts reducer', () => {
         },
       },
     };
-    const action = {
+    const receiveAllPostsAction = {
       type: FETCH_POSTS_SUCCESS,
       posts: payload,
     };
 
-    expect(posts(undefined, action)).toEqual(result);
+    expect(posts(undefined, receiveAllPostsAction)).toEqual(expected);
   });
 
   it('should add a post without mutating state', () => {
@@ -312,7 +333,7 @@ describe('posts reducer', () => {
     expect(posts(defaultState, getPostByIdAction)).toEqual(expected);
   });
 
-  it('should increment a comment votescore without mutating state', () => {
+  it('should increment a post votescore without mutating state', () => {
     const defaultPostState = {
       items: {
         '8xf0y6ziyjabvozdd253nd': {
@@ -358,7 +379,7 @@ describe('posts reducer', () => {
     expect(posts(defaultPostState, upVotePostAction)).toEqual(expected);
   });
 
-  it('should decrement a comment votescore without mutating state', () => {
+  it('should decrement a post votescore without mutating state', () => {
     const defaultPostState = {
       items: {
         '8xf0y6ziyjabvozdd253nd': {

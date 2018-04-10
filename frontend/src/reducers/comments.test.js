@@ -24,8 +24,8 @@ describe('comments reducer', () => {
     expect(comments(undefined, {})).toEqual(defaultState);
   });
 
-  it('should return defaultState if no action type is found', () => {
-    const defaultCommentState = {
+  it('should return existing comment state if no action type is found', () => {
+    const commentState = {
       '894tuq4ut84ut8v4t8wun89g': {
         id: '894tuq4ut84ut8v4t8wun89g',
         parentId: '8xf0y6ziyjabvozdd253nd',
@@ -48,7 +48,7 @@ describe('comments reducer', () => {
       },
     };
 
-    expect(comments(defaultCommentState, {})).toEqual(defaultCommentState);
+    expect(comments(commentState, {})).toEqual(commentState);
   });
 
   it('should add a comment without mutating state', () => {
@@ -151,7 +151,6 @@ describe('comments reducer', () => {
     );
   });
 
-  // edit
   it('should edit a comment without mutating state', () => {
     const defaultCommentState = {
       items: {
@@ -204,7 +203,6 @@ describe('comments reducer', () => {
 
     expect(comments(defaultCommentState, editCommentAction)).toEqual(expected);
   });
-  // end edit
 
   it('should increment a comment votescore without mutating state', () => {
     const defaultCommentState = {
