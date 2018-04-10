@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Loading from 'react-loading';
-import EditFormControl from './EditFormControl';
+import PostEditFormControl from './PostEditFormControl';
 
 class PostEditView extends Component {
   onGoBack = () => {
@@ -47,7 +47,7 @@ class PostEditView extends Component {
                 {!isFetching &&
                   hasPost && (
                     <div className="post-details-form">
-                      <EditFormControl
+                      <PostEditFormControl
                         history={history}
                         categories={categories}
                         onSaveEditPost={onSaveEditPost}

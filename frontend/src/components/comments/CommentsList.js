@@ -2,7 +2,7 @@ import React from 'react';
 import Loading from 'react-loading';
 import cuid from 'cuid';
 
-import PostCommentFormControl from '../posts/PostCommentFormControl';
+import CommentFormControl from './CommentFormControl';
 import CommentItem from './CommentItem';
 
 const CommentsList = ({
@@ -57,7 +57,7 @@ const CommentsList = ({
             </div>
           )}
 
-          <PostCommentFormControl
+          <CommentFormControl
             postId={postId}
             fetchAllPosts={fetchAllPosts}
             fetchAllComments={fetchAllComments}

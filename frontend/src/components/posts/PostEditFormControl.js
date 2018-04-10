@@ -4,11 +4,10 @@ import cuid from 'cuid';
 import { capitalize } from '../../utils/helper';
 import Button from '../button/Button';
 
-class EditFormControl extends Component {
+// TODO: Implement `redux-form` to handle form elements
+class PostEditFormControl extends Component {
   constructor(props) {
     super(props);
-
-    console.log('@Constructor::EditFormControl');
 
     this.state = {
       oldPost: {},
@@ -166,4 +165,4 @@ class EditFormControl extends Component {
   }
 }
 
-export default EditFormControl;
+export default PostEditFormControl;

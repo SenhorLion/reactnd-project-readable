@@ -17,7 +17,7 @@ const validate = values => {
   return errors;
 };
 
-const PostCommentFormControl = ({
+const CommentFormControl = ({
   postId,
   fetchAllPosts,
   fetchAllComments,
@@ -102,4 +102,4 @@ export default reduxForm({
   form: 'AddCommentForm',
   destroyOnUnmount: true,
   validate,
-})(PostCommentFormControl);
+})(CommentFormControl);
