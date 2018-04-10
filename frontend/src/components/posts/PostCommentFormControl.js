@@ -1,97 +1,105 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import cuid from 'cuid';
 import classNames from 'classnames';
-import Button from '../button/Button';
+import { RenderInput, RenderTextarea } from '../../utils/form-input-components';
 
-// TODO(Lionel): Use redux-form to handle form state
-class PostCommentFormControl extends Component {
-  constructor(props) {
-    super(props);
+const validate = values => {
+  const errors = {};
 
-    this.state = {
-      body: '',
-      author: '',
-    };
+  if (!values.body) {
+    errors.body = 'Required';
+  }
+  if (!values.author) {
+    errors.author = 'Required';
   }
 
-  onSubmitComment = event => {
-    event.preventDefault();
+  return errors;
+};
 
-    const { body, author } = this.state;
-
-    if (!body || !author) {
-      return;
+const PostCommentFormControl = ({
+  postId,
+  fetchAllPosts,
+  fetchAllComments,
+  onAddComment,
+  categoryColour,
+  handleSubmit,
+  reset,
+  pristine,
+  submitting,
+}) => {
+  const isDisabled = pristine || submitting;
+  const uiHeaderColourClass = classNames('ui header', categoryColour);
+  const postCommentButtonClass = classNames(
+    'ui submit labeled icon button',
+    categoryColour,
+    {
+      disabled: isDisabled,
     }
-    const {
-      postId,
-      onAddComment,
-      fetchAllComments,
-      fetchAllPosts,
-    } = this.props;
+  );
+
+  const onHandleSubmit = values => {
+    const { body, author } = values;
 
     const newComment = {
       id: cuid(),
       timestamp: Date.now(),
-      body: body,
-      author: author,
+      body,
+      author,
       parentId: postId,
     };
 
     onAddComment(newComment).then(res => {
       return setTimeout(() => {
-        fetchAllComments();
+        reset();
         fetchAllPosts();
       }, 200);
     });
   };
 
-  // TODO: Add debounce method to minimise evtn calling
-  onHandleChange = event => {
-    const { name, value } = event.target;
+  const onHandleCancel = () => reset();
 
-    this.setState({
-      [name]: value,
-    });
-  };
+  return (
+    <form className="ui reply form" onSubmit={handleSubmit(onHandleSubmit)}>
+      <h3 className={uiHeaderColourClass}>
+        <div className="content">Add comment</div>
+      </h3>
 
-  render() {
-    const { categoryColour } = this.props;
-    const { body, author } = this.state;
+      <Field
+        name="author"
+        label="Author"
+        placeholder="Author"
+        component={RenderInput}
+      />
 
-    const uiHeaderColourClass = classNames('ui header', categoryColour);
-    const postCommentButtonClass = classNames(
-      'ui submit labeled icon button',
-      categoryColour
-    );
+      <Field
+        name="body"
+        label="Body"
+        placeholder="Body"
+        component={RenderTextarea}
+      />
 
-    return (
-      <form className="ui reply form" onSubmit={this.onSubmitComment}>
-        <h3 className={uiHeaderColourClass}>
-          <div className="content">Add comment</div>
-        </h3>
-        <div className="field">
-          <input
-            name="author"
-            value={author}
-            onChange={this.onHandleChange}
-            placeholder="Author"
-          />
-        </div>
-        <div className="field">
-          <textarea
-            name="body"
-            value={body}
-            onChange={this.onHandleChange}
-            placeholder="Add a comment"
-          />
-        </div>
+      <button
+        className={postCommentButtonClass}
+        type="submit"
+        disabled={isDisabled}
+      >
+        <i className="comment icon" /> Add comment
+      </button>
+      <button
+        onClick={onHandleCancel}
+        className="ui button"
+        type="button"
+        disabled={isDisabled}
+      >
+        Cancel
+      </button>
+    </form>
+  );
+};
 
-        <Button className={postCommentButtonClass} type="submit">
-          <i className="comment icon" /> Add comment
-        </Button>
-      </form>
-    );
-  }
-}
-
-export default PostCommentFormControl;
+export default reduxForm({
+  form: 'AddCommentForm',
+  destroyOnUnmount: true,
+  validate,
+})(PostCommentFormControl);

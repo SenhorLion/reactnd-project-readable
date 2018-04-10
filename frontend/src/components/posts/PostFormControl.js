@@ -3,6 +3,11 @@ import { Field, reduxForm } from 'redux-form';
 import cuid from 'cuid';
 
 import { capitalize } from '../../utils/helper';
+import {
+  RenderInput,
+  RenderTextarea,
+  RenderSelect,
+} from '../../utils/form-input-components';
 import Button from '../button/Button';
 
 const validate = values => {
@@ -24,28 +29,9 @@ const validate = values => {
   return errors;
 };
 
-const createFormRenderer = render => ({ input, label, meta, ...rest }) => (
-  <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
-    <label>
-      {label} <span className="required">* </span>
-      {meta.error && meta.touched && <span>{meta.error}</span>}
-    </label>
-    {render(input, label, rest)}
-  </div>
-);
-
-const RenderInput = createFormRenderer((input, label) => (
-  <input {...input} placeholder={label} />
-));
-
-const RenderSelect = createFormRenderer((input, label, { children }) => (
-  <select className="ui search dropdown" {...input}>
-    {children}
-  </select>
-));
-
-let PostFormControl = ({
+const PostFormControl = ({
   handleSubmit,
+  pristine,
   submitting,
   reset,
   initialize,
@@ -55,6 +41,7 @@ let PostFormControl = ({
   fetchAllPosts,
   history,
 }) => {
+  const isDisabled = pristine || submitting;
   const onHandleCancel = () => closeAddPostModal();
 
   const onHandleSubmit = values => {
@@ -110,7 +97,7 @@ let PostFormControl = ({
           name="body"
           label="Body"
           placeholder="Body"
-          component={RenderInput}
+          component={RenderTextarea}
         />
         <Field
           name="category"
@@ -127,13 +114,13 @@ let PostFormControl = ({
             ))}
         </Field>
 
-        <Button
+        <button
           className={`ui positive button${submitting ? ' disabled' : ''}`}
           type="submit"
-          disabled={submitting}
+          disabled={isDisabled}
         >
           Submit
-        </Button>
+        </button>
         <Button onClick={onHandleCancel} className="ui  button" type="button">
           Cancel
         </Button>
@@ -142,10 +129,8 @@ let PostFormControl = ({
   );
 };
 
-PostFormControl = reduxForm({
+export default reduxForm({
   form: 'AddPostForm',
   destroyOnUnmount: true,
   validate,
 })(PostFormControl);
-
-export default PostFormControl;
