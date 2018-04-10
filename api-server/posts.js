@@ -9,7 +9,7 @@ const defaultData = {
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
     author: 'thingtwo',
-    category: 'react',
+    category: 'udacity',
     voteScore: 6,
     deleted: false,
     commentCount: 2,
@@ -32,7 +32,7 @@ const defaultData = {
     body:
       'It is common to construct a website for different countries. You have to be capable of translating the text but also you have to display your number and your date in the format used by the country. We have found a library that take care of this.',
     author: 'lionel',
-    category: 'udacity',
+    category: 'react',
     voteScore: 42,
     deleted: false,
     commentCount: 0,
@@ -44,7 +44,7 @@ const defaultData = {
     body:
       'Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using store.dispatch().',
     author: 'lionel',
-    category: 'test',
+    category: 'redux',
     voteScore: 1,
     deleted: false,
     commentCount: 0,
