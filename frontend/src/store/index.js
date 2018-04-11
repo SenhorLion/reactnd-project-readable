@@ -6,16 +6,10 @@ import rootReducer from '../reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const initialState = {
-  categories: [
-    { name: 'react', path: 'react' },
-    { name: 'redux', path: 'redux' },
-    { name: 'udacity', path: 'udacity' },
-  ],
-};
-
 const configureStore = () => {
   const middlewares = [thunk];
+  // NOTE: No enhancers used for now, can be added here
+  const enhancers = [];
 
   if (process.env.NODE_ENV !== 'production') {
     middlewares.push(createLogger());
@@ -23,8 +17,7 @@ const configureStore = () => {
 
   return createStore(
     rootReducer,
-    /*initialState,*/
-    composeEnhancers(applyMiddleware(...middlewares))
+    composeEnhancers(applyMiddleware(...middlewares), ...enhancers)
   );
 };
 

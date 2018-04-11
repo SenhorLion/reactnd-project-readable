@@ -5,7 +5,7 @@ import {
   onUpVoteComment,
   onDownVoteComment,
   fetchAllComments,
-} from '../../actions';
+} from '../../../actions';
 
 import Reaction from './Reaction';
 

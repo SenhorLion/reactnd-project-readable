@@ -4,11 +4,11 @@ import Moment from 'react-moment';
 import Loading from 'react-loading';
 import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
-import Button from '../button/Button';
+import Button from '../ui/button/Button';
 import DeletePostModal from '../posts/DeletePostModal';
 import DeleteCommentModal from '../comments/DeleteCommentModal';
-import CommentsToShow from '../../containers/CommentsToShow';
-import ReactionPosts from '../reaction/ReactionPosts';
+import CommentsByPost from '../../containers/CommentsByPost';
+import ReactionPosts from '../ui/reaction/ReactionPosts';
 
 class PostDetailView extends Component {
   constructor(props) {
@@ -34,7 +34,6 @@ class PostDetailView extends Component {
   };
 
   openDeleteCommentModal = commentId => {
-    console.log('@ openDeleteCommentModal', commentId);
     this.setState(() => ({
       isDeleteCommentModalOpen: true,
       commentIdToDelete: commentId,
@@ -70,7 +69,7 @@ class PostDetailView extends Component {
     const hasPost = !!item;
 
     return (
-      <div className="page-content">
+      <div className="page-content post-detail-view">
         <div className="ui grid">
           <div className="row page-header post-detail-view__header">
             <div className="sixteen wide column">
@@ -125,9 +124,6 @@ class PostDetailView extends Component {
                               {item.category}
                             </Link>
                           </div>
-                          {/* <div className={uiLabelColourClass}>
-                            <i className="like icon" /> {item.voteScore}
-                          </div> */}
                           <div className={uiLabelColourClass}>
                             <i className="comment alternate icon" />{' '}
                             {item.commentCount}
@@ -143,7 +139,7 @@ class PostDetailView extends Component {
                             to={`/${item.category}/${item.id}/edit`}
                             className="ui label right floated"
                           >
-                            <i className="edit icon" /> Edit post
+                            <i className="edit icon" /> Edit
                           </Link>
 
                           <Button
@@ -155,7 +151,7 @@ class PostDetailView extends Component {
                         </div>
                       </div>
 
-                      <CommentsToShow
+                      <CommentsByPost
                         postId={item.id}
                         categoryColour={categoryColour}
                         openDeleteCommentModal={this.openDeleteCommentModal}

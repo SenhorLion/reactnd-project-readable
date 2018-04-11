@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 import classNames from 'classnames';
 
-import Button from '../button/Button';
-import ReactionComments from '../reaction/ReactionComments';
+import Button from '../ui/button/Button';
+import ReactionComments from '../ui/reaction/ReactionComments';
 
 // TODO: Plugin redux-form to handle editing
 class CommentItem extends Component {
@@ -76,15 +76,12 @@ class CommentItem extends Component {
 
   render() {
     const { comment, categoryColour } = this.props;
-
     const { id, timestamp, body, author } = comment;
-
     const { isEditMode, commentBody } = this.state;
-
     const userIconClass = classNames('user big icon', categoryColour);
 
     return (
-      <div className="comment">
+      <div className="comment post-comment-item">
         <a className="avatar">
           <i className={userIconClass} />
         </a>
@@ -108,7 +105,6 @@ class CommentItem extends Component {
                 className="ui form comment-form-content"
               >
                 <div className="field">
-                  <label>Edit comment</label>
                   <textarea
                     type="text"
                     name="commentBody"
@@ -117,7 +113,7 @@ class CommentItem extends Component {
                     onChange={this.onHandleChange}
                   />
                 </div>
-                <Button className="ui positive button" type="submit">
+                <Button className={`ui button ${categoryColour}`} type="submit">
                   Submit
                 </Button>
                 <Button
@@ -140,12 +136,15 @@ class CommentItem extends Component {
                 />
                 <a
                   onClick={() => this.onHandleEdit(id)}
-                  className="edit-comment"
+                  className="ui label mini edit-comment"
                 >
-                  Edit
+                  <i className="edit icon" /> Edit
                 </a>
-                <a onClick={() => this.onHandleDelete(id)} className="delete">
-                  Delete
+                <a
+                  onClick={() => this.onHandleDelete(id)}
+                  className="ui label mini delete"
+                >
+                  <i className="trash icon" /> Delete
                 </a>
               </div>
             )}

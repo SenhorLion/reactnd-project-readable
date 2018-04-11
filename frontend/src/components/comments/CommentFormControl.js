@@ -60,7 +60,10 @@ const CommentFormControl = ({
   const onHandleCancel = () => reset();
 
   return (
-    <form className="ui reply form" onSubmit={handleSubmit(onHandleSubmit)}>
+    <form
+      className="ui reply form post-comment__reply-form"
+      onSubmit={handleSubmit(onHandleSubmit)}
+    >
       <h3 className={uiHeaderColourClass}>
         <div className="content">Add comment</div>
       </h3>
@@ -84,14 +87,9 @@ const CommentFormControl = ({
         type="submit"
         disabled={isDisabled}
       >
-        <i className="comment icon" /> Add comment
+        <i className="edit icon" /> Add comment
       </button>
-      <button
-        onClick={onHandleCancel}
-        className="ui button"
-        type="button"
-        disabled={isDisabled}
-      >
+      <button onClick={onHandleCancel} className="ui button" type="button">
         Cancel
       </button>
     </form>

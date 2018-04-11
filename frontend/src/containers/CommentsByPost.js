@@ -10,9 +10,9 @@ import {
   onDeleteComment,
 } from '../actions';
 
-import CommentsList from '../components/comments/CommentsList';
+import CommentList from '../components/comments/CommentList';
 
-class CommentsToShow extends Component {
+class CommentsByPost extends Component {
   componentDidMount() {
     this.fetchData();
   }
@@ -37,7 +37,7 @@ class CommentsToShow extends Component {
     } = this.props;
 
     return (
-      <CommentsList
+      <CommentList
         comments={comments}
         postId={postId}
         categoryColour={categoryColour}
@@ -78,5 +78,5 @@ export default withRouter(
     onAddComment,
     onEditComment,
     onDeleteComment,
-  })(CommentsToShow)
+  })(CommentsByPost)
 );

@@ -15,10 +15,10 @@ const mapStateToProps = ({ posts }, ownProps) => {
   };
 };
 
-const Post = withRouter(
+const PostDetail = withRouter(
   connect(mapStateToProps, { fetchAllPosts, onDeletePost, onDeleteComment })(
     PostDetailView
   )
 );
 
-export default Post;
+export default PostDetail;

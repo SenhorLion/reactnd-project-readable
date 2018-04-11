@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from '../../utils/helper';
+import { capitalize } from '../../../utils/helper';
 
 const NotificationMessage = ({ message, category, categoryColour }) => {
   const messageToShow = `${message} ${

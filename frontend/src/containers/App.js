@@ -5,9 +5,9 @@ import { Route, withRouter } from 'react-router-dom';
 import * as actions from '../actions';
 
 import Header from '../components/header/Header';
-import CategoriesToShow from './CategoriesToShow';
+import PostsByCategory from './PostsByCategory';
 import PostEdit from './PostEdit';
-import Post from './Post';
+import PostDetail from './PostDetail';
 
 import '../css/App.css';
 
@@ -26,10 +26,6 @@ class App extends Component {
   render() {
     const { categories } = this.props;
 
-    // TODO: CLEAN UP!
-    // This class does not need to be wrapped to connect
-    // The container classes for each route can handle their own bizz!
-
     return (
       <div className="app">
         <Header
@@ -41,13 +37,13 @@ class App extends Component {
           exact
           path="/:category?"
           render={props => (
-            <CategoriesToShow category={props.match.params.category} />
+            <PostsByCategory category={props.match.params.category} />
           )}
         />
         <Route
           exact
           path="/:category/:postId"
-          render={props => <Post postId={props.match.params.postId} />}
+          render={props => <PostDetail postId={props.match.params.postId} />}
         />
         <Route
           exact

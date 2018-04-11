@@ -2,7 +2,7 @@ import React from 'react';
 import cuid from 'cuid';
 import PostItem from './PostItem';
 
-const PostsList = ({
+const PostList = ({
   list,
   sortKey,
   isSortReverse,
@@ -27,4 +27,4 @@ const PostsList = ({
   );
 };
 
-export default PostsList;
+export default PostList;

@@ -8,7 +8,7 @@ import {
   RenderTextarea,
   RenderSelect,
 } from '../../utils/form-input-components';
-import Button from '../button/Button';
+import Button from '../ui/button/Button';
 
 const validate = values => {
   const errors = {};

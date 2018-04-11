@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../button/Button';
 import classNames from 'classnames';
 
-import { UP_VOTE, DOWN_VOTE } from '../../constants';
+import { UP_VOTE, DOWN_VOTE } from '../../../constants';
 
 const Reaction = ({
   classNameProp = '',

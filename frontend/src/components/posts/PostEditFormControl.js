@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import cuid from 'cuid';
 
 import { capitalize } from '../../utils/helper';
-import Button from '../button/Button';
+import Button from '../ui/button/Button';
 
 // TODO: Implement `redux-form` to handle form elements
 class PostEditFormControl extends Component {

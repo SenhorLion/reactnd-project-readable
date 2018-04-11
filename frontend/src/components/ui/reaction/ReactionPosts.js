@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { onUpVotePost, onDownVotePost, fetchAllPosts } from '../../actions';
+import { onUpVotePost, onDownVotePost, fetchAllPosts } from '../../../actions';
 
 import Reaction from './Reaction';
 

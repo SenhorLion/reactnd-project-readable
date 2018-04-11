@@ -7,15 +7,16 @@ $headerHeight: 4em;
 .app-header {
   margin-bottom: $headerHeight;
 }
+
 .page-content {
   margin-top: $headerHeight;
 }
 
-// containers
+// Containers
 .container {
   &.categories,
   &.content {
-    padding: 10px;
+    padding: 0.5em;
   }
 }
 
@@ -43,6 +44,7 @@ $headerHeight: 4em;
     border-bottom: 1px dotted $grey;
     padding-bottom: 1em;
   }
+
   &__title {
     flex: 1;
     color: $grey;
@@ -53,6 +55,7 @@ $headerHeight: 4em;
       margin: 0.5rem 0 0;
     }
   }
+
   &__sort-controls {
     text-align: right;
     padding-top: 1em;
@@ -64,15 +67,10 @@ $headerHeight: 4em;
   }
 
   &.post-detail-view__header {
-    .row & {
+    padding-bottom: 0;
+    .ui.grid & {
       padding-bottom: 0;
     }
-  }
-}
-
-.sort-by-controls {
-  &__label {
-    border-left: none !important; /* naughty, but neccesary :)  */
   }
 }
 
@@ -89,6 +87,7 @@ $headerHeight: 4em;
         content: '|';
         padding: 0 1em;
       }
+
       &:last-child {
         &:after {
           content: '';
@@ -111,13 +110,19 @@ $headerHeight: 4em;
   }
 }
 
+// Post comments
 .post-comment {
   padding: 1em 0;
 
   &__title {
     border-bottom: 1px dotted $grey;
     padding-bottom: 1em;
+
+    span {
+      margin-right: 0.25em;
+    }
   }
+
   .form {
     padding-top: 1em;
   }
@@ -128,6 +133,24 @@ $headerHeight: 4em;
     padding-bottom: 10px;
     color: $grey;
   }
+
+  &__header {
+    margin: 3em 0 1.5em;
+  }
+
+  &__reply-form {
+    margin-top: 2em !important; // Override semantic ui
+  }
+}
+
+.comment.post-comment-item {
+  background: beige;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.ui.label.post-comment__count {
+  margin-right: 0.25em;
 }
 
 // Edit
@@ -144,6 +167,7 @@ $headerHeight: 4em;
   cursor: pointer;
   outline: none;
 }
+
 .reaction {
   // Overrides for sematic ui
   &.ui.label {
@@ -164,21 +188,15 @@ $headerHeight: 4em;
   }
 }
 
-// Menu
-
-// .category-menu {
-//   .active.item {
-//     background: $pink !important;
-//   }
-// }
-
 // layout helpers
 .align-center {
   text-align: center;
 }
+
 .align-left {
   text-align: left;
 }
+
 .float-right {
   float: right;
 }
@@ -187,6 +205,7 @@ $headerHeight: 4em;
 .loading {
   margin: 2em auto;
 }
+
 .back-link {
   cursor: pointer;
   color: $grey;
@@ -204,7 +223,7 @@ $headerHeight: 4em;
     margin-right: 0 !important;
 
     &.content {
-      padding: 0;
+      padding: 0.5em;
     }
     &.detail-view {
       padding: 1em;

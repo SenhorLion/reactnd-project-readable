@@ -3,8 +3,8 @@ import React from 'react';
 const createFormRenderer = render => ({ input, label, meta, ...rest }) => (
   <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
     <label>
-      {label} <span className="required">* </span>
-      {meta.error && meta.touched && <span>{meta.error}</span>}
+      {/* {label} <span className="required">* </span> */}
+      {meta.error && meta.touched && <span>{`${label} ${meta.error}`}</span>}
     </label>
     {render(input, label, rest)}
   </div>

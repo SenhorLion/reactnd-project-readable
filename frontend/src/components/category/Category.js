@@ -4,12 +4,12 @@ import Modal from 'react-modal';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 
 import sortFilter from '../../utils/sortFilter';
-import PostsList from '../posts/PostsList';
+import PostList from '../posts/PostList';
 import AddNewPost from '../posts/AddNewPost';
 import DeletePostModal from '../posts/DeletePostModal';
-import SortByControls from '../sort/SortByControls';
-import Button from '../button/Button';
-import NotificationMessage from '../ui/NotificationMessage';
+import SortByControls from '../ui/sort/SortByControls';
+import Button from '../ui/button/Button';
+import NotificationMessage from '../ui/notification/NotificationMessage';
 
 class Category extends Component {
   constructor(props) {
@@ -43,22 +43,18 @@ class Category extends Component {
   };
 
   openAddPostModal = () => {
-    console.log('openAddPostModal', this.props.category);
     this.setState(() => ({
       isAddPostModalOpen: true,
     }));
   };
 
   closeAddPostModal = () => {
-    console.log('closeAddPostModal');
     this.setState(() => ({
       isAddPostModalOpen: false,
     }));
   };
 
   openDeletePostModal = postId => {
-    console.log('@ openDeletePostModal', postId);
-
     this.setState(() => ({
       isDeletePostModalOpen: true,
       postIdToDelete: postId,
@@ -66,8 +62,6 @@ class Category extends Component {
   };
 
   closeDeletePostModal = () => {
-    console.log('@ closeDeletePostModal');
-
     this.setState(() => ({
       isDeletePostModalOpen: false,
       postIdToDelete: null,
@@ -131,7 +125,7 @@ class Category extends Component {
               </div>
 
               {hasPosts ? (
-                <PostsList
+                <PostList
                   list={items}
                   sortKey={sortKey}
                   isSortReverse={isSortReverse}

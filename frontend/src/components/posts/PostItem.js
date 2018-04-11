@@ -4,8 +4,8 @@ import Moment from 'react-moment';
 import classNames from 'classnames';
 
 import { capitalize, getCategoryColour } from '../../utils/helper';
-import Button from '../button/Button';
-import ReactionPosts from '../reaction/ReactionPosts';
+import Button from '../ui/button/Button';
+import ReactionPosts from '../ui/reaction/ReactionPosts';
 
 const PostItem = ({ post, openDeletePostModal }) => {
   const categoryColour = getCategoryColour(post.category);
@@ -65,7 +65,7 @@ const PostItem = ({ post, openDeletePostModal }) => {
               to={`/${post.category}/${post.id}/edit`}
               className="ui label right floated"
             >
-              <i className="edit icon" /> Edit post
+              <i className="edit icon" /> Edit
             </Link>
           </div>
         </div>

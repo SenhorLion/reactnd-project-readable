@@ -2,6 +2,10 @@ export function capitalize(str = '') {
   return typeof str !== 'string' ? '' : str[0].toUpperCase() + str.slice(1);
 }
 
+export const pluralize = (str = '', count = 0) => {
+  return count > 1 ? `${str}s` : str;
+};
+
 export const getCategoryColour = (category = 'default') => {
   const CATEGORY_COLOUR_MAP = {
     react: 'pink',
