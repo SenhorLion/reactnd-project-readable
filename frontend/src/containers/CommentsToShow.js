@@ -33,6 +33,7 @@ class CommentsToShow extends Component {
       onAddComment,
       onEditComment,
       onDeleteComment,
+      openDeleteCommentModal,
     } = this.props;
 
     return (
@@ -45,6 +46,7 @@ class CommentsToShow extends Component {
         onAddComment={onAddComment}
         onEditComment={onEditComment}
         onDeleteComment={onDeleteComment}
+        openDeleteCommentModal={openDeleteCommentModal}
       />
     );
   }

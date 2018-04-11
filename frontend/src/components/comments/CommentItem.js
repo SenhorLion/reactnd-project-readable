@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Button from '../button/Button';
 import ReactionComments from '../reaction/ReactionComments';
 
+// TODO: Plugin redux-form to handle editing
 class CommentItem extends Component {
   state = {
     isEditMode: false,
@@ -20,12 +21,9 @@ class CommentItem extends Component {
   }
 
   onHandleDelete = commentId => {
-    const { onDeleteComment, fetchAllPosts } = this.props;
-    // TODO: Display dialogue to comnfirm delete
+    const { openDeleteCommentModal } = this.props;
 
-    onDeleteComment(commentId).then(res => {
-      fetchAllPosts();
-    });
+    openDeleteCommentModal(commentId);
   };
 
   onSubmitComment = event => {

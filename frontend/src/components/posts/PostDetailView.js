@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../button/Button';
 import DeletePostModal from '../posts/DeletePostModal';
+import DeleteCommentModal from '../comments/DeleteCommentModal';
 import CommentsToShow from '../../containers/CommentsToShow';
 import ReactionPosts from '../reaction/ReactionPosts';
 
@@ -15,6 +16,8 @@ class PostDetailView extends Component {
 
     this.state = {
       isDeletePostModalOpen: false,
+      isDeleteCommentModalOpen: false,
+      commentIdToDelete: null,
     };
   }
 
@@ -30,6 +33,21 @@ class PostDetailView extends Component {
     }));
   };
 
+  openDeleteCommentModal = commentId => {
+    console.log('@ openDeleteCommentModal', commentId);
+    this.setState(() => ({
+      isDeleteCommentModalOpen: true,
+      commentIdToDelete: commentId,
+    }));
+  };
+
+  closeDeleteCommentModal = () => {
+    this.setState(() => ({
+      isDeleteCommentModalOpen: false,
+      commentIdToDelete: null,
+    }));
+  };
+
   onGoBack = () => {
     const { history } = this.props;
 
@@ -39,7 +57,11 @@ class PostDetailView extends Component {
   render() {
     const { post, postId, onDeletePost } = this.props;
     const { isFetching, item } = post;
-    const { isDeletePostModalOpen } = this.state;
+    const {
+      isDeletePostModalOpen,
+      isDeleteCommentModalOpen,
+      commentIdToDelete,
+    } = this.state;
 
     const categoryColour = getCategoryColour(item && item.category) || 'grey';
     const uiHeaderColourClass = classNames('ui header', categoryColour);
@@ -136,6 +158,7 @@ class PostDetailView extends Component {
                       <CommentsToShow
                         postId={item.id}
                         categoryColour={categoryColour}
+                        openDeleteCommentModal={this.openDeleteCommentModal}
                       />
                     </div>
                   )}
@@ -150,6 +173,14 @@ class PostDetailView extends Component {
           onDeletePost={onDeletePost}
           postIdToDelete={postId}
           goBack={true}
+        />
+
+        <DeleteCommentModal
+          commentIdToDelete={commentIdToDelete}
+          isDeleteCommentModalOpen={isDeleteCommentModalOpen}
+          closeDeleteCommentModal={this.closeDeleteCommentModal}
+          onDeleteComment={this.props.onDeleteComment}
+          fetchAllPosts={this.props.fetchAllPosts}
         />
       </div>
     );

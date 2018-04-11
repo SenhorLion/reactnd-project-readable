@@ -8,6 +8,16 @@ class DeletePostModal extends Component {
     this.handleOnDeletePost = this.handleOnDeletePost.bind(this);
   }
 
+  componentDidMount() {
+    /**
+     * Remove `react-modal` warning:
+     * App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`.
+     * This is needed so screen readers don't see main content when modal is opened.
+     * It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.
+     */
+    Modal.setAppElement('#root');
+  }
+
   handleOnDeletePost = e => {
     const {
       postIdToDelete,

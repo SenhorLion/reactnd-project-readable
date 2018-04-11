@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { onDeletePost, fetchAllPosts } from '../actions';
+import { onDeleteComment, onDeletePost, fetchAllPosts } from '../actions';
 import PostDetailView from '../components/posts/PostDetailView';
 
 const mapStateToProps = ({ posts }, ownProps) => {
@@ -16,7 +16,9 @@ const mapStateToProps = ({ posts }, ownProps) => {
 };
 
 const Post = withRouter(
-  connect(mapStateToProps, { fetchAllPosts, onDeletePost })(PostDetailView)
+  connect(mapStateToProps, { fetchAllPosts, onDeletePost, onDeleteComment })(
+    PostDetailView
+  )
 );
 
 export default Post;

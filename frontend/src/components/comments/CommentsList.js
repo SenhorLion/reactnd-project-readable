@@ -14,6 +14,7 @@ const CommentsList = ({
   onAddComment,
   onEditComment,
   onDeleteComment,
+  openDeleteCommentModal,
 }) => {
   const { isFetching, items } = comments;
   const isCommentsLoaded = !isFetching && items && Object.keys(items).length;
@@ -44,6 +45,7 @@ const CommentsList = ({
                   fetchAllComments={fetchAllComments}
                   fetchAllPosts={fetchAllPosts}
                   onEditComment={onEditComment}
+                  openDeleteCommentModal={openDeleteCommentModal}
                 />
               ))}
             </div>
