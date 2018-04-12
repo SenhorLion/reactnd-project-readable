@@ -95,3 +95,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     │   ├── sortFilter.js
     └── index.js #Entry point for App, wraps `App` with store provider and router.
 ```
+
+## Resources and Attribution
+
+Over the course of the project I researched and used a lot of "external" resources to the course, I list all resources used here that were invaluable for my learning:
+
+* [https://reactjs.org/](https://reactjs.org/)
+* [https://redux.js.org/](https://redux.js.org/)
+* [https://egghead.io/courses/getting-started-with-redux](https://egghead.io/courses/getting-started-with-redux)
+* [https://www.robinwieruch.de/](https://www.robinwieruch.de/) including his book [https://roadtoreact.com/](https://roadtoreact.com/)
+* [https://github.com/erikras/redux-form](https://github.com/erikras/redux-form)
+* and of course [stackoverflow.com](https://stackoverflow.com/questions/tagged/reactjs)
