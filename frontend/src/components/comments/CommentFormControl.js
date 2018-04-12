@@ -87,9 +87,14 @@ const CommentFormControl = ({
         type="submit"
         disabled={isDisabled}
       >
-        <i className="edit icon" /> Add comment
+        <i className="add icon" /> Add comment
       </button>
-      <button onClick={onHandleCancel} className="ui button" type="button">
+      <button
+        onClick={onHandleCancel}
+        className="ui button"
+        disabled={isDisabled}
+        type="button"
+      >
         Cancel
       </button>
     </form>

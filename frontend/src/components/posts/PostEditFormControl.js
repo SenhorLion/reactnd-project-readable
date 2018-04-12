@@ -99,10 +99,7 @@ class PostEditFormControl extends Component {
 
     return (
       <div className="post-form-content">
-        <h1 className={`ui header ${categoryColour} title`}>
-          <i className="edit icon" />
-          Edit Post
-        </h1>
+        <h1 className={`ui header ${categoryColour} title`}>Edit Post</h1>
         <form
           className="ui form post-form-content"
           onSubmit={handleSubmit(this.onHandleSubmit)}

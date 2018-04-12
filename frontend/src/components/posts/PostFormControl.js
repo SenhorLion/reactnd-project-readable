@@ -103,6 +103,7 @@ class PostFormControl extends Component {
           <Field
             name="title"
             label="Title"
+            isShowLabel={true}
             placeholder="Title"
             component={RenderInput}
           />
@@ -110,6 +111,7 @@ class PostFormControl extends Component {
           <Field
             name="author"
             label="Author"
+            isShowLabel={true}
             placeholder="Author"
             component={RenderInput}
           />
@@ -117,6 +119,7 @@ class PostFormControl extends Component {
           <Field
             name="body"
             label="Body"
+            isShowLabel={true}
             placeholder="Body"
             component={RenderTextarea}
           />
