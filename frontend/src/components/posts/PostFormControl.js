@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import cuid from 'cuid';
+import classNames from 'classnames';
 
 import { capitalize } from '../../utils/helper';
 import {
@@ -37,11 +38,17 @@ const PostFormControl = ({
   initialize,
   closeAddPostModal,
   categories,
+  category,
+  categoryColour,
   onAddPost,
   fetchAllPosts,
   history,
 }) => {
   const isDisabled = pristine || submitting;
+  const uiSubmitButtonClass = classNames('ui button', categoryColour, {
+    positive: !category,
+    submitting: 'disabled',
+  });
   const onHandleCancel = () => closeAddPostModal();
 
   const onHandleSubmit = values => {
@@ -72,9 +79,7 @@ const PostFormControl = ({
 
   return (
     <div className="post-form-content">
-      <h1>
-        <i className="pencil alternate icon" /> Add New Post{' '}
-      </h1>
+      <h1 className={`ui header ${categoryColour}`}>Add New Post </h1>
       <form
         className="ui form post-form-content"
         onSubmit={handleSubmit(onHandleSubmit)}
@@ -115,7 +120,7 @@ const PostFormControl = ({
         </Field>
 
         <button
-          className={`ui positive button${submitting ? ' disabled' : ''}`}
+          className={uiSubmitButtonClass}
           type="submit"
           disabled={isDisabled}
         >

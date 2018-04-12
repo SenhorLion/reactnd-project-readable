@@ -25,7 +25,9 @@ const CommentList = ({
     <div className="ui comments">
       {isCommentsLoaded && (
         <div className="post-comment__header">
-          <h3 className={`ui dividing header post-comment__title`}>
+          <h3
+            className={`ui dividing header ${categoryColour} post-comment__title`}
+          >
             <span
               className={`post-comment__count ui label circular ${categoryColour}`}
             >

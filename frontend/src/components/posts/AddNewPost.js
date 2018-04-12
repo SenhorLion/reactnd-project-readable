@@ -7,6 +7,8 @@ class AddNewPost extends Component {
     const {
       isAddPostModalOpen,
       categories,
+      category,
+      categoryColour,
       selectedCategory,
       closeAddPostModal,
       onAddPost,
@@ -25,6 +27,8 @@ class AddNewPost extends Component {
         <PostFormControl
           history={history}
           categories={categories}
+          category={category}
+          categoryColour={categoryColour}
           selectedCategory={selectedCategory}
           closeAddPostModal={closeAddPostModal}
           onAddPost={onAddPost}

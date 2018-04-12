@@ -150,8 +150,10 @@ class Category extends Component {
           closeAddPostModal={this.closeAddPostModal}
           selectedCategory={category}
           categories={categories}
+          category={category}
           onAddPost={onAddPost}
           fetchAllPosts={fetchAllPosts}
+          categoryColour={categoryColour}
         />
 
         <DeletePostModal
@@ -159,6 +161,7 @@ class Category extends Component {
           closeDeletePostModal={this.closeDeletePostModal}
           onDeletePost={onDeletePost}
           postIdToDelete={postIdToDelete}
+          categoryColour={categoryColour}
         />
       </div>
     );

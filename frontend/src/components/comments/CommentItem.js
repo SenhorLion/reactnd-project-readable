@@ -99,32 +99,30 @@ class CommentItem extends Component {
               </div>
             </div>
           ) : (
-            <div>
-              <form
-                onSubmit={this.onSubmitComment}
-                className="ui form comment-form-content"
+            <form
+              onSubmit={this.onSubmitComment}
+              className="ui form comment-form-content"
+            >
+              <div className="field">
+                <textarea
+                  type="text"
+                  name="commentBody"
+                  value={commentBody}
+                  placeholder="Body"
+                  onChange={this.onHandleChange}
+                />
+              </div>
+              <Button className={`ui button ${categoryColour}`} type="submit">
+                Submit
+              </Button>
+              <Button
+                onClick={this.onHandleCancel}
+                className="ui button"
+                type="button"
               >
-                <div className="field">
-                  <textarea
-                    type="text"
-                    name="commentBody"
-                    value={commentBody}
-                    placeholder="Body"
-                    onChange={this.onHandleChange}
-                  />
-                </div>
-                <Button className={`ui button ${categoryColour}`} type="submit">
-                  Submit
-                </Button>
-                <Button
-                  onClick={this.onHandleCancel}
-                  className="ui button"
-                  type="button"
-                >
-                  Cancel
-                </Button>
-              </form>
-            </div>
+                Cancel
+              </Button>
+            </form>
           )}
           <div className="actions">
             {!isEditMode && (

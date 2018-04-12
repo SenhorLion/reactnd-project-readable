@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cuid from 'cuid';
 
-import { capitalize } from '../../utils/helper';
+import { capitalize, getCategoryColour } from '../../utils/helper';
 import Button from '../ui/button/Button';
 
 // TODO: Implement `redux-form` to handle form elements
@@ -88,7 +88,8 @@ class PostEditFormControl extends Component {
 
   render() {
     const { newPost: { category, title, body, author } } = this.state;
-    const { categories } = this.props;
+    const { categories, post } = this.props;
+    const categoryColour = getCategoryColour(post.category);
 
     return (
       <div className="post-form-content">
@@ -149,7 +150,7 @@ class PostEditFormControl extends Component {
             </select>
           </div>
 
-          <Button className="ui positive button" type="submit">
+          <Button className={`ui ${categoryColour} button`} type="submit">
             Submit
           </Button>
           <Button
