@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import cuid from 'cuid';
 import classNames from 'classnames';
@@ -30,28 +30,27 @@ const validate = values => {
   return errors;
 };
 
-const PostFormControl = ({
-  handleSubmit,
-  pristine,
-  submitting,
-  reset,
-  initialize,
-  closeAddPostModal,
-  categories,
-  category,
-  categoryColour,
-  onAddPost,
-  fetchAllPosts,
-  history,
-}) => {
-  const isDisabled = pristine || submitting;
-  const uiSubmitButtonClass = classNames('ui button', categoryColour, {
-    positive: !category,
-    submitting: 'disabled',
-  });
-  const onHandleCancel = () => closeAddPostModal();
+class PostFormControl extends Component {
+  componentDidMount() {
+    this.handleInitialize();
+  }
 
-  const onHandleSubmit = values => {
+  handleInitialize = () => {
+    const { category, initialize } = this.props;
+    const initFormData = {
+      category: category,
+    };
+
+    initialize(initFormData);
+  };
+
+  onHandleCancel = () => {
+    const { closeAddPostModal } = this.props;
+    closeAddPostModal();
+  };
+
+  onHandleSubmit = values => {
+    const { onAddPost, reset, fetchAllPosts, closeAddPostModal } = this.props;
     const { title, body, author, category } = values;
 
     const newPost = {
@@ -68,71 +67,93 @@ const PostFormControl = ({
         reset(); // Resets the form to pristine state!
         fetchAllPosts();
         closeAddPostModal();
-        onNavigateToCategory(newPost);
+        this.navigateToCategory(newPost);
       }, 200);
     });
   };
 
-  const onNavigateToCategory = ({ category, id }) => {
+  navigateToCategory = ({ category, id }) => {
+    const { history } = this.props;
     history.push(`/${category}/${id}`);
   };
 
-  return (
-    <div className="post-form-content">
-      <h1 className={`ui header ${categoryColour}`}>Add New Post </h1>
-      <form
-        className="ui form post-form-content"
-        onSubmit={handleSubmit(onHandleSubmit)}
-      >
-        <Field
-          name="title"
-          label="Title"
-          placeholder="Title"
-          component={RenderInput}
-        />
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      submitting,
+      categories,
+      category,
+      categoryColour,
+    } = this.props;
 
-        <Field
-          name="author"
-          label="Author"
-          placeholder="Author"
-          component={RenderInput}
-        />
+    const isDisabled = pristine || submitting;
+    const uiSubmitButtonClass = classNames('ui button', categoryColour, {
+      positive: !category,
+      submitting: 'disabled',
+    });
 
-        <Field
-          name="body"
-          label="Body"
-          placeholder="Body"
-          component={RenderTextarea}
-        />
-        <Field
-          name="category"
-          label="Category"
-          placeholder="Category"
-          component={RenderSelect}
+    return (
+      <div className="post-form-content">
+        <h1 className={`ui header ${categoryColour}`}>Add New Post </h1>
+        <form
+          className="ui form post-form-content"
+          onSubmit={handleSubmit(this.onHandleSubmit)}
         >
-          <option value="">Select category</option>
-          {categories &&
-            categories.map(item => (
-              <option key={cuid()} value={item.name}>
-                {capitalize(item.name)}
-              </option>
-            ))}
-        </Field>
+          <Field
+            name="title"
+            label="Title"
+            placeholder="Title"
+            component={RenderInput}
+          />
 
-        <button
-          className={uiSubmitButtonClass}
-          type="submit"
-          disabled={isDisabled}
-        >
-          Submit
-        </button>
-        <Button onClick={onHandleCancel} className="ui  button" type="button">
-          Cancel
-        </Button>
-      </form>
-    </div>
-  );
-};
+          <Field
+            name="author"
+            label="Author"
+            placeholder="Author"
+            component={RenderInput}
+          />
+
+          <Field
+            name="body"
+            label="Body"
+            placeholder="Body"
+            component={RenderTextarea}
+          />
+          <Field
+            name="category"
+            label="Category"
+            placeholder="Category"
+            component={RenderSelect}
+          >
+            <option value="">Select category</option>
+            {categories &&
+              categories.map(item => (
+                <option key={cuid()} value={item.name}>
+                  {capitalize(item.name)}
+                </option>
+              ))}
+          </Field>
+
+          <button
+            className={uiSubmitButtonClass}
+            type="submit"
+            disabled={isDisabled}
+          >
+            Submit
+          </button>
+          <Button
+            onClick={this.onHandleCancel}
+            className="ui  button"
+            type="button"
+          >
+            Cancel
+          </Button>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default reduxForm({
   form: 'AddPostForm',
