@@ -9,6 +9,7 @@ import DeletePostModal from '../posts/DeletePostModal';
 import DeleteCommentModal from '../comments/DeleteCommentModal';
 import CommentsByPost from '../../containers/CommentsByPost';
 import ReactionPosts from '../ui/reaction/ReactionPosts';
+import NotificationMessage from '../ui/notification/NotificationMessage';
 
 class PostDetailView extends Component {
   constructor(props) {
@@ -61,12 +62,13 @@ class PostDetailView extends Component {
       isDeleteCommentModalOpen,
       commentIdToDelete,
     } = this.state;
-
-    const categoryColour = getCategoryColour(item && item.category) || 'grey';
+    const categoryName =
+      (item && item.category) || this.props.match.params.category;
+    const categoryColour = getCategoryColour(categoryName);
     const uiHeaderColourClass = classNames('ui header', categoryColour);
     const uiLabelColourClass = classNames('ui label', categoryColour);
 
-    const hasPost = !!item;
+    const hasPostToShow = !isFetching && !!item;
 
     return (
       <div className="page-content post-detail-view">
@@ -91,73 +93,73 @@ class PostDetailView extends Component {
                     className="loading"
                   />
                 )}
-                {!isFetching &&
-                  hasPost && (
-                    <div>
-                      <div className="page-header">
-                        <div className="page-header__title">
-                          <h2 className={uiHeaderColourClass}>
-                            {capitalize(item.title)}
+                {hasPostToShow ? (
+                  <div>
+                    <div className="page-header">
+                      <div className="page-header__title">
+                        <h2 className={uiHeaderColourClass}>
+                          {capitalize(item.title)}
 
-                            <div className="sub header">
-                              <span className={` author`}>
-                                By {item.author}{' '}
-                              </span>
-                              <span className={` date`}>
-                                <Moment fromNow>{item.timestamp}</Moment>
-                              </span>
-                            </div>
-                          </h2>
-                        </div>
-                      </div>
-
-                      <div className="post-content">
-                        <div className="post-content__meta">
-                          {/* Can add post meta here? */}
-                        </div>
-                        <div className="post-content__description">
-                          <p>{item.body}</p>
-                        </div>
-                        <div className="post-content__extra extra">
-                          <div className={uiLabelColourClass}>
-                            <Link to={`/${item.category}`}>
-                              {item.category}
-                            </Link>
+                          <div className="sub header">
+                            <span className={` author`}>By {item.author} </span>
+                            <span className={` date`}>
+                              <Moment fromNow>{item.timestamp}</Moment>
+                            </span>
                           </div>
-                          <div className={uiLabelColourClass}>
-                            <i className="comment alternate icon" />{' '}
-                            {item.commentCount}
-                          </div>
-
-                          <ReactionPosts
-                            categoryColour={categoryColour}
-                            itemId={item.id}
-                            classNameProp="ui label"
-                          />
-
-                          <Link
-                            to={`/${item.category}/${item.id}/edit`}
-                            className="ui label right floated"
-                          >
-                            <i className="edit icon" /> Edit
-                          </Link>
-
-                          <Button
-                            onClick={() => this.openDeletePostModal()}
-                            className="ui label right floated"
-                          >
-                            <i className="trash icon" /> Delete
-                          </Button>
-                        </div>
+                        </h2>
                       </div>
-
-                      <CommentsByPost
-                        postId={item.id}
-                        categoryColour={categoryColour}
-                        openDeleteCommentModal={this.openDeleteCommentModal}
-                      />
                     </div>
-                  )}
+
+                    <div className="post-content">
+                      <div className="post-content__meta">
+                        {/* Can add post meta here? */}
+                      </div>
+                      <div className="post-content__description">
+                        <p>{item.body}</p>
+                      </div>
+                      <div className="post-content__extra extra">
+                        <div className={uiLabelColourClass}>
+                          <Link to={`/${item.category}`}>{item.category}</Link>
+                        </div>
+                        <div className={uiLabelColourClass}>
+                          <i className="comment alternate icon" />{' '}
+                          {item.commentCount}
+                        </div>
+
+                        <ReactionPosts
+                          categoryColour={categoryColour}
+                          itemId={item.id}
+                          classNameProp="ui label"
+                        />
+
+                        <Link
+                          to={`/${item.category}/${item.id}/edit`}
+                          className="ui label right floated"
+                        >
+                          <i className="edit icon" /> Edit
+                        </Link>
+
+                        <Button
+                          onClick={() => this.openDeletePostModal()}
+                          className="ui label right floated"
+                        >
+                          <i className="trash icon" /> Delete
+                        </Button>
+                      </div>
+                    </div>
+
+                    <CommentsByPost
+                      postId={item.id}
+                      categoryColour={categoryColour}
+                      openDeleteCommentModal={this.openDeleteCommentModal}
+                    />
+                  </div>
+                ) : (
+                  <NotificationMessage
+                    message={`No post found for route: ${this.props.match.url}`}
+                    categoryColour={categoryColour}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -8,13 +8,13 @@ const NotificationMessage = ({ message, category, categoryColour }) => {
 
   return (
     <div
-      className={`ui info center aligned header message ${
+      className={`ui icon center aligned message ${
         categoryColour ? categoryColour : ''
       }`}
     >
-      <div className="header">
-        <i className="exclamation icon" />
-        {messageToShow}
+      <i className="exclamation icon" />
+      <div className="content">
+        <div className="header">{messageToShow}</div>
       </div>
     </div>
   );

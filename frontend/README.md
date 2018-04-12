@@ -20,22 +20,22 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Project structure
 
 ```bash
-├── README.md - This file.
+├── README.md #This file.
 ├── package.json
 ├── yarn.lock
 ├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
+│   ├── favicon.ico #React Icon, You may change if you wish.
+│   └── index.html #DO NOT MODIFY
 └── src
-    ├── actions # Redux action types and creators:
+    ├── actions #Redux action types and creators:
     │   ├── actionTypes.js
     │   ├── category-actions.js
     │   ├── comment-actions.js
     │   ├── post-actions.js
     │   ├── index.js
-    ├── api # Wrapper for API calls:
+    ├── api #Wrapper for API calls:
     │   ├── index.js
-    ├── components # All component modules:
+    ├── components #All component modules:
     │   ├── category
     │   │   ├── Category.js
     │   ├── comments
@@ -54,32 +54,32 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     │   │   ├── PostFormControl.js
     │   │   ├── PostItem.js
     │   │   ├── PostList.js
-    │   ├── ui # UI components
+    │   ├── ui #UI components
     │   │   ├── button
     │   │   │   ├── Button.js
     │   │   ├── notification
     │   │   │   ├── NotificationMessage.js
-    │   │   ├── reaction # Reaction control - user upVote/downVote
-    │   │   │   ├── Reaction.js # View component for reaction controls
-    │   │   │   ├── ReactionComments.js # Container for comment reactions
-    │   │   │   ├── ReactionPosts.js # Container for post reactions
-    │   │   ├── sort # Sort controls
+    │   │   ├── reaction #Reaction control - user upVote/downVote
+    │   │   │   ├── Reaction.js #View component for reaction controls
+    │   │   │   ├── ReactionComments.js #Container for comment reactions
+    │   │   │   ├── ReactionPosts.js #Container for post reactions
+    │   │   ├── sort #Sort controls
     │   │   │   ├── SortByControls.js
     │   │   │   ├── SortControl.js
-    ├── constants # Constant types throughout app:
+    ├── constants #Constant types throughout app
     │   ├── index.js
-    ├── containers # Container compoennts:
-    │   ├── App.js # Initially fetches data and handles all routes
+    ├── containers #Container components
+    │   ├── App.js #App - Initially fetches data and handles all routes
     │   ├── CommentsByPost.js
     │   ├── PostDetail.js
     │   ├── PostEdit.js
     │   ├── PostsByCategory.js
-    ├── css # Redux reducers:
+    ├── css #All app styles
     │   ├── _buttons.scss
     │   ├── _colors.scss
     │   ├── _modal.scss
     │   ├── App.scss
-    ├── reducers # Redux reducers:
+    ├── reducers #Redux reducers
     │   ├── categories.js
     │   ├── categories.test.js
     │   ├── comments.js
@@ -87,11 +87,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     │   ├── index.js
     │   ├── posts.js
     │   ├── posts.test.js
-    ├── store # Redux store:
-    │   ├── index.js # Handles configuring the store with middleware, enhancers etc...
-    ├── utils # Utility and Helper functionality:
+    ├── store #Redux store
+    │   ├── index.js #Handles configuring the store with middleware, enhancers etc...
+    ├── utils #Utility and Helper functionality
     │   ├── form-input-components.js
     │   ├── helper.js
     │   ├── sortFilter.js
-    └── index.js # Wraps `App` with store provider and router.
+    └── index.js #Entry point for App, wraps `App` with store provider and router.
 ```
