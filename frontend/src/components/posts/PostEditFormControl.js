@@ -1,54 +1,73 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 import cuid from 'cuid';
 
-import { capitalize, getCategoryColour } from '../../utils/helper';
+import {
+  RenderInput,
+  RenderTextarea,
+  RenderSelect,
+} from '../../utils/form-input-components';
+
 import Button from '../ui/button/Button';
+import { capitalize, getCategoryColour } from '../../utils/helper';
 
-// TODO: Implement `redux-form` to handle form elements
+const validate = values => {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Required';
+  }
+  if (!values.author) {
+    errors.author = 'Required';
+  }
+  if (!values.body) {
+    errors.body = 'Required';
+  }
+  if (!values.category) {
+    errors.category = 'Required';
+  }
+
+  return errors;
+};
+
 class PostEditFormControl extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    this.handleInitialize();
+  }
 
-    this.state = {
-      oldPost: {},
-      newPost: {
-        title: '',
-        body: '',
-        author: '',
-        selectedCategory: '',
-      },
+  handleInitialize = () => {
+    const { initialize, post } = this.props;
+    const initFormData = {
+      title: post.title,
+      body: post.body,
+      author: post.author,
+      category: post.category,
     };
 
-    this.onSubmitPost = this.onSubmitPost.bind(this);
-  }
+    initialize(initFormData);
+  };
 
-  componentDidMount() {
-    const { post } = this.props;
+  onHandleSubmit = values => {
+    const { onSaveEditPost, fetchAllPosts, post } = this.props;
+    const { title, body, author, category } = values;
 
-    this.setState({
-      oldPost: { ...post },
-      newPost: { ...post },
-    });
-  }
+    const newPost = {
+      timestamp: Date.now(),
+      title,
+      body,
+      author,
+      category,
+    };
 
-  onSubmitPost = event => {
-    event.preventDefault();
-
-    const { onSaveEditPost, fetchAllPosts } = this.props;
-
-    const { oldPost, newPost } = this.state;
-
-    const timestamp = Date.now();
-    const editedPost = Object.assign({}, oldPost, newPost, {
-      timestamp,
-    });
+    const editedPost = Object.assign({}, post, newPost);
 
     onSaveEditPost(editedPost).then(res =>
       setTimeout(() => {
         fetchAllPosts();
 
         // TODO: navigate to the new category instead of 'back'
-        // If the category has been changed,
+        // If the category has been changed?,
         this.onGoBack();
       }, 200)
     );
@@ -60,102 +79,83 @@ class PostEditFormControl extends Component {
     history.goBack();
   }
 
-  // TODO: Add debounce method to minimise evtn calling
-  onHandleChange = event => {
-    const { name, value } = event.target;
-    const { newPost } = this.state;
-
-    this.setState({
-      newPost: {
-        ...newPost,
-        [name]: value,
-      },
-    });
-  };
-
   onHandleCancel = event => {
-    const { oldPost } = this.state;
-
-    // Just reset state
-    this.setState(() => ({
-      newPost: {
-        ...oldPost,
-      },
-    }));
-
     this.onGoBack();
   };
 
   render() {
-    const { newPost: { category, title, body, author } } = this.state;
-    const { categories, post } = this.props;
-    const categoryColour = getCategoryColour(post.category);
+    const {
+      handleSubmit,
+      submitting,
+      categories,
+      post: { category },
+    } = this.props;
+    const categoryColour = getCategoryColour(category);
+    const isDisabled = !!submitting;
+    const uiSubmitButtonClass = classNames('ui button', categoryColour, {
+      positive: !category,
+      disabled: !!submitting,
+    });
 
     return (
       <div className="post-form-content">
-        <h1 className="title">
+        <h1 className={`ui header ${categoryColour} title`}>
           <i className="edit icon" />
           Edit Post
         </h1>
         <form
-          onSubmit={this.onSubmitPost}
           className="ui form post-form-content"
+          onSubmit={handleSubmit(this.onHandleSubmit)}
         >
-          <div className="field">
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              value={title}
-              placeholder="Title"
-              onChange={this.onHandleChange}
-            />
-          </div>
+          <Field
+            name="title"
+            label="Title"
+            isShowLabel={true}
+            placeholder="Title"
+            component={RenderInput}
+          />
 
-          <div className="field">
-            <label>Author</label>
-            <input
-              type="text"
-              name="author"
-              value={author}
-              placeholder="Author"
-              onChange={this.onHandleChange}
-            />
-          </div>
+          <Field
+            name="author"
+            label="Author"
+            isShowLabel={true}
+            placeholder="Author"
+            component={RenderInput}
+          />
 
-          <div className="field">
-            <label>Post content</label>
-            <textarea
-              name="body"
-              value={body}
-              placeholder="Post content"
-              onChange={this.onHandleChange}
-            />
-          </div>
-          <div className="field">
-            <label>Category</label>
+          <Field
+            name="body"
+            label="Body"
+            isShowLabel={true}
+            placeholder="Body"
+            component={RenderTextarea}
+          />
+          <Field
+            name="category"
+            label="Category"
+            isShowLabel={true}
+            placeholder="Category"
+            component={RenderSelect}
+          >
+            <option value="">Select category</option>
+            {categories &&
+              categories.map(item => (
+                <option key={cuid()} value={item.name}>
+                  {capitalize(item.name)}
+                </option>
+              ))}
+          </Field>
 
-            <select
-              className="ui search dropdown"
-              value={category}
-              name="category"
-              onChange={this.onHandleChange}
-            >
-              {categories &&
-                categories.map(item => (
-                  <option key={cuid()} value={item.name}>
-                    {capitalize(item.name)}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          <Button className={`ui ${categoryColour} button`} type="submit">
+          <button
+            className={uiSubmitButtonClass}
+            type="submit"
+            disabled={isDisabled}
+          >
             Submit
-          </Button>
+          </button>
           <Button
             onClick={this.onHandleCancel}
-            className="ui  button"
+            className="ui button"
             type="button"
           >
             Cancel
@@ -166,4 +166,8 @@ class PostEditFormControl extends Component {
   }
 }
 
-export default PostEditFormControl;
+export default reduxForm({
+  form: 'EditPostForm',
+  destroyOnUnmount: true,
+  validate,
+})(PostEditFormControl);
